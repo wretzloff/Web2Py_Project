@@ -11,6 +11,7 @@
 
 def index():
     response.flash = T("Welcome to the Spotify app!")
+    #response.title = "Logged in as: " + auth.user.first_name + "!"
     return dict(message=T('Hello World'))
 
 
