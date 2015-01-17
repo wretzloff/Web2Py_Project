@@ -1,1 +1,1 @@
-alert("Hello World from index.js!");
+//alert("Hello World from index.js!");
