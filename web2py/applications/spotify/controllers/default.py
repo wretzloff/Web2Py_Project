@@ -1,6 +1,10 @@
 #@auth.requires_login()
 def index():
     response.flash = T("Welcome to the Spotify app!")
+    import urllib2
+    content = urllib2.urlopen("http://yahoo.com").read()
+    print content
+    print "abcdefgh"
     return dict(message=T('Hello World'))
 
 
