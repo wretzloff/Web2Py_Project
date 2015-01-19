@@ -1,10 +1,17 @@
 #@auth.requires_login()
 def index():
-    response.flash = T("Welcome to the Spotify app!")
     import urllib2
-    content = urllib2.urlopen("http://yahoo.com").read()
-    print content
-    print "abcdefgh"
+    import urllib
+    response.flash = T("Welcome to the Spotify app!")
+    #data = {}
+    #data['client_id '] = '03281675a01a474ab8c9ecccc0646d82'
+    #data['response_type'] = 'code'
+    #data['redirect_uri'] = 'https://yahoo.com'
+    #url_values = urllib.urlencode(data)
+    #print url_values  # The order may differ. name=Somebody+Here&language=Python&location=Northampton
+    #url = 'http://www.example.com/example.cgi'
+    #full_url = url + '?' + url_values
+    #data = urllib2.urlopen(full_url)
     return dict(message=T('Hello World'))
 
 
