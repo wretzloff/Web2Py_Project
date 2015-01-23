@@ -12,6 +12,22 @@ def index():
     #url = 'http://www.example.com/example.cgi'
     #full_url = url + '?' + url_values
     #data = urllib2.urlopen(full_url)
+    
+    #Define URL
+    url = 'https://api.spotify.com/v1/search'
+    #Define and encode parameters
+    data = {}
+    data['type'] = 'artist'
+    data['q'] = 'Muse'
+    url_values = urllib.urlencode(data)
+    #Build full URL
+    full_url = url + '?' + url_values
+    print full_url
+    #Send GET request and print results
+    data = urllib2.urlopen(full_url)
+    html = data.read()
+    print html
+    
     return dict(message=T('Hello World'))
 
 
