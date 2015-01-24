@@ -19,7 +19,7 @@ def index():
     #data = urllib2.urlopen(full_url)
     #html = data.read()
     #print html
-    return dict(message=T('Hello World'))
+    return dict(message=T('Hello World'), authenticate_url=full_url)
 
 
 def user():
