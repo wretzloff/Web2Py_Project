@@ -9,7 +9,7 @@ def index():
     data = {}
     data['client_id'] = '03281675a01a474ab8c9ecccc0646d82'
     data['response_type'] = 'code'
-    data['redirect_uri'] = 'https://yahoo.com'
+    data['redirect_uri'] = 'http://127.0.0.1:8000'
     url_values = urllib.urlencode(data)
     #Build full URL
     full_url = url + '?' + url_values
