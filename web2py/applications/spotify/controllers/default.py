@@ -3,32 +3,23 @@ def index():
     import urllib2
     import urllib
     response.flash = T("Welcome to the Spotify app!")
-    #data = {}
-    #data['client_id '] = '03281675a01a474ab8c9ecccc0646d82'
-    #data['response_type'] = 'code'
-    #data['redirect_uri'] = 'https://yahoo.com'
-    #url_values = urllib.urlencode(data)
-    #print url_values  # The order may differ. name=Somebody+Here&language=Python&location=Northampton
-    #url = 'http://www.example.com/example.cgi'
-    #full_url = url + '?' + url_values
-    #data = urllib2.urlopen(full_url)
-    
     #Define URL
-    url = 'https://api.spotify.com/v1/search'
+    url = 'https://accounts.spotify.com/authorize'
     #Define and encode parameters
     data = {}
-    data['type'] = 'artist'
-    data['q'] = 'Muse'
+    data['client_id'] = '03281675a01a474ab8c9ecccc0646d82'
+    data['response_type'] = 'code'
+    data['redirect_uri'] = 'https://yahoo.com'
     url_values = urllib.urlencode(data)
     #Build full URL
     full_url = url + '?' + url_values
     print full_url
     #Send GET request and print results
-    data = urllib2.urlopen(full_url)
-    html = data.read()
-    print html
-    
-    return dict(message=T('Hello World'))
+    redirect(full_url)
+    #data = urllib2.urlopen(full_url)
+    #html = data.read()
+    #print html
+    #return dict(message=T('Hello World'))
 
 
 def user():
