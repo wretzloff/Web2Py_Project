@@ -53,3 +53,10 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
+timestamp: 2015-01-24T15:45:12.018000
+CREATE TABLE config(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    config_setting CHAR(512),
+    config_value CHAR(512)
+);
+success!
