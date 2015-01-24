@@ -15,11 +15,11 @@ def index():
     full_url = url + '?' + url_values
     print full_url
     #Send GET request and print results
-    redirect(full_url)
+    #redirect(full_url)
     #data = urllib2.urlopen(full_url)
     #html = data.read()
     #print html
-    #return dict(message=T('Hello World'))
+    return dict(message=T('Hello World'))
 
 
 def user():
