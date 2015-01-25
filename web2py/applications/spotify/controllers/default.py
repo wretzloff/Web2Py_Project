@@ -78,7 +78,6 @@ def getConfigValue(configValue) :
     return configValue
 
 def buildFullUrl(path, parametersArray) :
-    import urllib2
     import urllib
     url_values = urllib.urlencode(parametersArray)
     full_url = path + '?' + url_values
