@@ -2,8 +2,7 @@
 def index():
     import urllib2
     import urllib
-    print '------------------'
-    print '------------------'
+    print '------------------' + getTimestamp() + '------------------'
     #Define URL
     url = getConfigValue('spotify_authorization_endpoint')
     #Define parameters
@@ -80,3 +79,7 @@ def buildFullUrl(path, parametersArray) :
     url_values = urllib.urlencode(parametersArray)
     full_url = path + '?' + url_values
     return full_url
+
+def getTimestamp() :
+    import time
+    return time.strftime("%d/%m/%Y") + ' ' + time.strftime("%H:%M:%S")
