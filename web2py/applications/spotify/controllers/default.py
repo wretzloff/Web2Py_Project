@@ -71,10 +71,11 @@ def api():
 
 #Private function to fetch the config value specified by configValue
 def getConfigValue(configValue) :
-    redirectQueryResults = db(db.config.config_setting == configValue).select()
-    redirectQueryFirstResult = redirectQueryResults[0]
-    redirect_uri = redirectQueryFirstResult.config_value
-    return redirect_uri
+    configValueQueryResults = db(db.config.config_setting == configValue).select()
+    configValueFirstResult = configValueQueryResults[0]
+    configValue = configValueFirstResult.config_value
+    print getTimestamp() + '\t getConfigValue: ' + configValue
+    return configValue
 
 def buildFullUrl(path, parametersArray) :
     import urllib2
