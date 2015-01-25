@@ -2,7 +2,8 @@
 def index():
     import urllib2
     import urllib
-    print '------------------' + getTimestamp() + '------------------'
+    print '------------------'
+    print getTimestamp() + '\t index()'
     #Define URL
     url = getConfigValue('spotify_authorization_endpoint')
     #Define parameters
@@ -11,7 +12,7 @@ def index():
     data['response_type'] = getConfigValue('spotify_response_type')
     data['redirect_uri'] = getConfigValue('spotify_authorization_redirect_uri')
     data['scope'] = getConfigValue('spotify_scopes')
-    data['show_dialig'] = getConfigValue('spotify_show_dialog')
+    data['show_dialog'] = getConfigValue('spotify_show_dialog')
     #Build full URL
     full_url = buildFullUrl(url, data)
     
@@ -80,6 +81,7 @@ def buildFullUrl(path, parametersArray) :
     import urllib
     url_values = urllib.urlencode(parametersArray)
     full_url = path + '?' + url_values
+    print getTimestamp() + '\t buildFullUrl: ' + full_url
     return full_url
 
 def getTimestamp() :
