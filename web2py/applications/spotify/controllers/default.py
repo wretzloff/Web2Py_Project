@@ -11,6 +11,7 @@ def index():
     data['response_type'] = getConfigValue('spotify_response_type')
     data['redirect_uri'] = getConfigValue('spotify_authorization_redirect_uri')
     data['scope'] = getConfigValue('spotify_scopes')
+    data['show_dialig'] = getConfigValue('spotify_show_dialog')
     #Build full URL
     full_url = buildFullUrl(url, data)
     
