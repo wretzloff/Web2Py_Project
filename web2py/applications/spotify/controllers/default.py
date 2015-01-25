@@ -2,24 +2,19 @@
 def index():
     import urllib2
     import urllib
-    
+    print '------------------'
+    print '------------------'
     #Define URL
     url = getConfigValue('spotify_authorization_endpoint')
-    #Define and encode parameters
+    #Define parameters
     data = {}
     data['client_id'] = getConfigValue('spotify_client_id')
     data['response_type'] = getConfigValue('spotify_response_type')
     data['redirect_uri'] = getConfigValue('spotify_authorization_redirect_uri')
-    url_values = urllib.urlencode(data)
     #Build full URL
-    full_url = url + '?' + url_values
-    #print full_url
-    #Send GET request and print results
-    #redirect(full_url)
-    #data = urllib2.urlopen(full_url)
-    #html = data.read()
-    #print html
-    response.flash = T("Welcome to the Spotify app!")
+    full_url = buildFullUrl(url, data)
+    
+    #response.flash = T("Welcome to the Spotify app!")
     return dict(message=T('Hello World'), authenticate_url=full_url)
 
 
@@ -74,7 +69,14 @@ def api():
 
 #Private function to fetch the config value specified by configValue
 def getConfigValue(configValue) :
-    redirectQueryResults = db(db.config.config_setting == 'spotify_authorization_redirect_uri').select()
+    redirectQueryResults = db(db.config.config_setting == configValue).select()
     redirectQueryFirstResult = redirectQueryResults[0]
     redirect_uri = redirectQueryFirstResult.config_value
     return redirect_uri
+
+def buildFullUrl(path, parametersArray) :
+    import urllib2
+    import urllib
+    url_values = urllib.urlencode(parametersArray)
+    full_url = path + '?' + url_values
+    return full_url
