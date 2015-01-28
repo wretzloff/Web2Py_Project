@@ -4,6 +4,10 @@ def index():
     import urllib
     print '------------------'
     print getTimestamp() + '\t index()'
+    #If the resource owner redirected the user back to this page, then capture the URL parameter
+    a = request.vars['code']
+    if a is not None:
+        print 'URL parameter \'code\': ' + a
     #Define URL
     url = getConfigValue('spotify_authorization_endpoint')
     #Define parameters
