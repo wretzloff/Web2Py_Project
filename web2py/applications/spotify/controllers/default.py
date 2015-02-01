@@ -1,7 +1,5 @@
 #@auth.requires_login()
 def index():
-    import urllib2
-    import urllib
     print '------------------'
     print getTimestamp() + '\t index()'
     ##############################
