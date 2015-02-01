@@ -4,6 +4,7 @@ def index():
     import urllib
     print '------------------'
     print getTimestamp() + '\t index()'
+    ##############################
     #If the resource owner redirected the user back to this page, then capture the URL parameter
     parameterCode = request.vars['code']
     if parameterCode is not None:
@@ -11,7 +12,14 @@ def index():
     parameterError = request.vars['error']
     if parameterError is not None:
         print 'URL parameter \'error\': ' + parameterError
-    #Define URL
+    ##############################
+    #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
+    #Generate an HTTP POST to the "token" endpoint.
+    if parameterCode is not None:
+        ##This is placeholder.
+        print 'This is placeholder code'
+    ##############################
+    #Define "authorize" enpoint URL
     url = getConfigValue('spotify_authorization_endpoint')
     #Define parameters
     data = {}
@@ -23,6 +31,7 @@ def index():
     #Build full URL
     full_url = buildFullUrl(url, data)
     
+    ##############################
     #response.flash = T("Welcome to the Spotify app!")
     return dict(message=T('Hello World'), authenticate_url=full_url)
 
