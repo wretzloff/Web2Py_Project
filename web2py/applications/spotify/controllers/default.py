@@ -103,3 +103,13 @@ def buildFullUrl(path, parametersArray) :
 def getTimestamp() :
     import time
     return time.strftime("%d/%m/%Y") + ' ' + time.strftime("%H:%M:%S")
+
+def getRequest(url, parametersArray) :
+    import urllib2
+    import urllib
+    full_url = buildFullUrl(url, parametersArray)
+    #Send GET request and print results
+    data = urllib2.urlopen(full_url)
+    responseData = data.read()
+    print getTimestamp() + '\t getRequest: ' + responseData
+    return responseData
