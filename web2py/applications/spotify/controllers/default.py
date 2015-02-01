@@ -8,6 +8,9 @@ def index():
     parameterCode = request.vars['code']
     if parameterCode is not None:
         print 'URL parameter \'code\': ' + parameterCode
+    parameterError = request.vars['error']
+    if parameterError is not None:
+        print 'URL parameter \'error\': ' + parameterError
     #Define URL
     url = getConfigValue('spotify_authorization_endpoint')
     #Define parameters
