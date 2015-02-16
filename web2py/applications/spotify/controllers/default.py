@@ -15,7 +15,7 @@ def index():
     #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
     #Generate an HTTP POST to the "token" endpoint.
     if parameterCode is not None:
-        postUrl = 'https://accounts.spotify.com/api/token'
+        postUrl = getConfigValue('spotify_token_endpoint')
         postValues = {'grant_type' : 'authorization_code',
                   'code' : parameterCode,
                   'redirect_uri' : getConfigValue('spotify_authorization_redirect_uri'),
@@ -23,8 +23,7 @@ def index():
                   'client_secret' : getConfigValue('spotify_client_secret')}
         responseFromPost = postRequest(postUrl, postValues)
         responseDataInJson = responseFromPost.read()
-        responseDatainArray = json.loads(responseDatainJson)
-        print 'This is placeholder code: ' + responseData
+        responseDataInArray = json.loads(responseDataInJson)
     ##############################
     #Define "authorize" enpoint URL
     url = getConfigValue('spotify_authorization_endpoint')
