@@ -1,5 +1,6 @@
 #@auth.requires_login()
 def index():
+    import json
     print '------------------'
     print getTimestamp() + '\t index()'
     ##############################
@@ -21,7 +22,8 @@ def index():
                   'client_id' : getConfigValue('spotify_client_id'),
                   'client_secret' : getConfigValue('spotify_client_secret')}
         responseFromPost = postRequest(postUrl, postValues)
-        responseData = responseFromPost.read()
+        responseDataInJson = responseFromPost.read()
+        responseDatainArray = json.loads(responseDatainJson)
         print 'This is placeholder code: ' + responseData
     ##############################
     #Define "authorize" enpoint URL
