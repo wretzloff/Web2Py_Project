@@ -25,19 +25,8 @@ def index():
         responseDataInJson = responseFromPost.read()
         responseDataInArray = json.loads(responseDataInJson)
     ##############################
-    #Define "authorize" enpoint URL
-    url = getConfigValue('spotify_authorization_endpoint')
-    #Define parameters
-    data = {}
-    data['client_id'] = getConfigValue('spotify_client_id')
-    data['response_type'] = getConfigValue('spotify_response_type')
-    data['redirect_uri'] = getConfigValue('spotify_authorization_redirect_uri')
-    data['scope'] = getConfigValue('spotify_scopes')
-    data['show_dialog'] = getConfigValue('spotify_show_dialog')
-    #Build full URL
-    full_url = buildFullUrl(url, data)
-    ##############################
-    
+    #Build "authorize" URL to send to the web page
+    full_url = buildUrlToInitiateAuthorization()
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
     return dict(message=T('Hello World'), authenticate_url=full_url)
@@ -91,6 +80,21 @@ def api():
         '<tablename>': {'GET':{},'POST':{},'PUT':{},'DELETE':{}},
         }
     return Collection(db).process(request,response,rules)
+
+#Helper function to build and return the URL that will be used to initiate the authorization process
+def buildUrlToInitiateAuthorization() :
+    url = getConfigValue('spotify_authorization_endpoint')
+    #Define parameters
+    data = {}
+    data['client_id'] = getConfigValue('spotify_client_id')
+    data['response_type'] = getConfigValue('spotify_response_type')
+    data['redirect_uri'] = getConfigValue('spotify_authorization_redirect_uri')
+    data['scope'] = getConfigValue('spotify_scopes')
+    data['show_dialog'] = getConfigValue('spotify_show_dialog')
+    #Build full URL
+    full_url = buildFullUrl(url, data)
+    return full_url
+
 
 #Private function to fetch the config value specified by configValue
 def getConfigValue(configValue) :
