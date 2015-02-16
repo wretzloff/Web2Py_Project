@@ -126,6 +126,5 @@ def postRequest(url, parametersArray) :
     data = urllib.urlencode(parametersArray)
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
-    responseData = response.read()
-    print getTimestamp() + '\t postRequest: ' + responseData
+    print getTimestamp() + '\t postRequest: to do: log POST response body here'
     return response
