@@ -14,8 +14,15 @@ def index():
     #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
     #Generate an HTTP POST to the "token" endpoint.
     if parameterCode is not None:
-        ##This is placeholder.
-        print 'This is placeholder code'
+        postUrl = 'https://accounts.spotify.com/api/token'
+        postValues = {'grant_type' : 'authorization_code',
+                  'code' : parameterCode,
+                  'redirect_uri' : getConfigValue('spotify_authorization_redirect_uri'),
+                  'client_id' : getConfigValue('spotify_client_id'),
+                  'client_secret' : getConfigValue('spotify_client_secret')}
+        responseFromPost = postRequest(postUrl, postValues)
+        responseData = responseFromPost.read()
+        print 'This is placeholder code: ' + responseData
     ##############################
     #Define "authorize" enpoint URL
     url = getConfigValue('spotify_authorization_endpoint')
@@ -28,6 +35,7 @@ def index():
     data['show_dialog'] = getConfigValue('spotify_show_dialog')
     #Build full URL
     full_url = buildFullUrl(url, data)
+    ##############################
     
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
@@ -111,3 +119,13 @@ def getRequest(url, parametersArray) :
     responseData = data.read()
     print getTimestamp() + '\t getRequest: ' + responseData
     return responseData
+
+def postRequest(url, parametersArray) :
+    import urllib2
+    import urllib
+    data = urllib.urlencode(parametersArray)
+    req = urllib2.Request(url, data)
+    response = urllib2.urlopen(req)
+    responseData = response.read()
+    print getTimestamp() + '\t postRequest: ' + responseData
+    return response
