@@ -1,6 +1,5 @@
 #@auth.requires_login()
 def index():
-    import json
     print '------------------'
     print getTimestamp() + '\t index()'
     ##############################
@@ -15,15 +14,7 @@ def index():
     #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
     #Generate an HTTP POST to the "token" endpoint.
     if parameterCode is not None:
-        postUrl = getConfigValue('spotify_token_endpoint')
-        postValues = {'grant_type' : 'authorization_code',
-                  'code' : parameterCode,
-                  'redirect_uri' : getConfigValue('spotify_authorization_redirect_uri'),
-                  'client_id' : getConfigValue('spotify_client_id'),
-                  'client_secret' : getConfigValue('spotify_client_secret')}
-        responseFromPost = postRequest(postUrl, postValues)
-        responseDataInJson = responseFromPost.read()
-        responseDataInArray = json.loads(responseDataInJson)
+        sendPostToTokenEndpoint(parameterCode)
     ##############################
     #Build "authorize" URL to send to the web page
     full_url = buildUrlToInitiateAuthorization()
@@ -94,6 +85,22 @@ def buildUrlToInitiateAuthorization() :
     #Build full URL
     full_url = buildFullUrl(url, data)
     return full_url
+
+#Helper function to send an HTTP POST request to the /token endpoint
+def sendPostToTokenEndpoint(codeParameterForPostRequest) :
+    import json
+    postUrl = getConfigValue('spotify_token_endpoint')
+    postValues = {'grant_type' : 'authorization_code',
+              'code' : codeParameterForPostRequest,
+              'redirect_uri' : getConfigValue('spotify_authorization_redirect_uri'),
+              'client_id' : getConfigValue('spotify_client_id'),
+              'client_secret' : getConfigValue('spotify_client_secret')}
+    responseFromPost = postRequest(postUrl, postValues)
+    responseDataInJson = responseFromPost.read()
+    responseDataInArray = json.loads(responseDataInJson)
+    print getTimestamp() + '\t sendPostToTokenEndpoint: '
+    print responseDataInArray
+    return 'dummyreturn'
 
 
 #Private function to fetch the config value specified by configValue
