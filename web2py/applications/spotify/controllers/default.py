@@ -7,7 +7,7 @@ def index():
     #This indicates that the resource owner successfully redirected back to this page, rather than the user manually navigating to this page.
     checkForCodeParameterAndSendPostRequestToTokenEndpoint()
     ##############################
-    #Build "authorize" URL to send to the web page
+    #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
     full_url = buildUrlToInitiateAuthorization()
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
