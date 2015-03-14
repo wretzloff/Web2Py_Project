@@ -3,7 +3,7 @@ def index():
     print '------------------'
     print getTimestamp() + '\t index()'
     ##############################
-    #Call a function to check for the precence of the 'code' parameter. Example: http://127.0.0.1:8000/?code=AQBBX...
+    #Call a function to check for the presence of the 'code' parameter. Example: http://127.0.0.1:8000/?code=AQBBX...
     #This indicates that the resource owner successfully redirected back to this page, rather than the user manually navigating to this page.
     checkForCodeParameterAndSendPostRequestToTokenEndpoint()
     ##############################
