@@ -100,7 +100,7 @@ def sendPostToTokenEndpoint(codeParameterForPostRequest) :
     responseDataInArray = json.loads(responseDataInJson)
     print getTimestamp() + '\t sendPostToTokenEndpoint: '
     print responseDataInArray
-    return 'dummyreturn'
+    return responseDataInArray
 
 
 #Private function to fetch the config value specified by configValue
