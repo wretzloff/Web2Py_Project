@@ -3,18 +3,9 @@ def index():
     print '------------------'
     print getTimestamp() + '\t index()'
     ##############################
-    #If the resource owner redirected the user back to this page, then capture the URL parameter
-    parameterCode = request.vars['code']
-    if parameterCode is not None:
-        print 'URL parameter \'code\': ' + parameterCode
-    parameterError = request.vars['error']
-    if parameterError is not None:
-        print 'URL parameter \'error\': ' + parameterError
-    ##############################
-    #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
-    #Generate an HTTP POST to the "token" endpoint.
-    if parameterCode is not None:
-        sendPostToTokenEndpoint(parameterCode)
+    #Call a function to check for the precence of the 'code' parameter. Example: http://127.0.0.1:8000/?code=AQBBX...
+    #This indicates that the resource owner successfully redirected back to this page, rather than the user manually navigating to this page.
+    checkForCodeParameterAndSendPostRequestToTokenEndpoint()
     ##############################
     #Build "authorize" URL to send to the web page
     full_url = buildUrlToInitiateAuthorization()
@@ -71,6 +62,18 @@ def api():
         '<tablename>': {'GET':{},'POST':{},'PUT':{},'DELETE':{}},
         }
     return Collection(db).process(request,response,rules)
+
+#Helper function to check for the 'code' parameter and send an HTTP POST request to the /token endpoint if necessary.
+def checkForCodeParameterAndSendPostRequestToTokenEndpoint() :
+    #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
+    #Generate an HTTP POST to the "token" endpoint.
+    parameterCode = request.vars['code']
+    parameterError = request.vars['error']
+    if parameterCode is not None:
+        print 'URL parameter \'code\': ' + parameterCode
+        sendPostToTokenEndpoint(parameterCode)
+    if parameterError is not None:
+        print 'URL parameter \'error\': ' + parameterError
 
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization() :
