@@ -1,7 +1,7 @@
 #@auth.requires_login()
 def index():
-    print '------------------'
-    print getTimestamp() + '\t index()'
+    printToLog('------------------------------------------------')
+    printToLog('index()')
     ##############################
     #Call a function to check for the presence of the 'code' parameter. Example: http://127.0.0.1:8000/?code=AQBBX...
     #This indicates that the resource owner successfully redirected back to this page, rather than the user manually navigating to this page.
@@ -70,10 +70,10 @@ def checkForCodeParameterAndSendPostRequestToTokenEndpoint() :
     parameterCode = request.vars['code']
     parameterError = request.vars['error']
     if parameterCode is not None:
-        print 'URL parameter \'code\': ' + parameterCode
+        printToLog('URL parameter \'code\': ' + parameterCode)
         sendPostToTokenEndpoint(parameterCode)
     if parameterError is not None:
-        print 'URL parameter \'error\': ' + parameterError
+        printToLog('URL parameter \'error\': ' + parameterError)
 
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization() :
@@ -101,8 +101,7 @@ def sendPostToTokenEndpoint(codeParameterForPostRequest) :
     responseFromPost = postRequest(postUrl, postValues)
     responseDataInJson = responseFromPost.read()
     responseDataInArray = json.loads(responseDataInJson)
-    print getTimestamp() + '\t sendPostToTokenEndpoint: '
-    print responseDataInArray
+    printToLog('sendPostToTokenEndpoint: ' + str(responseDataInArray))
     return responseDataInArray
 
 
@@ -111,15 +110,18 @@ def getConfigValue(configValue) :
     configValueQueryResults = db(db.config.config_setting == configValue).select()
     configValueFirstResult = configValueQueryResults[0]
     configValue = configValueFirstResult.config_value
-    print getTimestamp() + '\t getConfigValue: ' + configValue
+    printToLog('getConfigValue: ' + configValue)
     return configValue
 
 def buildFullUrl(path, parametersArray) :
     import urllib
     url_values = urllib.urlencode(parametersArray)
     full_url = path + '?' + url_values
-    print getTimestamp() + '\t buildFullUrl: ' + full_url
+    printToLog('buildFullUrl: ' + full_url)
     return full_url
+
+def printToLog(stringToPrint) :
+    print getTimestamp() + '\t' + stringToPrint
 
 def getTimestamp() :
     import time
@@ -132,7 +134,7 @@ def getRequest(url, parametersArray) :
     #Send GET request and print results
     data = urllib2.urlopen(full_url)
     responseData = data.read()
-    print getTimestamp() + '\t getRequest: ' + responseData
+    printToLog('\t getRequest: ' + responseData)
     return responseData
 
 def postRequest(url, parametersArray) :
@@ -141,5 +143,5 @@ def postRequest(url, parametersArray) :
     data = urllib.urlencode(parametersArray)
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
-    print getTimestamp() + '\t postRequest: to do: log POST response body here'
+    printToLog('postRequest: to do: log POST response body here')
     return response
