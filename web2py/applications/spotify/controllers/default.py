@@ -74,6 +74,10 @@ def checkForCodeParameterAndSendPostRequestToTokenEndpoint() :
     elif parameterCode is not None:
         printToLog('URL parameter \'code\': ' + parameterCode)
         responseFromPost = sendPostToTokenEndpoint(parameterCode)
+        session.access_token = responseFromPost['access_token']
+        session.token_type = responseFromPost['token_type']
+        session.expires_in = responseFromPost['expires_in']
+        session.refresh_token = responseFromPost['refresh_token']
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization() :
