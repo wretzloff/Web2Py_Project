@@ -69,12 +69,12 @@ def checkForCodeParameterAndSendPostRequestToTokenEndpoint() :
     #Generate an HTTP POST to the "token" endpoint.
     parameterCode = request.vars['code']
     parameterError = request.vars['error']
-    if parameterCode is not None:
-        printToLog('URL parameter \'code\': ' + parameterCode)
-        sendPostToTokenEndpoint(parameterCode)
     if parameterError is not None:
         printToLog('URL parameter \'error\': ' + parameterError)
-
+    elif parameterCode is not None:
+        printToLog('URL parameter \'code\': ' + parameterCode)
+        responseFromPost = sendPostToTokenEndpoint(parameterCode)
+    
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization() :
     url = getConfigValue('spotify_authorization_endpoint')
