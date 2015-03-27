@@ -14,6 +14,9 @@ def index():
     return dict(message=T('Hello World'), authenticate_url=full_url)
 
 
+def landingPageSpotify():
+    return dict(message=T('Hello World'))
+
 def user():
     """
     exposes:
