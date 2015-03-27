@@ -8,10 +8,10 @@ def index():
     checkForCodeParameterAndSendPostRequestToTokenEndpoint()
     ##############################
     #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
-    full_url = buildUrlToInitiateAuthorization()
+    full_url_spotify = buildUrlToInitiateAuthorization()
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
-    return dict(message=T('Hello World'), authenticate_url=full_url)
+    return dict(message=T('Hello World'), authenticate_url_spotify=full_url_spotify)
 
 
 def landingPageSpotify():
