@@ -4,18 +4,15 @@ def index():
     printToLog('index()')
     ##############################
     #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
-    #Generate an HTTP POST to the "token" endpoint.
     parameterCode = request.vars['code']
     parameterError = request.vars['error']
     if parameterError is not None:
         printToLog('URL parameter \'error\': ' + parameterError)
     elif parameterCode is not None:
+        #Generate an HTTP POST to the "token" endpoint and save the results to the session.
         printToLog('URL parameter \'code\': ' + parameterCode)
-        responseFromPost = postToTokenEndpointAuthorizationCodeSpotify(parameterCode)
-        session.access_token = responseFromPost['access_token']
-        session.token_type = responseFromPost['token_type']
-        session.expires_in = responseFromPost['expires_in']
-        session.refresh_token = responseFromPost['refresh_token']
+        postToTokenEndpointAuthorizationCodeSpotify(parameterCode)
+        #Now that the Access Token has been saved to session, redirect the the landing page for this resource.
         redirect(URL('landingPageSpotify'))
     ##############################
     #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
@@ -99,8 +96,7 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
               'redirect_uri' : getConfigValue('spotify_authorization_redirect_uri'),
               'client_id' : getConfigValue('spotify_client_id'),
               'client_secret' : getConfigValue('spotify_client_secret')}
-    responseDataInArray = postToTokenEndpointSpotify(postValues)
-    return responseDataInArray
+    postToTokenEndpointSpotify(postValues)
 
 #Helper function to send an HTTP POST request to the /token endpoint
 def postToTokenEndpointSpotify(requestBodyParameters) :
@@ -112,8 +108,12 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     #Parse the response and return the data to the caller.
     responseDataInJson = responseFromPost.read()
     responseDataInArray = json.loads(responseDataInJson)
+    #Save results to session
+    session.access_token = responseDataInArray['access_token']
+    session.token_type = responseDataInArray['token_type']
+    session.expires_in = responseDataInArray['expires_in']
+    session.refresh_token = responseDataInArray['refresh_token']
     printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
-    return responseDataInArray
 
 #Private function to fetch the config value specified by configValue
 def getConfigValue(configValue) :
