@@ -3,9 +3,20 @@ def index():
     printToLog('------------------------------------------------')
     printToLog('index()')
     ##############################
-    #Call a function to check for the presence of the 'code' parameter. Example: http://127.0.0.1:8000/?code=AQBBX...
-    #This indicates that the resource owner successfully redirected back to this page, rather than the user manually navigating to this page.
-    checkForCodeParameterAndSendPostRequestToTokenEndpoint()
+    #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
+    #Generate an HTTP POST to the "token" endpoint.
+    parameterCode = request.vars['code']
+    parameterError = request.vars['error']
+    if parameterError is not None:
+        printToLog('URL parameter \'error\': ' + parameterError)
+    elif parameterCode is not None:
+        printToLog('URL parameter \'code\': ' + parameterCode)
+        responseFromPost = sendPostToTokenEndpoint(parameterCode)
+        session.access_token = responseFromPost['access_token']
+        session.token_type = responseFromPost['token_type']
+        session.expires_in = responseFromPost['expires_in']
+        session.refresh_token = responseFromPost['refresh_token']
+        redirect(URL('landingPageSpotify'))
     ##############################
     #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
     full_url_spotify = buildUrlToInitiateAuthorization()
@@ -15,7 +26,7 @@ def index():
 
 
 def landingPageSpotify():
-    return dict(message=T('Hello World'))
+    return dict(message=T('This is the Spotify Landing Page.'))
 
 def user():
     """
@@ -65,22 +76,6 @@ def api():
         '<tablename>': {'GET':{},'POST':{},'PUT':{},'DELETE':{}},
         }
     return Collection(db).process(request,response,rules)
-
-#Helper function to check for the 'code' parameter and send an HTTP POST request to the /token endpoint if necessary.
-def checkForCodeParameterAndSendPostRequestToTokenEndpoint() :
-    #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
-    #Generate an HTTP POST to the "token" endpoint.
-    parameterCode = request.vars['code']
-    parameterError = request.vars['error']
-    if parameterError is not None:
-        printToLog('URL parameter \'error\': ' + parameterError)
-    elif parameterCode is not None:
-        printToLog('URL parameter \'code\': ' + parameterCode)
-        responseFromPost = sendPostToTokenEndpoint(parameterCode)
-        session.access_token = responseFromPost['access_token']
-        session.token_type = responseFromPost['token_type']
-        session.expires_in = responseFromPost['expires_in']
-        session.refresh_token = responseFromPost['refresh_token']
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization() :
