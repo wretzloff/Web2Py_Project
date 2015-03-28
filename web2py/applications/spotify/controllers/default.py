@@ -125,8 +125,10 @@ def getConfigValue(configValue) :
 
 def buildFullUrl(path, parametersArray) :
     import urllib
-    url_values = urllib.urlencode(parametersArray)
-    full_url = path + '?' + url_values
+    full_url = path
+    if parametersArray is not None:
+        url_values = urllib.urlencode(parametersArray)
+        full_url = full_url + '?' + url_values
     printToLog('buildFullUrl: ' + full_url)
     return full_url
 
