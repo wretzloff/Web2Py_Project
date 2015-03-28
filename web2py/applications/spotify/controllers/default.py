@@ -11,7 +11,7 @@ def index():
         printToLog('URL parameter \'error\': ' + parameterError)
     elif parameterCode is not None:
         printToLog('URL parameter \'code\': ' + parameterCode)
-        responseFromPost = sendPostToTokenEndpoint(parameterCode)
+        responseFromPost = sendPostToSpotifyTokenEndpoint(parameterCode)
         session.access_token = responseFromPost['access_token']
         session.token_type = responseFromPost['token_type']
         session.expires_in = responseFromPost['expires_in']
@@ -19,7 +19,7 @@ def index():
         redirect(URL('landingPageSpotify'))
     ##############################
     #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
-    full_url_spotify = buildUrlToInitiateAuthorization()
+    full_url_spotify = buildUrlToInitiateAuthorizationSpotify()
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
     return dict(message=T('Hello World'), authenticate_url_spotify=full_url_spotify)
@@ -78,7 +78,7 @@ def api():
     return Collection(db).process(request,response,rules)
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
-def buildUrlToInitiateAuthorization() :
+def buildUrlToInitiateAuthorizationSpotify() :
     url = getConfigValue('spotify_authorization_endpoint')
     #Define parameters
     data = {}
@@ -92,7 +92,7 @@ def buildUrlToInitiateAuthorization() :
     return full_url
 
 #Helper function to send an HTTP POST request to the /token endpoint
-def sendPostToTokenEndpoint(codeParameterForPostRequest) :
+def sendPostToSpotifyTokenEndpoint(codeParameterForPostRequest) :
     import json
     postUrl = getConfigValue('spotify_token_endpoint')
     postValues = {'grant_type' : 'authorization_code',
