@@ -11,7 +11,7 @@ def index():
         printToLog('URL parameter \'error\': ' + parameterError)
     elif parameterCode is not None:
         printToLog('URL parameter \'code\': ' + parameterCode)
-        responseFromPost = sendPostToSpotifyTokenEndpoint(parameterCode)
+        responseFromPost = postToTokenEndpointAuthorizationCodeSpotify(parameterCode)
         session.access_token = responseFromPost['access_token']
         session.token_type = responseFromPost['token_type']
         session.expires_in = responseFromPost['expires_in']
@@ -92,7 +92,8 @@ def buildUrlToInitiateAuthorizationSpotify() :
     return full_url
 
 #Helper function to send an HTTP POST request to the /token endpoint
-def sendPostToSpotifyTokenEndpoint(codeParameterForPostRequest) :
+#def sendPostToSpotifyTokenEndpoint(codeParameterForPostRequest) :
+def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     import json
     postUrl = getConfigValue('spotify_token_endpoint')
     postValues = {'grant_type' : 'authorization_code',
