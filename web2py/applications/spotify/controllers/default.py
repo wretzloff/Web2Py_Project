@@ -91,22 +91,29 @@ def buildUrlToInitiateAuthorizationSpotify() :
     full_url = buildFullUrl(url, data)
     return full_url
 
-#Helper function to send an HTTP POST request to the /token endpoint
-#def sendPostToSpotifyTokenEndpoint(codeParameterForPostRequest) :
+#Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
-    import json
-    postUrl = getConfigValue('spotify_token_endpoint')
+    #Build the HTTP POST payload and then pass it to the function to perform the HTTP POST
     postValues = {'grant_type' : 'authorization_code',
               'code' : codeParameterForPostRequest,
               'redirect_uri' : getConfigValue('spotify_authorization_redirect_uri'),
               'client_id' : getConfigValue('spotify_client_id'),
               'client_secret' : getConfigValue('spotify_client_secret')}
-    responseFromPost = postRequest(postUrl, postValues)
-    responseDataInJson = responseFromPost.read()
-    responseDataInArray = json.loads(responseDataInJson)
-    printToLog('sendPostToTokenEndpoint: ' + str(responseDataInArray))
+    responseDataInArray = postToTokenEndpointSpotify(postValues)
     return responseDataInArray
 
+#Helper function to send an HTTP POST request to the /token endpoint
+def postToTokenEndpointSpotify(requestBodyParameters) :
+    import json
+    #Get the URL for the /token endpoint
+    postUrl = getConfigValue('spotify_token_endpoint')
+    #Call the function to send the HTTP POST and get the response
+    responseFromPost = postRequest(postUrl, requestBodyParameters)
+    #Parse the response and return the data to the caller.
+    responseDataInJson = responseFromPost.read()
+    responseDataInArray = json.loads(responseDataInJson)
+    printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
+    return responseDataInArray
 
 #Private function to fetch the config value specified by configValue
 def getConfigValue(configValue) :
