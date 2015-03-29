@@ -107,7 +107,6 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
 
 #Helper function to send an HTTP POST request to the /token endpoint
 def postToTokenEndpointSpotify(requestBodyParameters) :
-    import json
     #Get the URL for the /token endpoint
     postUrl = getConfigValue('spotify_token_endpoint')
     #Call the function to send the HTTP POST and get the response
