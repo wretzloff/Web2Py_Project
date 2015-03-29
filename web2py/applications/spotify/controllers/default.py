@@ -23,10 +23,13 @@ def index():
 
 
 def landingPageSpotify():
+    printToLog('------------------------------------------------')
+    printToLog('landingPageSpotify()')
     url = getConfigValue('spotify_me_endpoint')
     authorizationHeader = 'Bearer ' + session.access_token
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = getRequest(url, None, headers)
+    responseDataInArray = convertJsonToArray(responseDataInJson)
     return dict(message=responseDataInJson)
 
 def user():
@@ -111,7 +114,7 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     responseFromPost = postRequest(postUrl, requestBodyParameters)
     #Parse the response and return the data to the caller.
     responseDataInJson = responseFromPost.read()
-    responseDataInArray = json.loads(responseDataInJson)
+    responseDataInArray = convertJsonToArray(responseDataInJson)
     #Save results to session
     session.access_token = responseDataInArray['access_token']
     session.token_type = responseDataInArray['token_type']
@@ -135,6 +138,13 @@ def buildFullUrl(path, parametersArray) :
         full_url = full_url + '?' + url_values
     printToLog('buildFullUrl: ' + full_url)
     return full_url
+
+#Helper function to take in a JSON object and convert it to a normal Python array
+def convertJsonToArray(jsonObject) :
+    import json
+    printToLog('convertJsonToArray: ' + jsonObject)
+    pythonArray = json.loads(jsonObject)
+    return pythonArray
 
 def printToLog(stringToPrint) :
     print getTimestamp() + '\t' + stringToPrint
