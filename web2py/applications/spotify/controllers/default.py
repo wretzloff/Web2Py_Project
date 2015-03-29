@@ -144,10 +144,9 @@ def getTimestamp() :
 
 def getRequest(url, parametersArray) :
     import urllib2
-    import urllib
     full_url = buildFullUrl(url, parametersArray)
-    #Send GET request and print results
-    data = urllib2.urlopen(full_url)
+    req = urllib2.Request(full_url)
+    data = urllib2.urlopen(req)
     responseData = data.read()
     printToLog('\t getRequest: ' + responseData)
     return responseData
