@@ -25,7 +25,8 @@ def index():
 def landingPageSpotify():
     #url = getConfigValue('spotify_authorization_endpoint')
     #url = 'https://api.spotify.com/v1/search?q=muse&type=artist'
-    #getRequest(url, None)
+    #headers = {'Referer' : 'http://www.python.org/'}
+    #getRequest(url, None, headers)
     return dict(message=T('This is the Spotify Landing Page.'))
 
 def user():
@@ -144,11 +145,19 @@ def getTimestamp() :
 
 def getRequest(url, parametersArray, headersArray = None) :
     import urllib2
+    #Build the final URL and the Request object
     full_url = buildFullUrl(url, parametersArray)
     req = urllib2.Request(full_url)
+    #Loop through array of headers and add them to the request headers. 
+    #Todo: put this in a function so it can be reused!
+    if headersArray is not None:
+        for key, value in headersArray.iteritems():
+            req.add_header(key,value)
+    #Send the request and get the response
     data = urllib2.urlopen(req)
     responseData = data.read()
     printToLog('\t getRequest: ' + responseData)
+    
     return responseData
 
 def postRequest(url, parametersArray, headersArray = None) :
@@ -157,5 +166,5 @@ def postRequest(url, parametersArray, headersArray = None) :
     data = urllib.urlencode(parametersArray)
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
-    printToLog('postRequest: to do: log POST response body here')
+    printToLog('postRequest: todo: log POST response body here')
     return response
