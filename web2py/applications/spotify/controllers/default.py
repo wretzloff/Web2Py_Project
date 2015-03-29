@@ -31,7 +31,7 @@ def landingPageSpotify():
     responseDataInJson = getRequest(url, None, headers)
     responseDataInArray = convertJsonToArray(responseDataInJson)
     authorizedUserEmailAddress = responseDataInArray['email']
-    return dict(message='Authorized with Spotify as: ' + authorizedUserEmailAddress)
+    return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
 
 def user():
     """
