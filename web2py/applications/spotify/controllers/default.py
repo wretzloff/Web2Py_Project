@@ -23,6 +23,9 @@ def index():
 
 
 def landingPageSpotify():
+    #url = getConfigValue('spotify_authorization_endpoint')
+    #url = 'https://api.spotify.com/v1/search?q=muse&type=artist'
+    #getRequest(url, None)
     return dict(message=T('This is the Spotify Landing Page.'))
 
 def user():
