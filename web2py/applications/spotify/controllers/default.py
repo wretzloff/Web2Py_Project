@@ -142,7 +142,7 @@ def getTimestamp() :
     import time
     return time.strftime("%d/%m/%Y") + ' ' + time.strftime("%H:%M:%S")
 
-def getRequest(url, parametersArray) :
+def getRequest(url, parametersArray, headersArray = None) :
     import urllib2
     full_url = buildFullUrl(url, parametersArray)
     req = urllib2.Request(full_url)
@@ -151,7 +151,7 @@ def getRequest(url, parametersArray) :
     printToLog('\t getRequest: ' + responseData)
     return responseData
 
-def postRequest(url, parametersArray) :
+def postRequest(url, parametersArray, headersArray = None) :
     import urllib2
     import urllib
     data = urllib.urlencode(parametersArray)
