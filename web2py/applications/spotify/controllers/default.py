@@ -23,11 +23,11 @@ def index():
 
 
 def landingPageSpotify():
-    #url = getConfigValue('spotify_authorization_endpoint')
-    #url = 'https://api.spotify.com/v1/search?q=muse&type=artist'
-    #headers = {'Referer' : 'http://www.python.org/'}
-    #getRequest(url, None, headers)
-    return dict(message=T('This is the Spotify Landing Page.'))
+    url = getConfigValue('spotify_me_endpoint')
+    authorizationHeader = 'Bearer ' + session.access_token
+    headers = {'Authorization' : authorizationHeader}
+    responseDataInJson = getRequest(url, None, headers)
+    return dict(message=responseDataInJson)
 
 def user():
     """
