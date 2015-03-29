@@ -164,8 +164,8 @@ def getRequest(url, parametersArray, headersArray = None) :
         for key, value in headersArray.iteritems():
             req.add_header(key,value)
     #Send the request and get the response
-    data = urllib2.urlopen(req)
-    responseData = data.read()
+    response = urllib2.urlopen(req)
+    responseData = response.read()
     printToLog('\t getRequest: ' + responseData)
     
     return responseData
