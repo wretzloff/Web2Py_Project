@@ -25,7 +25,7 @@ def index():
 def landingPageSpotify():
     printToLog('------------------------------------------------')
     printToLog('landingPageSpotify()')
-    url = getConfigValue('spotify_me_endpoint')
+    url = getConfigValue('me_endpoint','Spotify')
     authorizationHeader = 'Bearer ' + session.access_token
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = getRequest(url, None, headers)
@@ -91,7 +91,7 @@ def buildUrlToInitiateAuthorizationSpotify() :
     data['response_type'] = getConfigValue('response_type','Spotify')
     data['redirect_uri'] = getConfigValue('authorization_redirect_uri','Spotify')
     data['scope'] = getConfigValue('scopes','Spotify')
-    data['show_dialog'] = getConfigValue('spotify_show_dialog')
+    data['show_dialog'] = getConfigValue('show_dialog','Spotify')
     #Build full URL
     full_url = buildFullUrl(url, data)
     return full_url
@@ -109,7 +109,7 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
 #Helper function to send an HTTP POST request to the /token endpoint
 def postToTokenEndpointSpotify(requestBodyParameters) :
     #Get the URL for the /token endpoint
-    postUrl = getConfigValue('spotify_token_endpoint')
+    postUrl = getConfigValue('token_endpoint','Spotify')
     #Call the function to send the HTTP POST and get the response
     responseFromPost = postRequest(postUrl, requestBodyParameters)
     #Parse the response and return the data to the caller.
