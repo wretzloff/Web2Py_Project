@@ -82,18 +82,18 @@ use_janrain(auth, filename='private/janrain.key')
 ## >>> rows=db(db.mytable.myfield=='value').select(db.mytable.ALL)
 ## >>> for row in rows: print row.id, row.myfield
 db.define_table('config',Field('config_setting','string'), Field('config_value','string'))
-#db.define_table('ResourceOwner',Field('resourceOwnerName','string'))
-#db.define_table('ResourceOwnerSettings',
-#Field('resourceOwnerName','string'), 
-#Field('client_id','string')
-#Field('response_type','string')
-#Field('authorization_redirect_uri','string')
-#Field('authorization_endpoint','string')
-#Field('scopes','string')
-#Field('client_secret','string')
-#Field('token_endpoint','string')
-#Field('me_endpoint','string')
-#)
+db.define_table('ResourceOwner',Field('resourceOwnerName','string'))
+db.define_table('ResourceOwnerSettings',
+    Field('resourceOwnerName','string'),
+    Field('client_id','string'),
+    Field('response_type','string'),
+    Field('authorization_redirect_uri','string'),
+    Field('authorization_endpoint','string'),
+    Field('scopes','string'),
+    Field('client_secret','string'),
+    Field('token_endpoint','string'),
+    Field('me_endpoint','string')
+)
 #########################################################################
 
 ## after defining tables, uncomment below to enable auditing
