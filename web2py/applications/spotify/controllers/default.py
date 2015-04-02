@@ -84,13 +84,13 @@ def api():
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
-    url = getConfigValue('spotify_authorization_endpoint')
+    url = getConfigValue('authorization_endpoint','Spotify')
     #Define parameters
     data = {}
-    data['client_id'] = getConfigValue('spotify_client_id')
-    data['response_type'] = getConfigValue('spotify_response_type')
-    data['redirect_uri'] = getConfigValue('spotify_authorization_redirect_uri')
-    data['scope'] = getConfigValue('spotify_scopes')
+    data['client_id'] = getConfigValue('client_id','Spotify')
+    data['response_type'] = getConfigValue('response_type','Spotify')
+    data['redirect_uri'] = getConfigValue('authorization_redirect_uri','Spotify')
+    data['scope'] = getConfigValue('scopes','Spotify')
     data['show_dialog'] = getConfigValue('spotify_show_dialog')
     #Build full URL
     full_url = buildFullUrl(url, data)
@@ -101,9 +101,9 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     #Build the HTTP POST payload and then pass it to the function to perform the HTTP POST
     postValues = {'grant_type' : 'authorization_code',
               'code' : codeParameterForPostRequest,
-              'redirect_uri' : getConfigValue('spotify_authorization_redirect_uri'),
-              'client_id' : getConfigValue('spotify_client_id'),
-              'client_secret' : getConfigValue('spotify_client_secret')}
+              'redirect_uri' : getConfigValue('authorization_redirect_uri','Spotify'),
+              'client_id' : getConfigValue('client_id','Spotify'),
+              'client_secret' : getConfigValue('client_secret','Spotify')}
     postToTokenEndpointSpotify(postValues)
 
 #Helper function to send an HTTP POST request to the /token endpoint
