@@ -60,3 +60,11 @@ CREATE TABLE config(
     config_value CHAR(512)
 );
 success!
+timestamp: 2015-04-02T17:24:21.132000
+ALTER TABLE ResourceOwnerSettings ADD show_dialog CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!

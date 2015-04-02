@@ -25,7 +25,7 @@ def index():
 def landingPageSpotify():
     printToLog('------------------------------------------------')
     printToLog('landingPageSpotify()')
-    url = getConfigValue('me_endpoint','Spotify')
+    url = getConfigValue('Spotify','me_endpoint')
     authorizationHeader = 'Bearer ' + session.access_token
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = getRequest(url, None, headers)
@@ -84,14 +84,14 @@ def api():
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
-    url = getConfigValue('authorization_endpoint','Spotify')
+    url = getConfigValue('Spotify','authorization_endpoint')
     #Define parameters
     data = {}
-    data['client_id'] = getConfigValue('client_id','Spotify')
-    data['response_type'] = getConfigValue('response_type','Spotify')
-    data['redirect_uri'] = getConfigValue('authorization_redirect_uri','Spotify')
-    data['scope'] = getConfigValue('scopes','Spotify')
-    data['show_dialog'] = getConfigValue('show_dialog','Spotify')
+    data['client_id'] = getConfigValue('Spotify','client_id')
+    data['response_type'] = getConfigValue('Spotify','response_type')
+    data['redirect_uri'] = getConfigValue('Spotify','authorization_redirect_uri')
+    data['scope'] = getConfigValue('Spotify','scopes')
+    data['show_dialog'] = getConfigValue('Spotify','show_dialog')
     #Build full URL
     full_url = buildFullUrl(url, data)
     return full_url
@@ -101,15 +101,15 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     #Build the HTTP POST payload and then pass it to the function to perform the HTTP POST
     postValues = {'grant_type' : 'authorization_code',
               'code' : codeParameterForPostRequest,
-              'redirect_uri' : getConfigValue('authorization_redirect_uri','Spotify'),
-              'client_id' : getConfigValue('client_id','Spotify'),
-              'client_secret' : getConfigValue('client_secret','Spotify')}
+              'redirect_uri' : getConfigValue('Spotify','authorization_redirect_uri'),
+              'client_id' : getConfigValue('Spotify','client_id'),
+              'client_secret' : getConfigValue('Spotify','client_secret')}
     postToTokenEndpointSpotify(postValues)
 
 #Helper function to send an HTTP POST request to the /token endpoint
 def postToTokenEndpointSpotify(requestBodyParameters) :
     #Get the URL for the /token endpoint
-    postUrl = getConfigValue('token_endpoint','Spotify')
+    postUrl = getConfigValue('Spotify','token_endpoint')
     #Call the function to send the HTTP POST and get the response
     responseFromPost = postRequest(postUrl, requestBodyParameters)
     #Parse the response and return the data to the caller.
@@ -123,11 +123,11 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
 
 #Private function to fetch the config value specified by configValue
-def getConfigValue(configValue,resourceOwner = None) :
+def getConfigValue(resourceOwner = None, configValue = None) :
     resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
     resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
     configValue = resourceOwnerConfigFirstResult[configValue]
-    printToLog('getConfigValue: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ' + configValue)
+    printToLog('getConfigValue: ' + configValue)
     return configValue
 
 def buildFullUrl(path, parametersArray) :
