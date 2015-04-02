@@ -123,11 +123,17 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
 
 #Private function to fetch the config value specified by configValue
-def getConfigValue(configValue) :
-    configValueQueryResults = db(db.config.config_setting == configValue).select()
-    configValueFirstResult = configValueQueryResults[0]
-    configValue = configValueFirstResult.config_value
-    printToLog('getConfigValue: ' + configValue)
+def getConfigValue(configValue,resourceOwner = None) :
+    if resourceOwner is not None:
+        resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
+        resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
+        configValue = resourceOwnerConfigFirstResult[configValue]
+        printToLog('getConfigValue: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ' + configValue)
+    else:
+        configValueQueryResults = db(db.config.config_setting == configValue).select()
+        configValueFirstResult = configValueQueryResults[0]
+        configValue = configValueFirstResult.config_value
+        printToLog('getConfigValue: ' + configValue)
     return configValue
 
 def buildFullUrl(path, parametersArray) :
