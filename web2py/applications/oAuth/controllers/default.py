@@ -89,7 +89,7 @@ def buildUrlToInitiateAuthorizationSpotify() :
     data = {}
     data['client_id'] = getConfigValue('Spotify','client_id')
     data['response_type'] = getConfigValue('Spotify','response_type')
-    data['redirect_uri'] = getConfigValue('Spotify','authorization_redirect_uri')
+    data['redirect_uri'] = getConfigValue(None,'oAuthRedirectUri')
     data['scope'] = getConfigValue('Spotify','scopes')
     data['show_dialog'] = getConfigValue('Spotify','show_dialog')
     #Build full URL
@@ -101,7 +101,7 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     #Build the HTTP POST payload and then pass it to the function to perform the HTTP POST
     postValues = {'grant_type' : 'authorization_code',
               'code' : codeParameterForPostRequest,
-              'redirect_uri' : getConfigValue('Spotify','authorization_redirect_uri'),
+              'redirect_uri' : getConfigValue(None,'oAuthRedirectUri'),
               'client_id' : getConfigValue('Spotify','client_id'),
               'client_secret' : getConfigValue('Spotify','client_secret')}
     postToTokenEndpointSpotify(postValues)
@@ -124,10 +124,16 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
 
 #Private function to fetch the config value specified by configValue
 def getConfigValue(resourceOwner = None, configValue = None) :
-    resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
-    resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
-    configValue = resourceOwnerConfigFirstResult[configValue]
-    printToLog('getConfigValue: ' + configValue)
+    if resourceOwner is not None :
+        resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
+        resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
+        configValue = resourceOwnerConfigFirstResult[configValue]
+        printToLog('getConfigValue: ' + configValue)
+    else:
+        configValueQueryResults = db(db.config.config_setting == configValue).select()
+        configValueFirstResult = configValueQueryResults[0]
+        configValue = configValueFirstResult.config_value
+        printToLog('getConfigValue: ' + configValue)
     return configValue
 
 def buildFullUrl(path, parametersArray) :
