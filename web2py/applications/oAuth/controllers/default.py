@@ -1,8 +1,8 @@
-customFunctions = local_import('customFunctions')
+import customFunctions
 #@auth.requires_login()
 def index():
     printToLog('------------------------------------------------')
-    print func.test()
+    print customFunctions.test()
     printToLog('index()')
     ##############################
     #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
