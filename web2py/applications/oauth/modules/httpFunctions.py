@@ -15,3 +15,12 @@ def convertJsonToArray(jsonObject) :
     customFunctions.printToLog('convertJsonToArray: ' + jsonObject)
     pythonArray = json.loads(jsonObject)
     return pythonArray
+	
+def postRequest(url, parametersArray, headersArray = None) :
+    import urllib2
+    import urllib
+    data = urllib.urlencode(parametersArray)
+    req = urllib2.Request(url, data)
+    response = urllib2.urlopen(req)
+    customFunctions.printToLog('postRequest: todo: log POST response body here')
+    return response

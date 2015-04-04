@@ -115,7 +115,7 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     #Get the URL for the /token endpoint
     postUrl = customFunctions.getConfigValue('Spotify','token_endpoint',db)
     #Call the function to send the HTTP POST and get the response
-    responseFromPost = postRequest(postUrl, requestBodyParameters)
+    responseFromPost = httpFunctions.postRequest(postUrl, requestBodyParameters)
     #Parse the response and return the data to the caller.
     responseDataInJson = responseFromPost.read()
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
@@ -142,12 +142,3 @@ def getRequest(url, parametersArray, headersArray = None) :
     customFunctions.printToLog('\t getRequest: ' + responseData)
     
     return responseData
-
-def postRequest(url, parametersArray, headersArray = None) :
-    import urllib2
-    import urllib
-    data = urllib.urlencode(parametersArray)
-    req = urllib2.Request(url, data)
-    response = urllib2.urlopen(req)
-    customFunctions.printToLog('postRequest: todo: log POST response body here')
-    return response
