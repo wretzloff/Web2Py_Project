@@ -33,7 +33,7 @@ def landingPageSpotify():
     authorizationHeader = 'Bearer ' + session.access_token
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = getRequest(url, None, headers)
-    responseDataInArray = convertJsonToArray(responseDataInJson)
+    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
     authorizedUserEmailAddress = responseDataInArray['email']
     return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
 
@@ -118,20 +118,13 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     responseFromPost = postRequest(postUrl, requestBodyParameters)
     #Parse the response and return the data to the caller.
     responseDataInJson = responseFromPost.read()
-    responseDataInArray = convertJsonToArray(responseDataInJson)
+    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
     #Save results to session
     session.access_token = responseDataInArray['access_token']
     session.token_type = responseDataInArray['token_type']
     session.expires_in = responseDataInArray['expires_in']
     session.refresh_token = responseDataInArray['refresh_token']
     customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
-
-#Helper function to take in a JSON object and convert it to a normal Python array
-def convertJsonToArray(jsonObject) :
-    import json
-    customFunctions.printToLog('convertJsonToArray: ' + jsonObject)
-    pythonArray = json.loads(jsonObject)
-    return pythonArray
 
 def getRequest(url, parametersArray, headersArray = None) :
     import urllib2
