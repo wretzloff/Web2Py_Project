@@ -1,8 +1,10 @@
+#Todo: move functions into oauthFunctions module
 #Todo: split functions that need db access into its own module
-#Todo: determine which functions can be built into a service instead of function call.
+#Todo: service-enable functions in modules.
 #Todo: convert to use applications\oauth\views\spotify\index instead of applications\oauth\views\default\landingPageSpotify
 import customFunctions
 import httpFunctions
+import oauthFunctions
 def index():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('index()')
