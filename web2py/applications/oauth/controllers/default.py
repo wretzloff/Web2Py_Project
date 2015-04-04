@@ -32,7 +32,7 @@ def landingPageSpotify():
     url = customFunctions.getConfigValue('Spotify','me_endpoint',db)
     authorizationHeader = 'Bearer ' + session.access_token
     headers = {'Authorization' : authorizationHeader}
-    responseDataInJson = getRequest(url, None, headers)
+    responseDataInJson = httpFunctions.getRequest(url, None, headers)
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
     authorizedUserEmailAddress = responseDataInArray['email']
     return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
@@ -125,20 +125,3 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     session.expires_in = responseDataInArray['expires_in']
     session.refresh_token = responseDataInArray['refresh_token']
     customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
-
-def getRequest(url, parametersArray, headersArray = None) :
-    import urllib2
-    #Build the final URL and the Request object
-    full_url = httpFunctions.buildFullUrl(url, parametersArray)
-    req = urllib2.Request(full_url)
-    #Loop through array of headers and add them to the request headers. 
-    #Todo: put this in a function so it can be reused!
-    if headersArray is not None:
-        for key, value in headersArray.iteritems():
-            req.add_header(key,value)
-    #Send the request and get the response
-    response = urllib2.urlopen(req)
-    responseData = response.read()
-    customFunctions.printToLog('\t getRequest: ' + responseData)
-    
-    return responseData
