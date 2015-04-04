@@ -1,18 +1,18 @@
 import customFunctions
 #@auth.requires_login()
 def index():
-    printToLog('------------------------------------------------')
+    customFunctions.printToLog('------------------------------------------------')
     print customFunctions.test()
-    printToLog('index()')
+    customFunctions.printToLog('index()')
     ##############################
     #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
     parameterCode = request.vars['code']
     parameterError = request.vars['error']
     if parameterError is not None:
-        printToLog('URL parameter \'error\': ' + parameterError)
+        customFunctions.printToLog('URL parameter \'error\': ' + parameterError)
     elif parameterCode is not None:
         #Generate an HTTP POST to the "token" endpoint and save the results to the session.
-        printToLog('URL parameter \'code\': ' + parameterCode)
+        customFunctions.printToLog('URL parameter \'code\': ' + parameterCode)
         postToTokenEndpointAuthorizationCodeSpotify(parameterCode)
         #Now that the Access Token has been saved to session, redirect the the landing page for this resource.
         redirect(URL('landingPageSpotify'))
@@ -25,8 +25,8 @@ def index():
 
 
 def landingPageSpotify():
-    printToLog('------------------------------------------------')
-    printToLog('landingPageSpotify()')
+    customFunctions.printToLog('------------------------------------------------')
+    customFunctions.printToLog('landingPageSpotify()')
     url = getConfigValue('Spotify','me_endpoint')
     authorizationHeader = 'Bearer ' + session.access_token
     headers = {'Authorization' : authorizationHeader}
@@ -122,7 +122,7 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     session.token_type = responseDataInArray['token_type']
     session.expires_in = responseDataInArray['expires_in']
     session.refresh_token = responseDataInArray['refresh_token']
-    printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
+    customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
 
 #Private function to fetch the config value specified by configValue
 def getConfigValue(resourceOwner = None, configSetting = None) :
@@ -130,12 +130,12 @@ def getConfigValue(resourceOwner = None, configSetting = None) :
         resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
         resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
         configValue = resourceOwnerConfigFirstResult[configSetting]
-        printToLog('getConfigValue: ' + configValue)
+        customFunctions.printToLog('getConfigValue: ' + configValue)
     else:
         configValueQueryResults = db(db.config.config_setting == configSetting).select()
         configValueFirstResult = configValueQueryResults[0]
         configValue = configValueFirstResult.config_value
-        printToLog('getConfigValue: ' + configValue)
+        customFunctions.printToLog('getConfigValue: ' + configValue)
     return configValue
 
 def buildFullUrl(path, parametersArray) :
@@ -144,18 +144,18 @@ def buildFullUrl(path, parametersArray) :
     if parametersArray is not None:
         url_values = urllib.urlencode(parametersArray)
         full_url = full_url + '?' + url_values
-    printToLog('buildFullUrl: ' + full_url)
+    customFunctions.printToLog('buildFullUrl: ' + full_url)
     return full_url
 
 #Helper function to take in a JSON object and convert it to a normal Python array
 def convertJsonToArray(jsonObject) :
     import json
-    printToLog('convertJsonToArray: ' + jsonObject)
+    customFunctions.printToLog('convertJsonToArray: ' + jsonObject)
     pythonArray = json.loads(jsonObject)
     return pythonArray
 
-def printToLog(stringToPrint) :
-    print customFunctions.getTimestamp() + '\t' + stringToPrint
+#def printToLog(stringToPrint) :
+#    print customFunctions.getTimestamp() + '\t' + stringToPrint
 
 def getRequest(url, parametersArray, headersArray = None) :
     import urllib2
@@ -170,7 +170,7 @@ def getRequest(url, parametersArray, headersArray = None) :
     #Send the request and get the response
     response = urllib2.urlopen(req)
     responseData = response.read()
-    printToLog('\t getRequest: ' + responseData)
+    customFunctions.printToLog('\t getRequest: ' + responseData)
     
     return responseData
 
@@ -180,5 +180,5 @@ def postRequest(url, parametersArray, headersArray = None) :
     data = urllib.urlencode(parametersArray)
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
-    printToLog('postRequest: todo: log POST response body here')
+    customFunctions.printToLog('postRequest: todo: log POST response body here')
     return response
