@@ -3,7 +3,6 @@
 #Todo: convert to use applications\oauth\views\spotify\index instead of applications\oauth\views\default\landingPageSpotify
 import customFunctions
 import httpFunctions
-import socket
 def index():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('index()')
@@ -21,10 +20,6 @@ def index():
         redirect(URL('landingPageSpotify'))
     ##############################
     #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
-    apiURL = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','buildUrlToInitiateAuthorizationSpotify')
-    print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaa--'+apiURL
-    full_url_spotify_test = httpFunctions.getRequest(apiURL)
-    print 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb--' + full_url_spotify_test
     full_url_spotify = buildUrlToInitiateAuthorizationSpotify()
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
