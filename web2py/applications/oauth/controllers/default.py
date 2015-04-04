@@ -2,6 +2,7 @@
 #Todo: determine which functions can be built into a service instead of function call.
 #Todo: convert to use applications\oauth\views\spotify\index instead of applications\oauth\views\default\landingPageSpotify
 import customFunctions
+import httpFunctions
 def index():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('index()')
@@ -96,7 +97,7 @@ def buildUrlToInitiateAuthorizationSpotify() :
     data['scope'] = customFunctions.getConfigValue('Spotify','scopes',db)
     data['show_dialog'] = customFunctions.getConfigValue('Spotify','show_dialog',db)
     #Build full URL
-    full_url = buildFullUrl(url, data)
+    full_url = httpFunctions.buildFullUrl(url, data)
     return full_url
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
@@ -125,29 +126,6 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     session.refresh_token = responseDataInArray['refresh_token']
     customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
 
-#Private function to fetch the config value specified by configValue
-#def getConfigValue(resourceOwner = None, configSetting = None) :
-#    if resourceOwner is not None :
-#        resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
-#        resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
-#        configValue = resourceOwnerConfigFirstResult[configSetting]
-#        customFunctions.printToLog('getConfigValue: ' + configValue)
-#    else:
-#        configValueQueryResults = db(db.config.config_setting == configSetting).select()
-#        configValueFirstResult = configValueQueryResults[0]
-#        configValue = configValueFirstResult.config_value
-#        customFunctions.printToLog('getConfigValue: ' + configValue)
-#    return configValue
-
-def buildFullUrl(path, parametersArray) :
-    import urllib
-    full_url = path
-    if parametersArray is not None:
-        url_values = urllib.urlencode(parametersArray)
-        full_url = full_url + '?' + url_values
-    customFunctions.printToLog('buildFullUrl: ' + full_url)
-    return full_url
-
 #Helper function to take in a JSON object and convert it to a normal Python array
 def convertJsonToArray(jsonObject) :
     import json
@@ -158,7 +136,7 @@ def convertJsonToArray(jsonObject) :
 def getRequest(url, parametersArray, headersArray = None) :
     import urllib2
     #Build the final URL and the Request object
-    full_url = buildFullUrl(url, parametersArray)
+    full_url = httpFunctions.buildFullUrl(url, parametersArray)
     req = urllib2.Request(full_url)
     #Loop through array of headers and add them to the request headers. 
     #Todo: put this in a function so it can be reused!
