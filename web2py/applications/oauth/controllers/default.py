@@ -1,8 +1,9 @@
+#Todo: split functions that need db access into its own module
+#Todo: determine which functions can be built into a service instead of function call.
+#Todo: convert to use applications\oauth\views\spotify\index instead of applications\oauth\views\default\landingPageSpotify
 import customFunctions
-#@auth.requires_login()
 def index():
     customFunctions.printToLog('------------------------------------------------')
-    print customFunctions.test()
     customFunctions.printToLog('index()')
     ##############################
     #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
