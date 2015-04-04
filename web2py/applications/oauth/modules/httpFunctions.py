@@ -16,7 +16,7 @@ def convertJsonToArray(jsonObject) :
     pythonArray = json.loads(jsonObject)
     return pythonArray
 	
-def postRequest(url, parametersArray, headersArray = None) :
+def postRequest(url, parametersArray = None, headersArray = None) :
     import urllib2
     import urllib
     data = urllib.urlencode(parametersArray)
@@ -25,7 +25,7 @@ def postRequest(url, parametersArray, headersArray = None) :
     customFunctions.printToLog('postRequest: todo: log POST response body here')
     return response
 
-def getRequest(url, parametersArray, headersArray = None) :
+def getRequest(url, parametersArray = None, headersArray = None) :
     import urllib2
     #Build the final URL and the Request object
     full_url = buildFullUrl(url, parametersArray)
