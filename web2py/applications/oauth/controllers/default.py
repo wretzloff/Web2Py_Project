@@ -155,11 +155,7 @@ def convertJsonToArray(jsonObject) :
     return pythonArray
 
 def printToLog(stringToPrint) :
-    print getTimestamp() + '\t' + stringToPrint
-
-def getTimestamp() :
-    import time
-    return time.strftime("%d/%m/%Y") + ' ' + time.strftime("%H:%M:%S")
+    print customFunctions.getTimestamp() + '\t' + stringToPrint
 
 def getRequest(url, parametersArray, headersArray = None) :
     import urllib2
