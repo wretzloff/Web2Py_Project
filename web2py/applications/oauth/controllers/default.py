@@ -27,7 +27,7 @@ def index():
 def landingPageSpotify():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('landingPageSpotify()')
-    url = getConfigValue('Spotify','me_endpoint')
+    url = customFunctions.getConfigValue('Spotify','me_endpoint',db)
     authorizationHeader = 'Bearer ' + session.access_token
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = getRequest(url, None, headers)
@@ -86,14 +86,14 @@ def api():
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
-    url = getConfigValue('Spotify','authorization_endpoint')
+    url = customFunctions.getConfigValue('Spotify','authorization_endpoint',db)
     #Define parameters
     data = {}
-    data['client_id'] = getConfigValue('Spotify','client_id')
-    data['response_type'] = getConfigValue('Spotify','response_type')
-    data['redirect_uri'] = getConfigValue(None,'oAuthRedirectUri')
-    data['scope'] = getConfigValue('Spotify','scopes')
-    data['show_dialog'] = getConfigValue('Spotify','show_dialog')
+    data['client_id'] = customFunctions.getConfigValue('Spotify','client_id',db)
+    data['response_type'] = customFunctions.getConfigValue('Spotify','response_type',db)
+    data['redirect_uri'] = customFunctions.getConfigValue(None,'oAuthRedirectUri',db)
+    data['scope'] = customFunctions.getConfigValue('Spotify','scopes',db)
+    data['show_dialog'] = customFunctions.getConfigValue('Spotify','show_dialog',db)
     #Build full URL
     full_url = buildFullUrl(url, data)
     return full_url
@@ -103,15 +103,15 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     #Build the HTTP POST payload and then pass it to the function to perform the HTTP POST
     postValues = {'grant_type' : 'authorization_code',
               'code' : codeParameterForPostRequest,
-              'redirect_uri' : getConfigValue(None,'oAuthRedirectUri'),
-              'client_id' : getConfigValue('Spotify','client_id'),
-              'client_secret' : getConfigValue('Spotify','client_secret')}
+              'redirect_uri' : customFunctions.getConfigValue(None,'oAuthRedirectUri',db),
+              'client_id' : customFunctions.getConfigValue('Spotify','client_id',db),
+              'client_secret' : customFunctions.getConfigValue('Spotify','client_secret',db)}
     postToTokenEndpointSpotify(postValues)
 
 #Helper function to send an HTTP POST request to the /token endpoint
 def postToTokenEndpointSpotify(requestBodyParameters) :
     #Get the URL for the /token endpoint
-    postUrl = getConfigValue('Spotify','token_endpoint')
+    postUrl = customFunctions.getConfigValue('Spotify','token_endpoint',db)
     #Call the function to send the HTTP POST and get the response
     responseFromPost = postRequest(postUrl, requestBodyParameters)
     #Parse the response and return the data to the caller.
@@ -125,18 +125,18 @@ def postToTokenEndpointSpotify(requestBodyParameters) :
     customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
 
 #Private function to fetch the config value specified by configValue
-def getConfigValue(resourceOwner = None, configSetting = None) :
-    if resourceOwner is not None :
-        resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
-        resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
-        configValue = resourceOwnerConfigFirstResult[configSetting]
-        customFunctions.printToLog('getConfigValue: ' + configValue)
-    else:
-        configValueQueryResults = db(db.config.config_setting == configSetting).select()
-        configValueFirstResult = configValueQueryResults[0]
-        configValue = configValueFirstResult.config_value
-        customFunctions.printToLog('getConfigValue: ' + configValue)
-    return configValue
+#def getConfigValue(resourceOwner = None, configSetting = None) :
+#    if resourceOwner is not None :
+#        resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
+#        resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
+#        configValue = resourceOwnerConfigFirstResult[configSetting]
+#        customFunctions.printToLog('getConfigValue: ' + configValue)
+#    else:
+#        configValueQueryResults = db(db.config.config_setting == configSetting).select()
+#        configValueFirstResult = configValueQueryResults[0]
+#        configValue = configValueFirstResult.config_value
+#        customFunctions.printToLog('getConfigValue: ' + configValue)
+#    return configValue
 
 def buildFullUrl(path, parametersArray) :
     import urllib
@@ -153,9 +153,6 @@ def convertJsonToArray(jsonObject) :
     customFunctions.printToLog('convertJsonToArray: ' + jsonObject)
     pythonArray = json.loads(jsonObject)
     return pythonArray
-
-#def printToLog(stringToPrint) :
-#    print customFunctions.getTimestamp() + '\t' + stringToPrint
 
 def getRequest(url, parametersArray, headersArray = None) :
     import urllib2
