@@ -42,15 +42,13 @@ def landingPageSpotify():
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
     url = customFunctions.getConfigValue('Spotify','authorization_endpoint',db)
-    #Define parameters
-    data = {}
-    data['client_id'] = customFunctions.getConfigValue('Spotify','client_id',db)
-    data['response_type'] = customFunctions.getConfigValue('Spotify','response_type',db)
-    data['redirect_uri'] = customFunctions.getConfigValue(None,'oAuthRedirectUri',db)
-    data['scope'] = customFunctions.getConfigValue('Spotify','scopes',db)
-    data['show_dialog'] = customFunctions.getConfigValue('Spotify','show_dialog',db)
+    client_id = customFunctions.getConfigValue('Spotify','client_id',db)
+    response_type = customFunctions.getConfigValue('Spotify','response_type',db)
+    redirect_uri = customFunctions.getConfigValue(None,'oAuthRedirectUri',db)
+    scope = customFunctions.getConfigValue('Spotify','scopes',db)
+    show_dialog = customFunctions.getConfigValue('Spotify','show_dialog',db)
     #Build full URL
-    full_url = httpFunctions.buildFullUrl(url, data)
+    full_url = oauthFunctions.buildUrlToInitiateAuthorization(url, client_id, response_type, redirect_uri, scope, show_dialog)
     return full_url
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
