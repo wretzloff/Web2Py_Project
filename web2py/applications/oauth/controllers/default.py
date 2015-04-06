@@ -1,4 +1,4 @@
-#Todo: move functions into oauthFunctions module
+#Todo: functions to standardize access to session variables
 #Todo: split functions that need db access into its own module
 #Todo: service-enable functions in modules.
 #Todo: convert to use applications\oauth\views\spotify\index instead of applications\oauth\views\default\landingPageSpotify
