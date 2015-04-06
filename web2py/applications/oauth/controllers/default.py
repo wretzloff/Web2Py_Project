@@ -59,19 +59,25 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
               'redirect_uri' : customFunctions.getConfigValue(None,'oAuthRedirectUri',db),
               'client_id' : customFunctions.getConfigValue('Spotify','client_id',db),
               'client_secret' : customFunctions.getConfigValue('Spotify','client_secret',db)}
-    postToTokenEndpointSpotify(postValues)
+    postUrl = customFunctions.getConfigValue('Spotify','token_endpoint',db)
+    responseDataInArray = oauthFunctions.postToTokenEndpoint(postUrl, postValues)
+    session.access_token = responseDataInArray['access_token']
+    session.token_type = responseDataInArray['token_type']
+    session.expires_in = responseDataInArray['expires_in']
+    session.refresh_token = responseDataInArray['refresh_token']
+
 
 #Helper function to send an HTTP POST request to the /token endpoint
-def postToTokenEndpointSpotify(requestBodyParameters) :
-    #Get the URL for the /token endpoint
-    postUrl = customFunctions.getConfigValue('Spotify','token_endpoint',db)
-    #Call the function to send the HTTP POST and get the response
-    responseFromPost = httpFunctions.postRequest(postUrl, requestBodyParameters)
-    #Parse the response and return the data to the caller.
-    responseDataInJson = responseFromPost.read()
-    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
+#def postToTokenEndpointSpotify(requestBodyParameters) :
+#    #Get the URL for the /token endpoint
+#    postUrl = customFunctions.getConfigValue('Spotify','token_endpoint',db)
+#    #Call the function to send the HTTP POST and get the response
+#    responseFromPost = httpFunctions.postRequest(postUrl, requestBodyParameters)
+#    #Parse the response and return the data to the caller.
+#    responseDataInJson = responseFromPost.read()
+#    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
     #Save results to session
-    session.access_token = responseDataInArray['access_token']
+#    session.access_token = responseDataInArray['access_token']
     session.token_type = responseDataInArray['token_type']
     session.expires_in = responseDataInArray['expires_in']
     session.refresh_token = responseDataInArray['refresh_token']

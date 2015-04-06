@@ -1,4 +1,5 @@
 import httpFunctions
+import customFunctions
 
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization(authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes,show_dialog) :
@@ -13,3 +14,14 @@ def buildUrlToInitiateAuthorization(authorization_endpoint,client_id, response_t
     #Build full URL
     full_url = httpFunctions.buildFullUrl(authorization_endpoint, data)
     return full_url
+
+	
+#Helper function to send an HTTP POST request to the /token endpoint
+def postToTokenEndpoint(postUrl,requestBodyParameters) :
+    #Call the function to send the HTTP POST and get the response
+    responseFromPost = httpFunctions.postRequest(postUrl, requestBodyParameters)
+    #Parse the response and return the data to the caller.
+    responseDataInJson = responseFromPost.read()
+    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
+    customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
+    return responseDataInArray
