@@ -19,15 +19,3 @@ def getConfigValue(resourceOwner = None, configSetting = None, db = None) :
         printToLog('getConfigValue: ' + configValue)
     return configValue
 	
-def storeOauthSessionVariable(session, variableType, value, resourceOwner = None) :
-	if variableType == 'access_token':
-		session[access_token][resourceOwner] = value
-	elif variableType == 'token_type':
-		session[token_type][resourceOwner] = value
-	elif variableType == 'expires_in':
-		session[expires_in][resourceOwner] = value
-	elif variableType == 'refresh_token':
-		session[refresh_token][resourceOwner] = value
-	else:
-		print 'error'
-	

@@ -30,3 +30,20 @@ def postToTokenEndpoint(postUrl,codeParameterForPostRequest, oAuthRedirectUri, c
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
     customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
     return responseDataInArray
+
+def addOauthSessionVariable(session, oAuthVariableType, value, resourceOwner = None) :
+	if oAuthVariableType == 'access_token':
+		session.access_token = session.access_token or {}
+		session.access_token[resourceOwner] = value
+	elif oAuthVariableType == 'token_type':
+		session.token_type = session.token_type or {}
+		session.token_type[resourceOwner] = value
+	elif oAuthVariableType == 'expires_in':
+		session.expires_in = session.expires_in or {}
+		session.expires_in[resourceOwner] = value
+	elif oAuthVariableType == 'refresh_token':
+		session.refresh_token = session.refresh_token or {}
+		session.refresh_token[resourceOwner] = value	
+		
+	else:
+		print 'error'
