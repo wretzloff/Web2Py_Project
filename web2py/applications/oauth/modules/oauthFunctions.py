@@ -32,6 +32,9 @@ def postToTokenEndpoint(postUrl,codeParameterForPostRequest, oAuthRedirectUri, c
     return responseDataInArray
 
 def addOauthSessionVariable(session, oAuthVariableType, value, resourceOwner = None) :
+	customFunctions.printToLog('addOauthSessionVariable: oAuthVariableType: ' + oAuthVariableType)
+	customFunctions.printToLog('addOauthSessionVariable: resourceOwner: ' + resourceOwner)
+	customFunctions.printToLog('addOauthSessionVariable: value: ' + value)
 	if oAuthVariableType == 'access_token':
 		session.access_token = session.access_token or {}
 		session.access_token[resourceOwner] = value
@@ -48,6 +51,8 @@ def addOauthSessionVariable(session, oAuthVariableType, value, resourceOwner = N
 		print 'error'
 
 def getOauthSessionVariable(session, oAuthVariableType, resourceOwner = None) :
+	customFunctions.printToLog('getOauthSessionVariable: oAuthVariableType: ' + oAuthVariableType)
+	customFunctions.printToLog('getOauthSessionVariable: resourceOwner: ' + resourceOwner)
 	if oAuthVariableType == 'access_token':
 		session.access_token = session.access_token or {}
 		return session.access_token[resourceOwner] or None
