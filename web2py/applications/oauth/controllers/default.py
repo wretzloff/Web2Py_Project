@@ -32,7 +32,7 @@ def index():
 def landingPageSpotify():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('landingPageSpotify()')
-    url = customFunctions.getConfigValue('Spotify','me_endpoint',db)
+    url = contextSensitiveFunctions.getConfigValue('Spotify','me_endpoint',db)
     authorizationHeader = 'Bearer ' + contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'spotify')
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = httpFunctions.getRequest(url, None, headers)
@@ -42,22 +42,22 @@ def landingPageSpotify():
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
-    url = customFunctions.getConfigValue('Spotify','authorization_endpoint',db)
-    client_id = customFunctions.getConfigValue('Spotify','client_id',db)
-    response_type = customFunctions.getConfigValue('Spotify','response_type',db)
-    redirect_uri = customFunctions.getConfigValue(None,'oAuthRedirectUri',db)
-    scope = customFunctions.getConfigValue('Spotify','scopes',db)
-    show_dialog = customFunctions.getConfigValue('Spotify','show_dialog',db)
+    url = contextSensitiveFunctions.getConfigValue('Spotify','authorization_endpoint',db)
+    client_id = contextSensitiveFunctions.getConfigValue('Spotify','client_id',db)
+    response_type = contextSensitiveFunctions.getConfigValue('Spotify','response_type',db)
+    redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
+    scope = contextSensitiveFunctions.getConfigValue('Spotify','scopes',db)
+    show_dialog = contextSensitiveFunctions.getConfigValue('Spotify','show_dialog',db)
     #Build full URL
     full_url = oauthFunctions.buildUrlToInitiateAuthorization(url, client_id, response_type, redirect_uri, scope, show_dialog)
     return full_url
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
-    postUrl = customFunctions.getConfigValue('Spotify','token_endpoint',db)
-    redirect_uri = customFunctions.getConfigValue(None,'oAuthRedirectUri',db)
-    client_id = customFunctions.getConfigValue('Spotify','client_id',db)
-    client_secret = customFunctions.getConfigValue('Spotify','client_secret',db)
+    postUrl = contextSensitiveFunctions.getConfigValue('Spotify','token_endpoint',db)
+    redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
+    client_id = contextSensitiveFunctions.getConfigValue('Spotify','client_id',db)
+    client_secret = contextSensitiveFunctions.getConfigValue('Spotify','client_secret',db)
     responseDataInArray = oauthFunctions.postToTokenEndpoint(postUrl, codeParameterForPostRequest, redirect_uri, client_id, client_secret)
     contextSensitiveFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'spotify')
     contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'spotify')
