@@ -1,6 +1,5 @@
 #Todo: service-enable functions in modules.
 #Todo: convert to use applications\oauth\views\spotify\index instead of applications\oauth\views\default\landingPageSpotify
-#Todo: postToTokenEndpoint() hardcodes the grant_type
 import customFunctions
 import contextSensitiveFunctions
 import httpFunctions
@@ -57,7 +56,7 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
     client_id = contextSensitiveFunctions.getConfigValue('Spotify','client_id',db)
     client_secret = contextSensitiveFunctions.getConfigValue('Spotify','client_secret',db)
-    responseDataInArray = oauthFunctions.postToTokenEndpoint(postUrl, codeParameterForPostRequest, redirect_uri, client_id, client_secret)
+    responseDataInArray = oauthFunctions.postToTokenEndpoint(postUrl, 'authorization_code', codeParameterForPostRequest, redirect_uri, client_id, client_secret)
     contextSensitiveFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'spotify')
     contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'spotify')
     contextSensitiveFunctions.addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], 'spotify')

@@ -17,8 +17,8 @@ def buildUrlToInitiateAuthorization(authorization_endpoint,client_id, response_t
 
 	
 #Helper function to send an HTTP POST request to the /token endpoint
-def postToTokenEndpoint(postUrl,codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret) :
-    requestBodyParameters = {'grant_type' : 'authorization_code',
+def postToTokenEndpoint(postUrl, grantType, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret) :
+    requestBodyParameters = {'grant_type' : grantType,
                              'code' : codeParameterForPostRequest,
                              'redirect_uri' : oAuthRedirectUri,
                              'client_id' : client_id,
