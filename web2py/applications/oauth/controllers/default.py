@@ -1,11 +1,10 @@
-#Todo: split functions that need db access into its own module
 #Todo: service-enable functions in modules.
 #Todo: convert to use applications\oauth\views\spotify\index instead of applications\oauth\views\default\landingPageSpotify
 #Todo: postToTokenEndpoint() hardcodes the grant_type
 import customFunctions
+import contextSensitiveFunctions
 import httpFunctions
 import oauthFunctions
-import contextSensitiveFunctions
 def index():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('index()')
