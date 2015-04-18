@@ -1,4 +1,3 @@
-#Todo: functions to standardize access to session variables
 #Todo: split functions that need db access into its own module
 #Todo: service-enable functions in modules.
 #Todo: convert to use applications\oauth\views\spotify\index instead of applications\oauth\views\default\landingPageSpotify
@@ -33,7 +32,6 @@ def landingPageSpotify():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('landingPageSpotify()')
     url = customFunctions.getConfigValue('Spotify','me_endpoint',db)
-    #authorizationHeader = 'Bearer ' + session.access_token
     authorizationHeader = 'Bearer ' + oauthFunctions.getOauthSessionVariable(session, 'access_token', 'spotify')
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = httpFunctions.getRequest(url, None, headers)
@@ -60,11 +58,7 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     client_id = customFunctions.getConfigValue('Spotify','client_id',db)
     client_secret = customFunctions.getConfigValue('Spotify','client_secret',db)
     responseDataInArray = oauthFunctions.postToTokenEndpoint(postUrl, codeParameterForPostRequest, redirect_uri, client_id, client_secret)
-    #session.access_token = responseDataInArray['access_token']
     oauthFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'spotify')
-    #session.token_type = responseDataInArray['token_type']
     oauthFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'spotify')
-    #session.expires_in = responseDataInArray['expires_in']
     oauthFunctions.addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], 'spotify')
-    #session.refresh_token = responseDataInArray['refresh_token']
     oauthFunctions.addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], 'spotify')
