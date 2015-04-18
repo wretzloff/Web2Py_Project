@@ -55,15 +55,17 @@ def getOauthSessionVariable(session, oAuthVariableType, resourceOwner = None) :
 	customFunctions.printToLog('getOauthSessionVariable: resourceOwner: ' + resourceOwner)
 	if oAuthVariableType == 'access_token':
 		session.access_token = session.access_token or {}
-		return session.access_token[resourceOwner] or None
+		returnValue = session.access_token[resourceOwner]
 	elif oAuthVariableType == 'token_type':
 		session.token_type = session.token_type or {}
-		return session.token_type[resourceOwner] or None
+		returnValue = session.token_type[resourceOwner]
 	elif oAuthVariableType == 'expires_in':
 		session.expires_in = session.expires_in or {}
-		return session.expires_in[resourceOwner] or None
+		returnValue = session.expires_in[resourceOwner]
 	elif oAuthVariableType == 'refresh_token':
 		session.refresh_token = session.refresh_token or {}
-		return session.refresh_token[resourceOwner] or None	
+		returnValue = session.refresh_token[resourceOwner]
 	else:
-		print 'error'
+		returnValue = None
+	customFunctions.printToLog('getOauthSessionVariable: returnValue: ' + returnValue)
+	return returnValue
