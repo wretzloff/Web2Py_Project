@@ -5,6 +5,7 @@
 import customFunctions
 import httpFunctions
 import oauthFunctions
+import contextSensitiveFunctions
 def index():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('index()')
@@ -32,7 +33,7 @@ def landingPageSpotify():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('landingPageSpotify()')
     url = customFunctions.getConfigValue('Spotify','me_endpoint',db)
-    authorizationHeader = 'Bearer ' + oauthFunctions.getOauthSessionVariable(session, 'access_token', 'spotify')
+    authorizationHeader = 'Bearer ' + contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'spotify')
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = httpFunctions.getRequest(url, None, headers)
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
@@ -58,7 +59,7 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     client_id = customFunctions.getConfigValue('Spotify','client_id',db)
     client_secret = customFunctions.getConfigValue('Spotify','client_secret',db)
     responseDataInArray = oauthFunctions.postToTokenEndpoint(postUrl, codeParameterForPostRequest, redirect_uri, client_id, client_secret)
-    oauthFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'spotify')
-    oauthFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'spotify')
-    oauthFunctions.addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], 'spotify')
-    oauthFunctions.addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], 'spotify')
+    contextSensitiveFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'spotify')
+    contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'spotify')
+    contextSensitiveFunctions.addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], 'spotify')
+    contextSensitiveFunctions.addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], 'spotify')
