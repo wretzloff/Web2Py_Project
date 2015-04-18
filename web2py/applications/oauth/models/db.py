@@ -11,7 +11,7 @@
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'],migrate=False)
+    db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'])
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore+ndb')
@@ -81,8 +81,8 @@ use_janrain(auth, filename='private/janrain.key')
 ## >>> db.mytable.insert(myfield='value')
 ## >>> rows=db(db.mytable.myfield=='value').select(db.mytable.ALL)
 ## >>> for row in rows: print row.id, row.myfield
-db.define_table('config',Field('config_setting','string'), Field('config_value','string'))
-db.define_table('ResourceOwner',Field('resourceOwnerName','string'))
+db.define_table('config',Field('config_setting','string'), Field('config_value','string'),migrate=False)
+db.define_table('ResourceOwner',Field('resourceOwnerName','string'),migrate=False)
 db.define_table('ResourceOwnerSettings',
     Field('resourceOwnerName','string'),
     Field('client_id','string'),
@@ -93,7 +93,8 @@ db.define_table('ResourceOwnerSettings',
     Field('scopes','string'),
     Field('client_secret','string'),
     Field('token_endpoint','string'),
-    Field('me_endpoint','string')
+    Field('me_endpoint','string'),
+    migrate=False
 )
 #########################################################################
 
