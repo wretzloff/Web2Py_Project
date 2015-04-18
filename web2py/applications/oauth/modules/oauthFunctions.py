@@ -32,9 +32,9 @@ def postToTokenEndpoint(postUrl,codeParameterForPostRequest, oAuthRedirectUri, c
     return responseDataInArray
 
 def addOauthSessionVariable(session, oAuthVariableType, value, resourceOwner = None) :
-	customFunctions.printToLog('addOauthSessionVariable: oAuthVariableType: ' + oAuthVariableType)
-	customFunctions.printToLog('addOauthSessionVariable: resourceOwner: ' + resourceOwner)
-	customFunctions.printToLog('addOauthSessionVariable: value: ' + value)
+	customFunctions.printToLog('addOauthSessionVariable: oAuthVariableType: ' + str(oAuthVariableType))
+	customFunctions.printToLog('addOauthSessionVariable: resourceOwner: ' + str(resourceOwner))
+	customFunctions.printToLog('addOauthSessionVariable: value: ' + str(value))
 	if oAuthVariableType == 'access_token':
 		session.access_token = session.access_token or {}
 		session.access_token[resourceOwner] = value
@@ -51,8 +51,8 @@ def addOauthSessionVariable(session, oAuthVariableType, value, resourceOwner = N
 		print 'error'
 
 def getOauthSessionVariable(session, oAuthVariableType, resourceOwner = None) :
-	customFunctions.printToLog('getOauthSessionVariable: oAuthVariableType: ' + oAuthVariableType)
-	customFunctions.printToLog('getOauthSessionVariable: resourceOwner: ' + resourceOwner)
+	customFunctions.printToLog('getOauthSessionVariable: oAuthVariableType: ' + str(oAuthVariableType))
+	customFunctions.printToLog('getOauthSessionVariable: resourceOwner: ' + str(resourceOwner))
 	if oAuthVariableType == 'access_token':
 		session.access_token = session.access_token or {}
 		returnValue = session.access_token[resourceOwner]
@@ -67,5 +67,5 @@ def getOauthSessionVariable(session, oAuthVariableType, resourceOwner = None) :
 		returnValue = session.refresh_token[resourceOwner]
 	else:
 		returnValue = None
-	customFunctions.printToLog('getOauthSessionVariable: returnValue: ' + returnValue)
+	customFunctions.printToLog('getOauthSessionVariable: returnValue: ' + str(returnValue))
 	return returnValue
