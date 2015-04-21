@@ -1,5 +1,4 @@
 #Todo: service-enable functions in modules.
-#Todo: convert to use applications\oauth\views\spotify\index instead of applications\oauth\views\default\landingPageSpotify
 import customFunctions
 import contextSensitiveFunctions
 import httpFunctions
@@ -18,25 +17,13 @@ def index():
         customFunctions.printToLog('URL parameter \'code\': ' + parameterCode)
         postToTokenEndpointAuthorizationCodeSpotify(parameterCode)
         #Now that the Access Token has been saved to session, redirect the the landing page for this resource.
-        redirect(URL('landingPageSpotify'))
+        redirect(URL('spotify', 'index'))
     ##############################
     #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
     full_url_spotify = buildUrlToInitiateAuthorizationSpotify()
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
     return dict(message=T('Hello World'), authenticate_url_spotify=full_url_spotify)
-
-
-def landingPageSpotify():
-    customFunctions.printToLog('------------------------------------------------')
-    customFunctions.printToLog('landingPageSpotify()')
-    url = contextSensitiveFunctions.getConfigValue('Spotify','me_endpoint',db)
-    authorizationHeader = 'Bearer ' + contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'spotify')
-    headers = {'Authorization' : authorizationHeader}
-    responseDataInJson = httpFunctions.getRequest(url, None, headers)
-    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
-    authorizedUserEmailAddress = responseDataInArray['email']
-    return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
