@@ -1,6 +1,6 @@
 import customFunctions
 
-#Private function to fetch the config value specified by configValue
+#Function to fetch the config value specified by configValue
 def getConfigValue(resourceOwner = None, configSetting = None, db = None) :
     if resourceOwner is not None :
         resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
@@ -14,6 +14,11 @@ def getConfigValue(resourceOwner = None, configSetting = None, db = None) :
         customFunctions.printToLog('getConfigValue: ' + configValue)
     return configValue
 
+#Function to add the designated session variable to session.
+#Session: the session to add a variable to.
+#oAuthVariableType: designates what type of variable we are adding.
+#value: value that the variable will hold.
+#resourceOwner: designates which resource owner this variable is for, i.e. Spotify, Facebook, etc.
 def addOauthSessionVariable(session, oAuthVariableType, value, resourceOwner = None) :
 	customFunctions.printToLog('addOauthSessionVariable: oAuthVariableType: ' + str(oAuthVariableType))
 	customFunctions.printToLog('addOauthSessionVariable: resourceOwner: ' + str(resourceOwner))
@@ -33,6 +38,10 @@ def addOauthSessionVariable(session, oAuthVariableType, value, resourceOwner = N
 	else:
 		print 'error'
 
+#Function to get the designated session variable from session.
+#Session: the session to add a variable to.
+#oAuthVariableType: designates what type of variable we are adding.
+#resourceOwner: designates which resource owner this variable is for, i.e. Spotify, Facebook, etc.
 def getOauthSessionVariable(session, oAuthVariableType, resourceOwner = None) :
 	customFunctions.printToLog('getOauthSessionVariable: oAuthVariableType: ' + str(oAuthVariableType))
 	customFunctions.printToLog('getOauthSessionVariable: resourceOwner: ' + str(resourceOwner))
