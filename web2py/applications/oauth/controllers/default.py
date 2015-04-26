@@ -1,5 +1,6 @@
 #Todo: logging for the function postRequest()
 #Todo: service-enable functions in oauthFunctions module. customFunctions, contextSensitiveFunctions, and httpFunctions modules are not business logic and so don't need to be exposed as a web service.
+#Todo: move functionlity of fetching Resource Owner info to the API.
 #Todo: put a generic version of buildUrlToInitiateAuthorizationSpotify() and postToTokenEndpointAuthorizationCodeSpotify() in the contextSensitiveFunctions module that will take in a Ressource Owner name, fetch necessary configuration data from database, perform business logic, and store appropriate data to session. They will go in contextSensitiveFunctions module because they are not standalone functions - they are convenience functions.
 import customFunctions
 import contextSensitiveFunctions
