@@ -1,8 +1,9 @@
 import customFunctions
 import json
+import urllib
+import urllib2
 
 def buildFullUrl(path, parametersArray) :
-    import urllib
     full_url = path
     if parametersArray is not None:
         url_values = urllib.urlencode(parametersArray)
@@ -23,8 +24,6 @@ def convertArrayToJson(array) :
 	return jsonObject
 	
 def postRequest(url, parametersArray = None, headersArray = None) :
-    import urllib2
-    import urllib
     data = urllib.urlencode(parametersArray)
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
@@ -32,7 +31,6 @@ def postRequest(url, parametersArray = None, headersArray = None) :
     return response
 
 def getRequest(url, parametersArray = None, headersArray = None) :
-    import urllib2
     #Build the final URL and the Request object
     full_url = buildFullUrl(url, parametersArray)
     req = urllib2.Request(full_url)
