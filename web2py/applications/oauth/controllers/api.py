@@ -65,7 +65,7 @@ def postToTokenEndpointAuthorizationCode():
         return ''
     return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
 
-
+@request.restful()
 def testEndpoint():
     def GET():
         return 'abc!'
