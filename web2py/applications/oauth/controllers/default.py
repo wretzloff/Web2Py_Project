@@ -31,26 +31,25 @@ def index():
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
+    #Get configuration values
     url = contextSensitiveFunctions.getConfigValue('Spotify','authorization_endpoint',db)
     client_id = contextSensitiveFunctions.getConfigValue('Spotify','client_id',db)
     response_type = contextSensitiveFunctions.getConfigValue('Spotify','response_type',db)
     redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
     scope = contextSensitiveFunctions.getConfigValue('Spotify','scopes',db)
     show_dialog = contextSensitiveFunctions.getConfigValue('Spotify','show_dialog',db)
-    ####################################################################
+    
+    #Call the API endpoint to generate a return a URL
+    apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','buildUrlToInitiateAuthorization')
     parameterArray = {'authorization_endpoint' : url,
                       'client_id' : client_id,
                       'response_type' : response_type,
                       'oAuthRedirectUri' : redirect_uri,
                       'scopes' : scope,
                       'show_dialog' : show_dialog}
-    apiURL = httpFunctions.buildFullUrl('http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','testEndpoint'), None)
-    print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaa--'+apiURL
-    full_url_spotify_test = httpFunctions.getRequest(apiURL)
-    print 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb--' + full_url_spotify_test
-    ####################################################################
-    #Build full URL
-    full_url = oauthFunctions.buildUrlToInitiateAuthorization(url, client_id, response_type, redirect_uri, scope, show_dialog)
+    apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
+    full_url = httpFunctions.getRequest(apiURL)
+    
     return full_url
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
