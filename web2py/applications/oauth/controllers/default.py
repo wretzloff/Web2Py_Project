@@ -38,7 +38,7 @@ def buildUrlToInitiateAuthorizationSpotify() :
     scope = contextSensitiveFunctions.getConfigValue('Spotify','scopes',db)
     show_dialog = contextSensitiveFunctions.getConfigValue('Spotify','show_dialog',db)
     ####################################################################
-    apiURL = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','testEndpoint')
+    apiURL = httpFunctions.buildFullUrl('http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','testEndpoint'), None)
     print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaa--'+apiURL
     full_url_spotify_test = httpFunctions.getRequest(apiURL)
     print 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb--' + full_url_spotify_test
