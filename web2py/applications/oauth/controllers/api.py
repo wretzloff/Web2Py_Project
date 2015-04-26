@@ -1,4 +1,5 @@
 import customFunctions
+import httpFunctions
 import oauthFunctions
 
 @request.restful()
@@ -51,12 +52,11 @@ def postToTokenEndpointAuthorizationCode():
         
         #Call the function to generate the HTTP POST request and receive an array containing the response data from the Resource Owner.
         responseDataInArray = oauthFunctions.postToTokenEndpointAuthorizationCode(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
-        access_token = responseDataInArray['access_token']
-        token_type = responseDataInArray['token_type']
-        expires_in = responseDataInArray['expires_in']
-        refresh_token = responseDataInArray['refresh_token']
         
-        return 'aaa'
+        #Convert the array to a JSON object, log it, and return it to the caller.
+        jsonObject = httpFunctions.convertArrayToJson(responseDataInArray)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_secret: ' + client_secret)
+        return jsonObject
     def POST(*args,**vars):
         return ''
     def PUT(*args,**vars):
