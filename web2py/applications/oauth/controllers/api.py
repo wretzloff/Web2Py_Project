@@ -4,6 +4,7 @@ import oauthFunctions
 @request.restful()
 def buildUrlToInitiateAuthorization():
     def GET(authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes, show_dialog):
+        #Sanitize and log the inputs
         authorization_endpoint = authorization_endpoint or ''
         client_id = client_id or ''
         response_type = response_type or ''
@@ -17,9 +18,11 @@ def buildUrlToInitiateAuthorization():
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: scopes: ' + scopes)
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: show_dialog: ' + show_dialog)
         
-        return 'returnStringFrombuildUrlToInitiateAuthorizationGET'
+        #Build the url and return it to the caller
+        url = oauthFunctions.buildUrlToInitiateAuthorization(authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes, show_dialog)
+        return url
     def POST(*args,**vars):
-        return 'returnStringFrombuildUrlToInitiateAuthorizationPOST'
+        return ''
     def PUT(*args,**vars):
         return ''
     def DELETE():
