@@ -28,3 +28,16 @@ def buildUrlToInitiateAuthorization():
     def DELETE():
         return ''
     return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
+
+
+@request.restful()
+def postToTokenEndpointAuthorizationCode():
+    def GET(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret):
+        return 'aaa'
+    def POST(*args,**vars):
+        return ''
+    def PUT(*args,**vars):
+        return ''
+    def DELETE():
+        return ''
+    return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
