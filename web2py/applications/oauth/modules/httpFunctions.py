@@ -16,6 +16,13 @@ def convertJsonToArray(jsonObject) :
     pythonArray = json.loads(jsonObject)
     return pythonArray
 	
+#Helper function to take in a normal Python array and convert it to a JSON object
+def convertArrayToJson(array) :
+	import json
+	jsonObject = json.dumps(array)
+	customFunctions.printToLog('convertArrayToJson: ' + jsonObject)
+	return jsonObject
+	
 def postRequest(url, parametersArray = None, headersArray = None) :
     import urllib2
     import urllib
