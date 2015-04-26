@@ -1,4 +1,5 @@
 import customFunctions
+import json
 
 def buildFullUrl(path, parametersArray) :
     import urllib
@@ -11,14 +12,12 @@ def buildFullUrl(path, parametersArray) :
 
 #Helper function to take in a JSON object and convert it to a normal Python array	
 def convertJsonToArray(jsonObject) :
-    import json
     customFunctions.printToLog('convertJsonToArray: ' + jsonObject)
     pythonArray = json.loads(jsonObject)
     return pythonArray
 	
 #Helper function to take in a normal Python array and convert it to a JSON object
 def convertArrayToJson(array) :
-	import json
 	jsonObject = json.dumps(array)
 	customFunctions.printToLog('convertArrayToJson: ' + jsonObject)
 	return jsonObject
