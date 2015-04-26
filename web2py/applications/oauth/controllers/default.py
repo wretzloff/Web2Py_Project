@@ -6,6 +6,7 @@ import customFunctions
 import contextSensitiveFunctions
 import httpFunctions
 import oauthFunctions
+import socket
 def index():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('index()')
@@ -36,6 +37,12 @@ def buildUrlToInitiateAuthorizationSpotify() :
     redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
     scope = contextSensitiveFunctions.getConfigValue('Spotify','scopes',db)
     show_dialog = contextSensitiveFunctions.getConfigValue('Spotify','show_dialog',db)
+    ####################################################################
+    apiURL = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','testEndpoint')
+    print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaa--'+apiURL
+    full_url_spotify_test = httpFunctions.getRequest(apiURL)
+    print 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb--' + full_url_spotify_test
+    ####################################################################
     #Build full URL
     full_url = oauthFunctions.buildUrlToInitiateAuthorization(url, client_id, response_type, redirect_uri, scope, show_dialog)
     return full_url
