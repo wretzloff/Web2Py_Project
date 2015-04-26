@@ -4,13 +4,15 @@ import oauthFunctions
 @request.restful()
 def buildUrlToInitiateAuthorization():
     def GET(authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes, show_dialog):
-        #Sanitize and log the inputs
+        #Sanitize inputs
         authorization_endpoint = authorization_endpoint or ''
         client_id = client_id or ''
         response_type = response_type or ''
         oAuthRedirectUri = oAuthRedirectUri or ''
         scopes = scopes or ''
         show_dialog = show_dialog or ''
+        
+        #Log inputs
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: authorization_endpoint: ' + authorization_endpoint)
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: client_id: ' + client_id)
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: response_type: ' + response_type)
@@ -33,6 +35,27 @@ def buildUrlToInitiateAuthorization():
 @request.restful()
 def postToTokenEndpointAuthorizationCode():
     def GET(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret):
+        #Sanitize inputs
+        postUrl = postUrl or ''
+        codeParameterForPostRequest = codeParameterForPostRequest or ''
+        oAuthRedirectUri = oAuthRedirectUri or ''
+        client_id = client_id or ''
+        client_secret = client_secret or ''
+        
+        #Log inputs
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: postUrl: ' + postUrl)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: codeParameterForPostRequest: ' + codeParameterForPostRequest)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: oAuthRedirectUri: ' + oAuthRedirectUri)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_id: ' + client_id)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_secret: ' + client_secret)
+        
+        #Call the function to generate the HTTP POST request and receive an array containing the response data from the Resource Owner.
+        responseDataInArray = oauthFunctions.postToTokenEndpointAuthorizationCode(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
+        access_token = responseDataInArray['access_token']
+        token_type = responseDataInArray['token_type']
+        expires_in = responseDataInArray['expires_in']
+        refresh_token = responseDataInArray['refresh_token']
+        
         return 'aaa'
     def POST(*args,**vars):
         return ''
