@@ -1,6 +1,22 @@
 import customFunctions
 import httpFunctions
 import oauthFunctions
+import contextSensitiveFunctions
+
+@request.restful()
+def getConfigValue():
+    def GET(resourceOwner, configSetting):
+        print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+        configVal = contextSensitiveFunctions.getConfigValue(resourceOwner, configSetting, db)
+        return configVal
+    def POST(*args,**vars):
+        return ''
+    def PUT(*args,**vars):
+        return ''
+    def DELETE():
+        return ''
+    return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
+
 
 @request.restful()
 def buildUrlToInitiateAuthorization():
@@ -31,7 +47,6 @@ def buildUrlToInitiateAuthorization():
     def DELETE():
         return ''
     return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
-
 
 @request.restful()
 def postToTokenEndpointAuthorizationCode():
