@@ -54,10 +54,26 @@ def buildUrlToInitiateAuthorizationSpotify() :
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
+    #Get configuration values
     postUrl = contextSensitiveFunctions.getConfigValue('Spotify','token_endpoint',db)
     redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
     client_id = contextSensitiveFunctions.getConfigValue('Spotify','client_id',db)
     client_secret = contextSensitiveFunctions.getConfigValue('Spotify','client_secret',db)
+    ###################################################################################
+    #Call the API endpoint to send an HTTP POST request and return the response data to us.
+    apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','postToTokenEndpointAuthorizationCode')
+    parameterArray = {'postUrl' : postUrl,
+                      'codeParameterForPostRequest' : codeParameterForPostRequest,
+                      'oAuthRedirectUri' : redirect_uri,
+                      'client_id' : client_id,
+                      'client_secret' : client_secret}
+    #apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
+    #print 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' + apiURL
+    #responseDataInJson = httpFunctions.getRequest(apiURL)
+    #print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' + responseDataInJson
+    #responseDataInArray2 = httpFunctions.convertJsonToArray(responseDataInJson)
+    #print 'cccccccccccccccccccccccccccccccccccccccccccccccccccccc' + responseDataInArray['access_token']
+    ###################################################################################
     responseDataInArray = oauthFunctions.postToTokenEndpointAuthorizationCode(postUrl, codeParameterForPostRequest, redirect_uri, client_id, client_secret)
     contextSensitiveFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'spotify')
     contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'spotify')
