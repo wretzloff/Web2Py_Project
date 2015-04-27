@@ -29,6 +29,14 @@ def index():
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
+    #################################################################
+    #apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','getConfigValue')
+    #parameterArray = {'resourceOwner' : 'Spotify',
+    #                  'configSetting' : 'authorization_endpoint'}
+    #apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
+    #configValueFromApiEdpoint = httpFunctions.getRequest(apiURL)
+    #print 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ' + configValueFromApiEdpoint
+    #################################################################
     #Get configuration values
     url = contextSensitiveFunctions.getConfigValue('Spotify','authorization_endpoint',db)
     client_id = contextSensitiveFunctions.getConfigValue('Spotify','client_id',db)
