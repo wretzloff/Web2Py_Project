@@ -83,11 +83,33 @@ def buildUrlToInitiateAuthorizationSpotify() :
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
-    #Get configuration values
-    postUrl = contextSensitiveFunctions.getConfigValue('Spotify','token_endpoint',db)
-    redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
-    client_id = contextSensitiveFunctions.getConfigValue('Spotify','client_id',db)
-    client_secret = contextSensitiveFunctions.getConfigValue('Spotify','client_secret',db)
+    #Define the path to the API endpoint to fetch a configuration value
+    configValueApiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','getConfigValue')
+
+    #Get token_endpoint config value
+    parameterArray = {'resourceOwner' : 'Spotify',
+                      'configSetting' : 'token_endpoint'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    postUrl = httpFunctions.getRequest(apiURL)
+    
+    #Get the oAuthRedirectUri config value
+    parameterArray = {'resourceOwner' : None,
+                      'configSetting' : 'oAuthRedirectUri'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    redirect_uri = httpFunctions.getRequest(apiURL)
+    
+    #Get the client_id config value
+    parameterArray = {'resourceOwner' : 'Spotify',
+                      'configSetting' : 'client_id'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    client_id = httpFunctions.getRequest(apiURL)
+    
+    #Get the client_secret config value
+    parameterArray = {'resourceOwner' : 'Spotify',
+                      'configSetting' : 'client_secret'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    client_secret = httpFunctions.getRequest(apiURL)
+    
     #Call the API endpoint to send an HTTP POST request and return the response data to us.
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','postToTokenEndpointAuthorizationCode')
     parameterArray = {'postUrl' : postUrl,
