@@ -16,7 +16,17 @@ def getConfigValue():
         customFunctions.printToLog('getConfigValue GET: resourceOwner: ' + resourceOwner)
         customFunctions.printToLog('getConfigValue GET: configSetting: ' + configSetting)
         #Get the config value and and return it to the caller
-        configVal = contextSensitiveFunctions.getConfigValue(resourceOwner2, configSetting, db)
+        #configVal = contextSensitiveFunctions.getConfigValue(resourceOwner2, configSetting, db)
+        ##################################################################################################
+        if resourceOwner2 is not None :
+            resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner2).select()
+            resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
+            configVal = resourceOwnerConfigFirstResult[configSetting]
+        else:
+            configValueQueryResults = db(db.config.config_setting == configSetting).select()
+            configValueFirstResult = configValueQueryResults[0]
+            configVal = configValueFirstResult.config_value
+        ##################################################################################################
         customFunctions.printToLog('getConfigValue GET: configVal: ' + configVal)
         return configVal
     def POST(*args,**vars):
