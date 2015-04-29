@@ -52,7 +52,7 @@ def buildUrlToInitiateAuthorization():
 
 @request.restful()
 def postToTokenEndpointAuthorizationCode():
-    def GET(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret):
+    def GET(resourceOwner, postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret):
         #Sanitize inputs
         postUrl = postUrl or ''
         codeParameterForPostRequest = codeParameterForPostRequest or ''
