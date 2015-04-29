@@ -27,21 +27,20 @@ def getConfigValue():
 def buildUrlToInitiateAuthorization():
     def GET(resourceOwner, oAuthRedirectUri):
         #Fetch this Resource Owner's configuration values
-        authorization_endpoint2 = getConfigValueHelper(resourceOwner, 'authorization_endpoint')
-        client_id2 = getConfigValueHelper(resourceOwner, 'client_id')
-        response_type2 = getConfigValueHelper(resourceOwner, 'response_type')
-        scopes2 = getConfigValueHelper(resourceOwner, 'scopes')
-        show_dialog2 = getConfigValueHelper(resourceOwner, 'show_dialog')
+        authorization_endpoint = getConfigValueHelper(resourceOwner, 'authorization_endpoint')
+        client_id = getConfigValueHelper(resourceOwner, 'client_id')
+        response_type = getConfigValueHelper(resourceOwner, 'response_type')
+        scopes = getConfigValueHelper(resourceOwner, 'scopes')
+        show_dialog = getConfigValueHelper(resourceOwner, 'show_dialog')
         #Log inputs
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: authorization_endpoint: ' + authorization_endpoint2)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: client_id: ' + client_id2)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: response_type: ' + response_type2)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: authorization_endpoint: ' + authorization_endpoint)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: client_id: ' + client_id)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: response_type: ' + response_type)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: scopes: ' + scopes)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: show_dialog: ' + show_dialog)
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: oAuthRedirectUri: ' + oAuthRedirectUri)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: scopes: ' + scopes2)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: show_dialog: ' + show_dialog2)
-        
         #Build the url and return it to the caller
-        url = oauthFunctions.buildUrlToInitiateAuthorization(authorization_endpoint2,client_id2, response_type2, oAuthRedirectUri, scopes2, show_dialog2)
+        url = oauthFunctions.buildUrlToInitiateAuthorization(authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes, show_dialog)
         return url
     def POST(*args,**vars):
         return ''
