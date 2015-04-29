@@ -29,17 +29,22 @@ def index():
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
-    #################################################################
-    #apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','getConfigValue')
-    #parameterArray = {'resourceOwner' : 'Spotify',
-    #                  'configSetting' : 'authorization_endpoint'}
-    #apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
-    #configValueFromApiEdpoint = httpFunctions.getRequest(apiURL)
-    #print 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ' + configValueFromApiEdpoint
-    #################################################################
+    #Define the path to the API endpoint to fetch a configuration value
+    configValueApiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','getConfigValue')
+    
+    #Get authorization_endpoint config value
+    parameterArray = {'resourceOwner' : 'Spotify',
+                      'configSetting' : 'authorization_endpoint'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    url = httpFunctions.getRequest(apiURL)
+    
+    #Get the client_id config value
+    parameterArray = {'resourceOwner' : 'Spotify',
+                      'configSetting' : 'client_id'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    client_id = httpFunctions.getRequest(apiURL)
+    
     #Get configuration values
-    url = contextSensitiveFunctions.getConfigValue('Spotify','authorization_endpoint',db)
-    client_id = contextSensitiveFunctions.getConfigValue('Spotify','client_id',db)
     response_type = contextSensitiveFunctions.getConfigValue('Spotify','response_type',db)
     redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
     scope = contextSensitiveFunctions.getConfigValue('Spotify','scopes',db)
