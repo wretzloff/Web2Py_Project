@@ -25,7 +25,7 @@ def getConfigValue():
 
 @request.restful()
 def buildUrlToInitiateAuthorization():
-    def GET(resourceOwner, authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes, show_dialog):
+    def GET(resourceOwner, oAuthRedirectUri):
         #Fetch this Resource Owner's configuration values
         authorization_endpoint2 = getConfigValueHelper(resourceOwner, 'authorization_endpoint')
         client_id2 = getConfigValueHelper(resourceOwner, 'client_id')

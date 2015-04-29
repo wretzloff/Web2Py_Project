@@ -72,12 +72,7 @@ def buildUrlToInitiateAuthorizationSpotify() :
     #Call the API endpoint to generate a return a URL
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','buildUrlToInitiateAuthorization')
     parameterArray = {'resourceOwner' : 'Spotify',
-                      'authorization_endpoint' : url,
-                      'client_id' : client_id,
-                      'response_type' : response_type,
-                      'oAuthRedirectUri' : redirect_uri,
-                      'scopes' : scope,
-                      'show_dialog' : show_dialog}
+                      'oAuthRedirectUri' : redirect_uri}
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
     full_url = httpFunctions.getRequest(apiURL)
     return full_url
