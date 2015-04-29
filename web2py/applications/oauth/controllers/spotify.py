@@ -1,10 +1,21 @@
 import customFunctions
 import contextSensitiveFunctions
 import httpFunctions
+import socket
 def index():
     customFunctions.printToLog('------------------------------------------------')
     customFunctions.printToLog('landingPageSpotify()')
-    url = contextSensitiveFunctions.getConfigValue('Spotify','me_endpoint',db)
+    
+    #Define the path to the API endpoint to fetch a configuration value
+    configValueApiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','getConfigValue')
+    
+    #Get me_endpoint config value
+    parameterArray = {'resourceOwner' : 'Spotify',
+                      'configSetting' : 'me_endpoint'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    url = httpFunctions.getRequest(apiURL)
+    
+    
     authorizationHeader = 'Bearer ' + contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'spotify')
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = httpFunctions.getRequest(url, None, headers)
