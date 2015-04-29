@@ -10,8 +10,8 @@ def getConfigValue():
         resourceOwner = resourceOwner or ''
         configSetting = configSetting or ''
         #Log inputs
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: resourceOwner: ' + resourceOwner)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: configSetting: ' + configSetting)
+        customFunctions.printToLog('getConfigValue GET: resourceOwner: ' + resourceOwner)
+        customFunctions.printToLog('getConfigValue GET: configSetting: ' + configSetting)
         #Get the config value and and return it to the caller
         configVal = contextSensitiveFunctions.getConfigValue(resourceOwner, configSetting, db)
         return configVal
