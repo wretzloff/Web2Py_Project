@@ -10,14 +10,7 @@ def getConfigValue():
         customFunctions.printToLog('getConfigValue GET: resourceOwner: ' + resourceOwner)
         customFunctions.printToLog('getConfigValue GET: configSetting: ' + configSetting)
         #Get the config value
-        if resourceOwner != 'None' :
-            resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
-            resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
-            configVal = resourceOwnerConfigFirstResult[configSetting]
-        else:
-            configValueQueryResults = db(db.config.config_setting == configSetting).select()
-            configValueFirstResult = configValueQueryResults[0]
-            configVal = configValueFirstResult.config_value
+        configVal = getConfigValueHelper(resourceOwner, configSetting)
         #Log the result and return it to the caller
         customFunctions.printToLog('getConfigValue GET: configVal: ' + configVal)
         return configVal
@@ -33,13 +26,6 @@ def getConfigValue():
 @request.restful()
 def buildUrlToInitiateAuthorization():
     def GET(authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes, show_dialog):
-        #Sanitize inputs
-        authorization_endpoint = authorization_endpoint or ''
-        client_id = client_id or ''
-        response_type = response_type or ''
-        oAuthRedirectUri = oAuthRedirectUri or ''
-        scopes = scopes or ''
-        show_dialog = show_dialog or ''
         
         #Log inputs
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: authorization_endpoint: ' + authorization_endpoint)
@@ -103,3 +89,15 @@ def testEndpoint():
     def DELETE():
         return ''
     return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
+
+#Helper function to fetch a config value
+def getConfigValueHelper(resourceOwner, configSetting):
+    if resourceOwner != 'None' :
+        resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
+        resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
+        configVal = resourceOwnerConfigFirstResult[configSetting]
+    else:
+        configValueQueryResults = db(db.config.config_setting == configSetting).select()
+        configValueFirstResult = configValueQueryResults[0]
+        configVal = configValueFirstResult.config_value
+    return configVal
