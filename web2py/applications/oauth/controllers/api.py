@@ -25,8 +25,7 @@ def getConfigValue():
 
 @request.restful()
 def buildUrlToInitiateAuthorization():
-    def GET(authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes, show_dialog):
-        
+    def GET(resourceOwner, authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes, show_dialog):
         #Log inputs
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: authorization_endpoint: ' + authorization_endpoint)
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: client_id: ' + client_id)
