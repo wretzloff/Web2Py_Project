@@ -6,27 +6,19 @@ import contextSensitiveFunctions
 @request.restful()
 def getConfigValue():
     def GET(resourceOwner, configSetting):
-        #Sanitize inputs
-        if resourceOwner == 'None':
-            resourceOwner2 = None
-        else:
-            resourceOwner2 = resourceOwner
-        configSetting = configSetting or ''
         #Log inputs
         customFunctions.printToLog('getConfigValue GET: resourceOwner: ' + resourceOwner)
         customFunctions.printToLog('getConfigValue GET: configSetting: ' + configSetting)
-        #Get the config value and and return it to the caller
-        #configVal = contextSensitiveFunctions.getConfigValue(resourceOwner2, configSetting, db)
-        ##################################################################################################
-        if resourceOwner2 is not None :
-            resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner2).select()
+        #Get the config value
+        if resourceOwner != 'None' :
+            resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
             resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
             configVal = resourceOwnerConfigFirstResult[configSetting]
         else:
             configValueQueryResults = db(db.config.config_setting == configSetting).select()
             configValueFirstResult = configValueQueryResults[0]
             configVal = configValueFirstResult.config_value
-        ##################################################################################################
+        #Log the result and return it to the caller
         customFunctions.printToLog('getConfigValue GET: configVal: ' + configVal)
         return configVal
     def POST(*args,**vars):
