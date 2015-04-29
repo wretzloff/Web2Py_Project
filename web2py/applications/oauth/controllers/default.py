@@ -30,44 +30,9 @@ def index():
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
-    #Define the path to the API endpoint to fetch a configuration value
-    configValueApiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','getConfigValue')
-    
-    #Get authorization_endpoint config value
-    parameterArray = {'resourceOwner' : 'Spotify',
-                      'configSetting' : 'authorization_endpoint'}
-    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
-    url = httpFunctions.getRequest(apiURL)
-    
-    #Get the client_id config value
-    parameterArray = {'resourceOwner' : 'Spotify',
-                      'configSetting' : 'client_id'}
-    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
-    client_id = httpFunctions.getRequest(apiURL)
-    
-    #Get the response_type config value
-    parameterArray = {'resourceOwner' : 'Spotify',
-                      'configSetting' : 'response_type'}
-    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
-    response_type = httpFunctions.getRequest(apiURL)
-    
-    #Get the oAuthRedirectUri config value
-    parameterArray = {'resourceOwner' : None,
-                      'configSetting' : 'oAuthRedirectUri'}
-    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
-    redirect_uri = httpFunctions.getRequest(apiURL)
-    
-    #Get the scopes config value
-    parameterArray = {'resourceOwner' : 'Spotify',
-                      'configSetting' : 'scopes'}
-    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
-    scope = httpFunctions.getRequest(apiURL)
-    
-     #Get the show_dialog config value
-    parameterArray = {'resourceOwner' : 'Spotify',
-                      'configSetting' : 'show_dialog'}
-    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
-    show_dialog = httpFunctions.getRequest(apiURL)
+    #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
+    redirect_uri = 'http://127.0.0.1:8000/oauth'
+    #redirect_uri = 'http://127.0.0.1:8000' + URL(None,'oauth',None)
     
     #Call the API endpoint to generate a return a URL
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','buildUrlToInitiateAuthorization')
