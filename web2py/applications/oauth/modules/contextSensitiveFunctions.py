@@ -1,19 +1,5 @@
 import customFunctions
 
-#Function to fetch the config value specified by configValue
-def getConfigValue(resourceOwner = None, configSetting = None, db = None) :
-    if resourceOwner is not None :
-        resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
-        resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
-        configValue = resourceOwnerConfigFirstResult[configSetting]
-        customFunctions.printToLog('getConfigValue: ' + configValue)
-    else:
-        configValueQueryResults = db(db.config.config_setting == configSetting).select()
-        configValueFirstResult = configValueQueryResults[0]
-        configValue = configValueFirstResult.config_value
-        customFunctions.printToLog('getConfigValue: ' + configValue)
-    return configValue
-
 #Function to add the designated session variable to session.
 #Session: the session to add a variable to.
 #oAuthVariableType: designates what type of variable we are adding.
