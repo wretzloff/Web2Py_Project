@@ -57,10 +57,18 @@ def buildUrlToInitiateAuthorizationSpotify() :
     apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
     redirect_uri = httpFunctions.getRequest(apiURL)
     
-    #Get configuration values
-    #redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
-    scope = contextSensitiveFunctions.getConfigValue('Spotify','scopes',db)
-    show_dialog = contextSensitiveFunctions.getConfigValue('Spotify','show_dialog',db)
+    #Get the scopes config value
+    parameterArray = {'resourceOwner' : 'Spotify',
+                      'configSetting' : 'scopes'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    scope = httpFunctions.getRequest(apiURL)
+    
+     #Get the show_dialog config value
+    parameterArray = {'resourceOwner' : 'Spotify',
+                      'configSetting' : 'show_dialog'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    show_dialog = httpFunctions.getRequest(apiURL)
+    
     #Call the API endpoint to generate a return a URL
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','buildUrlToInitiateAuthorization')
     parameterArray = {'authorization_endpoint' : url,
