@@ -1,4 +1,4 @@
-#Todo: more elegant solution needed in getConfigValue() API endpoint.
+#Todo: buildUrlToInitiateAuthorizationSpotify(): find a better way to generate the redirect_uri than hardcoding.
 #Todo: logging for the function postRequest()
 #Todo: move functionlity of fetching Resource Owner info to the API.
 #Todo: put a generic version of buildUrlToInitiateAuthorizationSpotify() and postToTokenEndpointAuthorizationCodeSpotify() in the contextSensitiveFunctions module that will take in a Ressource Owner name, fetch necessary configuration data from database, perform business logic, and store appropriate data to session. They will go in contextSensitiveFunctions module because they are not standalone functions - they are convenience functions.
