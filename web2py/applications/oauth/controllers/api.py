@@ -7,13 +7,17 @@ import contextSensitiveFunctions
 def getConfigValue():
     def GET(resourceOwner, configSetting):
         #Sanitize inputs
-        resourceOwner = resourceOwner or ''
+        if resourceOwner == 'None':
+            resourceOwner2 = None
+        else:
+            resourceOwner2 = resourceOwner
         configSetting = configSetting or ''
         #Log inputs
         customFunctions.printToLog('getConfigValue GET: resourceOwner: ' + resourceOwner)
         customFunctions.printToLog('getConfigValue GET: configSetting: ' + configSetting)
         #Get the config value and and return it to the caller
-        configVal = contextSensitiveFunctions.getConfigValue(resourceOwner, configSetting, db)
+        configVal = contextSensitiveFunctions.getConfigValue(resourceOwner2, configSetting, db)
+        customFunctions.printToLog('getConfigValue GET: configVal: ' + configVal)
         return configVal
     def POST(*args,**vars):
         return ''
