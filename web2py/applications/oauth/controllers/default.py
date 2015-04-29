@@ -1,3 +1,4 @@
+#Todo: more elegant solution needed in getConfigValue() API endpoint.
 #Todo: logging for the function postRequest()
 #Todo: move functionlity of fetching Resource Owner info to the API.
 #Todo: put a generic version of buildUrlToInitiateAuthorizationSpotify() and postToTokenEndpointAuthorizationCodeSpotify() in the contextSensitiveFunctions module that will take in a Ressource Owner name, fetch necessary configuration data from database, perform business logic, and store appropriate data to session. They will go in contextSensitiveFunctions module because they are not standalone functions - they are convenience functions.
@@ -50,8 +51,14 @@ def buildUrlToInitiateAuthorizationSpotify() :
     apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
     response_type = httpFunctions.getRequest(apiURL)
     
+    #Get the oAuthRedirectUri config value
+    parameterArray = {'resourceOwner' : None,
+                      'configSetting' : 'oAuthRedirectUri'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    redirect_uri = httpFunctions.getRequest(apiURL)
+    
     #Get configuration values
-    redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
+    #redirect_uri = contextSensitiveFunctions.getConfigValue(None,'oAuthRedirectUri',db)
     scope = contextSensitiveFunctions.getConfigValue('Spotify','scopes',db)
     show_dialog = contextSensitiveFunctions.getConfigValue('Spotify','show_dialog',db)
     #Call the API endpoint to generate a return a URL
