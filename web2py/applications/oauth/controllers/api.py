@@ -39,8 +39,15 @@ def buildUrlToInitiateAuthorization():
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: scopes: ' + scopes)
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: show_dialog: ' + show_dialog)
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: oAuthRedirectUri: ' + oAuthRedirectUri)
-        #Build the url and return it to the caller
-        url = oauthFunctions.buildUrlToInitiateAuthorization(authorization_endpoint,client_id, response_type, oAuthRedirectUri, scopes, show_dialog)
+        #Build the url
+        data = {}
+        data['client_id'] = client_id
+        data['response_type'] = response_type
+        data['redirect_uri'] = oAuthRedirectUri
+        data['scope'] = scopes
+        data['show_dialog'] = show_dialog
+        url = httpFunctions.buildFullUrl(authorization_endpoint, data)
+        #Return the url to caller
         return url
     def POST(*args,**vars):
         return ''
