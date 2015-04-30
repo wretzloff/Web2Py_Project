@@ -73,7 +73,7 @@ def postToTokenEndpointAuthorizationCode():
         customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: oAuthRedirectUri: ' + oAuthRedirectUri)
         
         #Call the function to generate the HTTP POST request and receive an array containing the response data from the Resource Owner.
-        responseDataInArray = oauthFunctions.postToTokenEndpoint(postUrl, 'authorization_code', codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
+        responseDataInArray = postToTokenEndpointHelper(postUrl, 'authorization_code', codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
         
         #Convert the array to a JSON object, log it, and return it to the caller.
         jsonObject = httpFunctions.convertArrayToJson(responseDataInArray)
@@ -110,3 +110,18 @@ def getConfigValueHelper(resourceOwner, configSetting):
         configValueFirstResult = configValueQueryResults[0]
         configVal = configValueFirstResult.config_value
     return configVal
+
+#Helper function to send an HTTP POST request to the /token endpoint
+def postToTokenEndpointHelper(postUrl, grantType, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret) :
+    requestBodyParameters = {'grant_type' : grantType,
+                             'code' : codeParameterForPostRequest,
+                             'redirect_uri' : oAuthRedirectUri,
+                             'client_id' : client_id,
+                             'client_secret' : client_secret}
+    #Call the function to send the HTTP POST and get the response
+    responseFromPost = httpFunctions.postRequest(postUrl, requestBodyParameters)
+    #Parse the response and return the data to the caller.
+    responseDataInJson = responseFromPost.read()
+    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
+    customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
+    return responseDataInArray
