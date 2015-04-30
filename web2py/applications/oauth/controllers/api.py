@@ -61,19 +61,19 @@ def buildUrlToInitiateAuthorization():
 def postToTokenEndpointAuthorizationCode():
     def GET(resourceOwner, codeParameterForPostRequest, oAuthRedirectUri):
         #Fetch this Resource Owner's configuration values
-        postUrl2 = getConfigValueHelper(resourceOwner, 'token_endpoint')
-        client_id2 = getConfigValueHelper(resourceOwner, 'client_id')
-        client_secret2 = getConfigValueHelper(resourceOwner, 'client_secret')
+        postUrl = getConfigValueHelper(resourceOwner, 'token_endpoint')
+        client_id = getConfigValueHelper(resourceOwner, 'client_id')
+        client_secret = getConfigValueHelper(resourceOwner, 'client_secret')
         
         #Log inputs
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: postUrl: ' + postUrl2)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: postUrl: ' + postUrl)
         customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: codeParameterForPostRequest: ' + codeParameterForPostRequest)
         customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: oAuthRedirectUri: ' + oAuthRedirectUri)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_id: ' + client_id2)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_secret: ' + client_secret2)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_id: ' + client_id)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_secret: ' + client_secret)
         
         #Call the function to generate the HTTP POST request and receive an array containing the response data from the Resource Owner.
-        responseDataInArray = oauthFunctions.postToTokenEndpointAuthorizationCode(postUrl2, codeParameterForPostRequest, oAuthRedirectUri, client_id2, client_secret2)
+        responseDataInArray = oauthFunctions.postToTokenEndpointAuthorizationCode(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
         
         #Convert the array to a JSON object, log it, and return it to the caller.
         jsonObject = httpFunctions.convertArrayToJson(responseDataInArray)
