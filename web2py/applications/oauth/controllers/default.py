@@ -1,4 +1,4 @@
-#Todo: buildUrlToInitiateAuthorizationSpotify(): find a better way to generate the redirect_uri than hardcoding.
+#Todo: getRedirectUri(): find a better way to generate the redirect_uri than hardcoding.
 #Todo: logging for the function postRequest()
 #Todo: move functionlity of fetching Resource Owner info to the API.
 #Todo: put a generic version of buildUrlToInitiateAuthorizationSpotify() and postToTokenEndpointAuthorizationCodeSpotify() in the contextSensitiveFunctions module that will take in a Ressource Owner name, fetch necessary configuration data from database, perform business logic, and store appropriate data to session. They will go in contextSensitiveFunctions module because they are not standalone functions - they are convenience functions.
@@ -31,8 +31,7 @@ def index():
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
-    #redirect_uri = 'http://127.0.0.1:8000' + URL(None,'oauth',None) #Be sure not to hardcode "oauth", because the name of the project might change. Try to dunamically find the name of the project.
-    redirect_uri = 'http://127.0.0.1:8000/oauth'
+    redirect_uri = getRedirectUri()
     
     #Call the API endpoint to generate a return a URL
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','buildUrlToInitiateAuthorization')
@@ -45,7 +44,7 @@ def buildUrlToInitiateAuthorizationSpotify() :
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
-    redirect_uri = 'http://127.0.0.1:8000/oauth'
+    redirect_uri = getRedirectUri()
     
     #Call the API endpoint to send an HTTP POST request and return the response data to us.
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','postToTokenEndpointAuthorizationCode')
@@ -61,3 +60,8 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'spotify')
     contextSensitiveFunctions.addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], 'spotify')
     contextSensitiveFunctions.addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], 'spotify')
+
+def getRedirectUri() :
+    #Be sure not to hardcode "oauth", because the name of the project might change. Try to dunamically find the name of the project.
+    #return 'http://127.0.0.1:8000' + URL(None,'oauth',None) 
+    return 'http://127.0.0.1:8000/oauth'
