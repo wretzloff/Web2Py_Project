@@ -34,7 +34,6 @@ def buildUrlToInitiateAuthorizationSpotify() :
     #redirect_uri = 'http://127.0.0.1:8000' + URL(None,'oauth',None) #Be sure not to hardcode "oauth", because the name of the project might change. Try to dunamically find the name of the project.
     redirect_uri = 'http://127.0.0.1:8000/oauth'
     
-    
     #Call the API endpoint to generate a return a URL
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','buildUrlToInitiateAuthorization')
     parameterArray = {'resourceOwner' : 'Spotify',
@@ -45,14 +44,8 @@ def buildUrlToInitiateAuthorizationSpotify() :
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
-    #Define the path to the API endpoint to fetch a configuration value
-    configValueApiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','getConfigValue')
-
-    #Get the oAuthRedirectUri config value
-    parameterArray = {'resourceOwner' : None,
-                      'configSetting' : 'oAuthRedirectUri'}
-    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
-    redirect_uri = httpFunctions.getRequest(apiURL)
+    #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
+    redirect_uri = 'http://127.0.0.1:8000/oauth'
     
     #Call the API endpoint to send an HTTP POST request and return the response data to us.
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','postToTokenEndpointAuthorizationCode')
