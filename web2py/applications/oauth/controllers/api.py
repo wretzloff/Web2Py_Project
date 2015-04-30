@@ -1,6 +1,5 @@
 import customFunctions
 import httpFunctions
-import oauthFunctions
 import contextSensitiveFunctions
 
 @request.restful()
