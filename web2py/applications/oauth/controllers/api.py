@@ -73,7 +73,8 @@ def postToTokenEndpointAuthorizationCode():
         customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: oAuthRedirectUri: ' + oAuthRedirectUri)
         
         #Call the function to generate the HTTP POST request and receive an array containing the response data from the Resource Owner.
-        responseDataInArray = oauthFunctions.postToTokenEndpointAuthorizationCode(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
+        #responseDataInArray = oauthFunctions.postToTokenEndpointAuthorizationCode(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
+        responseDataInArray = oauthFunctions.postToTokenEndpoint(postUrl, 'authorization_code', codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
         
         #Convert the array to a JSON object, log it, and return it to the caller.
         jsonObject = httpFunctions.convertArrayToJson(responseDataInArray)

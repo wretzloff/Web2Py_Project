@@ -1,10 +1,7 @@
 import customFunctions
 import httpFunctions
 	
-#Helper function to send an HTTP POST request to the /token endpoint using the 'authorization_code' Grant Type.
-def postToTokenEndpointAuthorizationCode(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret) :
-	return postToTokenEndpoint(postUrl, 'authorization_code', codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
-	
+
 #Helper function to send an HTTP POST request to the /token endpoint
 def postToTokenEndpoint(postUrl, grantType, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret) :
     requestBodyParameters = {'grant_type' : grantType,
