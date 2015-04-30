@@ -43,9 +43,9 @@ def buildUrlToInitiateAuthorization():
         data = {}
         data['client_id'] = client_id
         data['response_type'] = response_type
-        data['redirect_uri'] = oAuthRedirectUri
         data['scope'] = scopes
         data['show_dialog'] = show_dialog
+        data['redirect_uri'] = oAuthRedirectUri
         url = httpFunctions.buildFullUrl(authorization_endpoint, data)
         #Return the url to caller
         return url
@@ -67,10 +67,10 @@ def postToTokenEndpointAuthorizationCode():
         
         #Log inputs
         customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: postUrl: ' + postUrl)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: codeParameterForPostRequest: ' + codeParameterForPostRequest)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: oAuthRedirectUri: ' + oAuthRedirectUri)
         customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_id: ' + client_id)
         customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_secret: ' + client_secret)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: codeParameterForPostRequest: ' + codeParameterForPostRequest)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: oAuthRedirectUri: ' + oAuthRedirectUri)
         
         #Call the function to generate the HTTP POST request and receive an array containing the response data from the Resource Owner.
         responseDataInArray = oauthFunctions.postToTokenEndpointAuthorizationCode(postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
