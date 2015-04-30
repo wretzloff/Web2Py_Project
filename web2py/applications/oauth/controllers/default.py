@@ -75,11 +75,8 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     #Call the API endpoint to send an HTTP POST request and return the response data to us.
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','postToTokenEndpointAuthorizationCode')
     parameterArray = {'resourceOwner' : 'Spotify',
-                      'postUrl' : postUrl,
                       'codeParameterForPostRequest' : codeParameterForPostRequest,
-                      'oAuthRedirectUri' : redirect_uri,
-                      'client_id' : client_id,
-                      'client_secret' : client_secret}
+                      'oAuthRedirectUri' : redirect_uri}
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
     responseDataInJson = httpFunctions.getRequest(apiURL)
     #Convert JSON string to an array

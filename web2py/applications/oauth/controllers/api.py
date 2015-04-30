@@ -52,7 +52,7 @@ def buildUrlToInitiateAuthorization():
 
 @request.restful()
 def postToTokenEndpointAuthorizationCode():
-    def GET(resourceOwner, postUrl, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret):
+    def GET(resourceOwner, codeParameterForPostRequest, oAuthRedirectUri):
         #Fetch this Resource Owner's configuration values
         postUrl2 = getConfigValueHelper(resourceOwner, 'token_endpoint')
         client_id2 = getConfigValueHelper(resourceOwner, 'client_id')
@@ -70,7 +70,7 @@ def postToTokenEndpointAuthorizationCode():
         
         #Convert the array to a JSON object, log it, and return it to the caller.
         jsonObject = httpFunctions.convertArrayToJson(responseDataInArray)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_secret: ' + client_secret)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: jsonObject: ' + jsonObject)
         return jsonObject
     def POST(*args,**vars):
         return ''
