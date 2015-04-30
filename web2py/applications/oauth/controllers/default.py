@@ -31,8 +31,9 @@ def index():
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
+    #redirect_uri = 'http://127.0.0.1:8000' + URL(None,'oauth',None) #Be sure not to hardcode "oauth", because the name of the project might change. Try to dunamically find the name of the project.
     redirect_uri = 'http://127.0.0.1:8000/oauth'
-    #redirect_uri = 'http://127.0.0.1:8000' + URL(None,'oauth',None)
+    
     
     #Call the API endpoint to generate a return a URL
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','buildUrlToInitiateAuthorization')
