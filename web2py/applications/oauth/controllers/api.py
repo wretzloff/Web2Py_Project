@@ -1,6 +1,5 @@
 import customFunctions
 import httpFunctions
-import contextSensitiveFunctions
 
 @request.restful()
 def getConfigValue():
