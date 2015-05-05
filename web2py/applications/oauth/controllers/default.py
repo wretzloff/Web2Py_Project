@@ -1,3 +1,4 @@
+#Todo: comprehensive error handling
 #Todo: getRedirectUri(): find a better way to generate the redirect_uri than hardcoding.
 #Todo: logging for the function postRequest()
 #Todo: move functionlity of fetching Resource Owner info to the API.
@@ -7,17 +8,17 @@ import contextSensitiveFunctions
 import httpFunctions
 import socket
 def index():
-    customFunctions.printToLog('------------------------------------------------')
-    customFunctions.printToLog('index()')
+    customFunctions.printToLog('------------------------------------------------', 0)
+    customFunctions.printToLog('index()', 0)
     ##############################
     #If we have a parameter 'code', that means we've been redirected to this page from the "authorize" endpoint.
     parameterCode = request.vars['code']
     parameterError = request.vars['error']
     if parameterError is not None:
-        customFunctions.printToLog('URL parameter \'error\': ' + parameterError)
+        customFunctions.printToLog('URL parameter \'error\': ' + parameterError, 1)
     elif parameterCode is not None:
         #Generate an HTTP POST to the "token" endpoint and save the results to the session.
-        customFunctions.printToLog('URL parameter \'code\': ' + parameterCode)
+        customFunctions.printToLog('URL parameter \'code\': ' + parameterCode, 1)
         postToTokenEndpointAuthorizationCodeSpotify(parameterCode)
         #Now that the Access Token has been saved to session, redirect the the landing page for this resource.
         redirect(URL('spotify', 'index'))
