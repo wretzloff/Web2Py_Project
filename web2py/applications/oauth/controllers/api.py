@@ -5,12 +5,12 @@ import httpFunctions
 def getConfigValue():
     def GET(resourceOwner, configSetting):
         #Log inputs
-        customFunctions.printToLog('getConfigValue GET: resourceOwner: ' + resourceOwner)
-        customFunctions.printToLog('getConfigValue GET: configSetting: ' + configSetting)
+        customFunctions.printToLog('getConfigValue GET: resourceOwner: ' + resourceOwner, 0)
+        customFunctions.printToLog('getConfigValue GET: configSetting: ' + configSetting, 0)
         #Get the config value
         configVal = getConfigValueHelper(resourceOwner, configSetting)
         #Log the result and return it to the caller
-        customFunctions.printToLog('getConfigValue GET: configVal: ' + configVal)
+        customFunctions.printToLog('getConfigValue GET: configVal: ' + configVal, 1)
         return configVal
     def POST(*args,**vars):
         return ''
@@ -31,12 +31,12 @@ def buildUrlToInitiateAuthorization():
         scopes = getConfigValueHelper(resourceOwner, 'scopes')
         show_dialog = getConfigValueHelper(resourceOwner, 'show_dialog')
         #Log inputs
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: authorization_endpoint: ' + authorization_endpoint)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: client_id: ' + client_id)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: response_type: ' + response_type)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: scopes: ' + scopes)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: show_dialog: ' + show_dialog)
-        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: oAuthRedirectUri: ' + oAuthRedirectUri)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: authorization_endpoint: ' + authorization_endpoint, 0)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: client_id: ' + client_id, 0)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: response_type: ' + response_type, 0)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: scopes: ' + scopes, 0)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: show_dialog: ' + show_dialog, 0)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: oAuthRedirectUri: ' + oAuthRedirectUri, 0)
         #Build the url
         data = {}
         data['client_id'] = client_id
@@ -45,6 +45,7 @@ def buildUrlToInitiateAuthorization():
         data['show_dialog'] = show_dialog
         data['redirect_uri'] = oAuthRedirectUri
         url = httpFunctions.buildFullUrl(authorization_endpoint, data)
+        customFunctions.printToLog('buildUrlToInitiateAuthorization GET: url: ' + oAuthRedirectUri, 1)
         #Return the url to caller
         return url
     def POST(*args,**vars):
@@ -64,18 +65,18 @@ def postToTokenEndpointAuthorizationCode():
         client_secret = getConfigValueHelper(resourceOwner, 'client_secret')
         
         #Log inputs
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: postUrl: ' + postUrl)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_id: ' + client_id)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_secret: ' + client_secret)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: codeParameterForPostRequest: ' + codeParameterForPostRequest)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: oAuthRedirectUri: ' + oAuthRedirectUri)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: postUrl: ' + postUrl, 0)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_id: ' + client_id, 0)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: client_secret: ' + client_secret, 0)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: codeParameterForPostRequest: ' + codeParameterForPostRequest, 0)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: oAuthRedirectUri: ' + oAuthRedirectUri, 0)
         
         #Call the function to generate the HTTP POST request and receive an array containing the response data from the Resource Owner.
         responseDataInArray = postToTokenEndpointHelper(postUrl, 'authorization_code', codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret)
         
         #Convert the array to a JSON object, log it, and return it to the caller.
         jsonObject = httpFunctions.convertArrayToJson(responseDataInArray)
-        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: jsonObject: ' + jsonObject)
+        customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: jsonObject: ' + jsonObject, 1)
         return jsonObject
     def POST(*args,**vars):
         return ''
@@ -121,5 +122,5 @@ def postToTokenEndpointHelper(postUrl, grantType, codeParameterForPostRequest, o
     #Parse the response and return the data to the caller.
     responseDataInJson = responseFromPost.read()
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
-    customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray))
+    customFunctions.printToLog('postToTokenEndpointSpotify: ' + str(responseDataInArray), 1)
     return responseDataInArray
