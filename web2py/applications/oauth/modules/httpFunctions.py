@@ -24,10 +24,12 @@ def convertArrayToJson(array) :
 	return jsonObject
 	
 def postRequest(url, parametersArray = None, headersArray = None) :
+    customFunctions.printToLog('postRequest: url: ' + url, 0)
+    for key, value in parametersArray.iteritems():
+        customFunctions.printToLog('postRequest: parametersArray: ' + key + ': ' + value, 0)
     data = urllib.urlencode(parametersArray)
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
-    customFunctions.printToLog('postRequest: todo: log POST response body here', 1)
     return response
 
 def getRequest(url, parametersArray = None, headersArray = None) :
@@ -42,5 +44,5 @@ def getRequest(url, parametersArray = None, headersArray = None) :
     #Send the request and get the response
     response = urllib2.urlopen(req)
     responseData = response.read()
-    customFunctions.printToLog('\t getRequest: ' + responseData, 1)
+    customFunctions.printToLog('getRequest: ' + responseData, 1)
     return responseData
