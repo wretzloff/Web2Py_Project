@@ -24,9 +24,15 @@ def convertArrayToJson(array) :
 	return jsonObject
 	
 def postRequest(url, parametersArray = None, headersArray = None) :
-    customFunctions.printToLog('postRequest: url: ' + url, 0)
-    for key, value in parametersArray.iteritems():
-        customFunctions.printToLog('postRequest: parametersArray: ' + key + ': ' + value, 0)
+    #Logging
+    if parametersArray is not None:
+        for key, value in parametersArray.iteritems():
+            customFunctions.printToLog('postRequest: parametersArray: ' + key + ': ' + value, 0)
+    if headersArray is not None:
+        for key, value in headersArray.iteritems():
+            customFunctions.printToLog('postRequest: headersArray: ' + key + ': ' + value, 0)
+    #Send the request and return the response to caller.
+    customFunctions.printToLog('postRequest: url: ' + url, 1)
     data = urllib.urlencode(parametersArray)
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
