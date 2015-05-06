@@ -6,9 +6,9 @@ import customFunctions
 #value: value that the variable will hold.
 #resourceOwner: designates which resource owner this variable is for, i.e. Spotify, Facebook, etc.
 def addOauthSessionVariable(session, oAuthVariableType, value, resourceOwner = None) :
-	customFunctions.printToLog('addOauthSessionVariable: oAuthVariableType: ' + str(oAuthVariableType))
-	customFunctions.printToLog('addOauthSessionVariable: resourceOwner: ' + str(resourceOwner))
-	customFunctions.printToLog('addOauthSessionVariable: value: ' + str(value))
+	customFunctions.printToLog('addOauthSessionVariable: oAuthVariableType: ' + str(oAuthVariableType), 0)
+	customFunctions.printToLog('addOauthSessionVariable: resourceOwner: ' + str(resourceOwner), 0)
+	customFunctions.printToLog('addOauthSessionVariable: value: ' + str(value), 1)
 	if oAuthVariableType == 'access_token':
 		session.access_token = session.access_token or {}
 		session.access_token[resourceOwner] = value
@@ -22,15 +22,15 @@ def addOauthSessionVariable(session, oAuthVariableType, value, resourceOwner = N
 		session.refresh_token = session.refresh_token or {}
 		session.refresh_token[resourceOwner] = value	
 	else:
-		print 'error'
+		customFunctions.printToLog('addOauthSessionVariable: error', 1)
 
 #Function to get the designated session variable from session.
 #Session: the session to add a variable to.
 #oAuthVariableType: designates what type of variable we are adding.
 #resourceOwner: designates which resource owner this variable is for, i.e. Spotify, Facebook, etc.
 def getOauthSessionVariable(session, oAuthVariableType, resourceOwner = None) :
-	customFunctions.printToLog('getOauthSessionVariable: oAuthVariableType: ' + str(oAuthVariableType))
-	customFunctions.printToLog('getOauthSessionVariable: resourceOwner: ' + str(resourceOwner))
+	customFunctions.printToLog('getOauthSessionVariable: oAuthVariableType: ' + str(oAuthVariableType), 0)
+	customFunctions.printToLog('getOauthSessionVariable: resourceOwner: ' + str(resourceOwner), 0)
 	if oAuthVariableType == 'access_token':
 		session.access_token = session.access_token or {}
 		returnValue = session.access_token[resourceOwner]
@@ -45,5 +45,5 @@ def getOauthSessionVariable(session, oAuthVariableType, resourceOwner = None) :
 		returnValue = session.refresh_token[resourceOwner]
 	else:
 		returnValue = None
-	customFunctions.printToLog('getOauthSessionVariable: returnValue: ' + str(returnValue))
+	customFunctions.printToLog('getOauthSessionVariable: returnValue: ' + str(returnValue), 1)
 	return returnValue
