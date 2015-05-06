@@ -31,19 +31,27 @@ def postRequest(url, parametersArray = None, headersArray = None) :
     if headersArray is not None:
         for key, value in headersArray.iteritems():
             customFunctions.printToLog('postRequest: headersArray: ' + key + ': ' + value, 0)
-    #Send the request and return the response to caller.
     customFunctions.printToLog('postRequest: url: ' + url, 1)
+    #Send the request and return the response to caller.
     data = urllib.urlencode(parametersArray)
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
     return response
 
 def getRequest(url, parametersArray = None, headersArray = None) :
+    #Logging
+    if parametersArray is not None:
+        for key, value in parametersArray.iteritems():
+            customFunctions.printToLog('getRequest: parametersArray: ' + key + ': ' + value, 0)
+    if headersArray is not None:
+        for key, value in headersArray.iteritems():
+            customFunctions.printToLog('getRequest: headersArray: ' + key + ': ' + value, 0)
+    customFunctions.printToLog('getRequest: url: ' + url, 1)
+    #Send the request and return the response to caller.
     #Build the final URL and the Request object
     full_url = buildFullUrl(url, parametersArray)
     req = urllib2.Request(full_url)
     #Loop through array of headers and add them to the request headers. 
-    #Todo: put this in a function so it can be reused!
     if headersArray is not None:
         for key, value in headersArray.iteritems():
             req.add_header(key,value)
