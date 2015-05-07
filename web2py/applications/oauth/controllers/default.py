@@ -17,7 +17,7 @@ def index():
     elif parameterCode is not None:
         #Generate an HTTP POST to the "token" endpoint and save the results to the session.
         customFunctions.printToLog('URL parameter \'code\': ' + parameterCode, 1)
-        postToTokenEndpointAuthorizationCodeSpotify(parameterCode)
+        postToTokenEndpointAuthorizationCode('Spotify', parameterCode)
         #Now that the Access Token has been saved to session, redirect the the landing page for this resource.
         redirect(URL('spotify', 'index'))
     ##############################
@@ -39,10 +39,6 @@ def buildUrlToInitiateAuthorization(resourceOwner) :
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
     full_url = httpFunctions.getRequest(apiURL)
     return full_url
-
-#Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
-def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
-    postToTokenEndpointAuthorizationCode('Spotify', codeParameterForPostRequest)
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCode(resourceOwner, codeParameterForPostRequest) :
