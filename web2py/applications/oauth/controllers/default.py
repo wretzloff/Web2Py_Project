@@ -31,12 +31,17 @@ def index():
     
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorizationSpotify() :
+    full_url = buildUrlToInitiateAuthorization('Spotify')
+    return full_url
+
+#Helper function to build and return the URL that will be used to initiate the authorization process
+def buildUrlToInitiateAuthorization(resourceOwner) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
     redirect_uri = getRedirectUri()
     
     #Call the API endpoint to generate a return a URL
     apiEndpoint = getApiEndpoint('buildUrlToInitiateAuthorization')
-    parameterArray = {'resourceOwner' : 'Spotify',
+    parameterArray = {'resourceOwner' : resourceOwner,
                       'oAuthRedirectUri' : redirect_uri}
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
     full_url = httpFunctions.getRequest(apiURL)
