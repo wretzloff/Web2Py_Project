@@ -1,7 +1,5 @@
 #Todo: comprehensive error handling
 #Todo: getRedirectUri(): find a better way to generate the redirect_uri than hardcoding.
-#Todo: logging for the function postRequest()
-#Todo: move functionlity of fetching Resource Owner info to the API.
 #Todo: put a generic version of buildUrlToInitiateAuthorizationSpotify() and postToTokenEndpointAuthorizationCodeSpotify() in the contextSensitiveFunctions module that will take in a Ressource Owner name, fetch necessary configuration data from database, perform business logic, and store appropriate data to session. They will go in contextSensitiveFunctions module because they are not standalone functions - they are convenience functions.
 import customFunctions
 import contextSensitiveFunctions
@@ -24,15 +22,10 @@ def index():
         redirect(URL('spotify', 'index'))
     ##############################
     #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
-    full_url_spotify = buildUrlToInitiateAuthorizationSpotify()
+    full_url_spotify = buildUrlToInitiateAuthorization('Spotify')
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
     return dict(message=T('Hello World'), authenticate_url_spotify=full_url_spotify)
-    
-#Helper function to build and return the URL that will be used to initiate the authorization process
-def buildUrlToInitiateAuthorizationSpotify() :
-    full_url = buildUrlToInitiateAuthorization('Spotify')
-    return full_url
 
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization(resourceOwner) :
