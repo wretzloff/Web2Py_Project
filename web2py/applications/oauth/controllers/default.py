@@ -42,12 +42,16 @@ def buildUrlToInitiateAuthorization(resourceOwner) :
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
+    postToTokenEndpointAuthorizationCode('Spotify', codeParameterForPostRequest)
+
+#Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
+def postToTokenEndpointAuthorizationCode(resourceOwner, codeParameterForPostRequest) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
     redirect_uri = getRedirectUri()
     
     #Call the API endpoint to send an HTTP POST request and return the response data to us.
     apiEndpoint = getApiEndpoint('postToTokenEndpointAuthorizationCode')
-    parameterArray = {'resourceOwner' : 'Spotify',
+    parameterArray = {'resourceOwner' : resourceOwner,
                       'codeParameterForPostRequest' : codeParameterForPostRequest,
                       'oAuthRedirectUri' : redirect_uri}
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
@@ -55,10 +59,10 @@ def postToTokenEndpointAuthorizationCodeSpotify(codeParameterForPostRequest) :
     #Convert JSON string to an array
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
     #Store data to session
-    contextSensitiveFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'spotify')
-    contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'spotify')
-    contextSensitiveFunctions.addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], 'spotify')
-    contextSensitiveFunctions.addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], 'spotify')
+    contextSensitiveFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], resourceOwner)
+    contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], resourceOwner)
+    contextSensitiveFunctions.addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], resourceOwner)
+    contextSensitiveFunctions.addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], resourceOwner)
 
 def getRedirectUri() :
     #Be sure not to hardcode "oauth", because the name of the project might change. Try to dunamically find the name of the project.
