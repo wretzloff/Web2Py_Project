@@ -15,7 +15,7 @@ def index():
     apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
     url = httpFunctions.getRequest(apiURL)
     
-    authorizationHeader = 'Bearer ' + contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'spotify')
+    authorizationHeader = 'Bearer ' + contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'Spotify')
     headers = {'Authorization' : authorizationHeader}
     responseDataInJson = httpFunctions.getRequest(url, None, headers)
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
