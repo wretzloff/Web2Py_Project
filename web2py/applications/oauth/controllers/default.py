@@ -1,6 +1,6 @@
 #Todo: comprehensive error handling
-#Todo: getRedirectUri(): find a better way to generate the redirect_uri than hardcoding.
 #Todo: put a generic version of buildUrlToInitiateAuthorizationSpotify() and postToTokenEndpointAuthorizationCodeSpotify() in the contextSensitiveFunctions module that will take in a Ressource Owner name, fetch necessary configuration data from database, perform business logic, and store appropriate data to session. They will go in contextSensitiveFunctions module because they are not standalone functions - they are convenience functions.
+#Todo: update Spotify page controller to call API to get data, instead of calling Spotify directly.
 import customFunctions
 import contextSensitiveFunctions
 import httpFunctions
@@ -30,7 +30,7 @@ def index():
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization(resourceOwner) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
-    redirect_uri = getRedirectUri()
+    redirect_uri = contextSensitiveFunctions.getRedirectUri()
     
     #Call the API endpoint to generate a return a URL
     apiEndpoint = contextSensitiveFunctions.getApiEndpoint('buildUrlToInitiateAuthorization', None)
@@ -43,7 +43,7 @@ def buildUrlToInitiateAuthorization(resourceOwner) :
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCode(resourceOwner, codeParameterForPostRequest) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
-    redirect_uri = getRedirectUri()
+    redirect_uri = contextSensitiveFunctions.getRedirectUri()
     
     #Call the API endpoint to send an HTTP POST request and return the response data to us.
     apiEndpoint = contextSensitiveFunctions.getApiEndpoint('postToTokenEndpointAuthorizationCode', None)
@@ -59,8 +59,3 @@ def postToTokenEndpointAuthorizationCode(resourceOwner, codeParameterForPostRequ
     contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], resourceOwner)
     contextSensitiveFunctions.addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], resourceOwner)
     contextSensitiveFunctions.addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], resourceOwner)
-
-def getRedirectUri() :
-    #Be sure not to hardcode "oauth", because the name of the project might change. Try to dunamically find the name of the project.
-    #return 'http://127.0.0.1:8000' + URL(None,'oauth',None) 
-    return 'http://127.0.0.1:8000/oauth'
