@@ -33,7 +33,7 @@ def buildUrlToInitiateAuthorization(resourceOwner) :
     redirect_uri = getRedirectUri()
     
     #Call the API endpoint to generate a return a URL
-    apiEndpoint = getApiEndpoint('buildUrlToInitiateAuthorization')
+    apiEndpoint = getApiEndpoint('buildUrlToInitiateAuthorization', None)
     parameterArray = {'resourceOwner' : resourceOwner,
                       'oAuthRedirectUri' : redirect_uri}
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
@@ -46,7 +46,7 @@ def postToTokenEndpointAuthorizationCode(resourceOwner, codeParameterForPostRequ
     redirect_uri = getRedirectUri()
     
     #Call the API endpoint to send an HTTP POST request and return the response data to us.
-    apiEndpoint = getApiEndpoint('postToTokenEndpointAuthorizationCode')
+    apiEndpoint = getApiEndpoint('postToTokenEndpointAuthorizationCode', None)
     parameterArray = {'resourceOwner' : resourceOwner,
                       'codeParameterForPostRequest' : codeParameterForPostRequest,
                       'oAuthRedirectUri' : redirect_uri}
@@ -65,6 +65,6 @@ def getRedirectUri() :
     #return 'http://127.0.0.1:8000' + URL(None,'oauth',None) 
     return 'http://127.0.0.1:8000/oauth'
 
-def getApiEndpoint(endpoint) :
+def getApiEndpoint(endpoint, resourceOwner = None) :
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + '/oauth/api/' + endpoint
     return apiEndpoint
