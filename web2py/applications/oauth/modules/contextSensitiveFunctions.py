@@ -1,10 +1,12 @@
 import customFunctions
 import socket
 
+#Configuration point. Function to fetch the specified API endpoint.
 def getApiEndpoint(endpoint, resourceOwner = None) :
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + '/oauth/api/' + endpoint
     return apiEndpoint
 
+#Configuration point. Function to fetch the standard redirect URI.
 def getRedirectUri() :
     return 'http://127.0.0.1:8000/oauth'
 
