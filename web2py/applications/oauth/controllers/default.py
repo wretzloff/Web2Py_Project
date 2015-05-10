@@ -66,5 +66,5 @@ def getRedirectUri() :
     return 'http://127.0.0.1:8000/oauth'
 
 def getApiEndpoint(endpoint) :
-    apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api',endpoint)
+    apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + '/oauth/api/' + endpoint
     return apiEndpoint
