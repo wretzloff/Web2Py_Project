@@ -1,4 +1,10 @@
 import customFunctions
+import socket
+
+
+def getApiEndpoint(endpoint, resourceOwner = None) :
+    apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + '/oauth/api/' + endpoint
+    return apiEndpoint
 
 #Function to add the designated session variable to session.
 #Session: the session to add a variable to.
