@@ -21,23 +21,10 @@ def index():
         redirect(URL('spotify', 'index'))
     ##############################
     #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
-    full_url_spotify = buildUrlToInitiateAuthorization('Spotify')
+    full_url_spotify = contextSensitiveFunctions.buildUrlToInitiateAuthorization('Spotify')
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
     return dict(message=T('Hello World'), authenticate_url_spotify=full_url_spotify)
-
-#Helper function to build and return the URL that will be used to initiate the authorization process
-def buildUrlToInitiateAuthorization(resourceOwner) :
-    #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
-    redirect_uri = contextSensitiveFunctions.getRedirectUri()
-    
-    #Call the API endpoint to generate a return a URL
-    apiEndpoint = contextSensitiveFunctions.getApiEndpoint('buildUrlToInitiateAuthorization', None)
-    parameterArray = {'resourceOwner' : resourceOwner,
-                      'oAuthRedirectUri' : redirect_uri}
-    apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
-    full_url = httpFunctions.getRequest(apiURL)
-    return full_url
 
 #Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
 def postToTokenEndpointAuthorizationCode(resourceOwner, codeParameterForPostRequest) :

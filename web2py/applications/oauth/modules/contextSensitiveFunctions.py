@@ -1,4 +1,5 @@
 import customFunctions
+import httpFunctions
 import socket
 
 #Configuration point. Function to fetch the specified API endpoint.
@@ -9,6 +10,20 @@ def getApiEndpoint(endpoint, resourceOwner = None) :
 #Configuration point. Function to fetch the standard redirect URI.
 def getRedirectUri() :
     return 'http://127.0.0.1:8000/oauth'
+
+#Helper function to build and return the URL that will be used to initiate the authorization process
+def buildUrlToInitiateAuthorization(resourceOwner) :
+    #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
+    redirect_uri = getRedirectUri()
+    
+    #Call the API endpoint to generate a return a URL
+    apiEndpoint = getApiEndpoint('buildUrlToInitiateAuthorization', None)
+    parameterArray = {'resourceOwner' : resourceOwner,
+                      'oAuthRedirectUri' : redirect_uri}
+    apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
+    full_url = httpFunctions.getRequest(apiURL)
+    return full_url
+
 
 #Function to add the designated session variable to session.
 #Session: the session to add a variable to.
