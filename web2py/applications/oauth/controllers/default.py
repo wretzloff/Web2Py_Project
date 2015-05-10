@@ -4,7 +4,6 @@
 import customFunctions
 import contextSensitiveFunctions
 import httpFunctions
-import socket
 def index():
     customFunctions.printToLog('------------------------------------------------', 0)
     customFunctions.printToLog('index()', 0)
