@@ -19,7 +19,7 @@ def getRedirectUri() :
 ###############################################################################################################################
 ####Reusable helper functions.
 
-#Helper function to build and return the URL that will be used to initiate the authorization process
+#Helper function to take a Resource Owner and communicate with the API to get the URI that is used to initiate authorization for this Resource Owner.
 def buildUrlToInitiateAuthorization(resourceOwner) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
     redirect_uri = getRedirectUri()
@@ -32,15 +32,15 @@ def buildUrlToInitiateAuthorization(resourceOwner) :
     full_url = httpFunctions.getRequest(apiURL)
     return full_url
 
-#Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
-def postToTokenEndpointAuthorizationCode(resourceOwner, codeParameterForPostRequest, session) :
+#Helper function to take a Resource Owner, an oAuth authorization code, and a reference to the session, and then communicate with the API to have an HTTP POST request sent to designated endpoint to receive an Access Token. Access Token will be stored to session.
+def postToTokenEndpointAuthorizationCode(resourceOwner, authorizationCode, session) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
     redirect_uri = getRedirectUri()
     
     #Call the API endpoint to send an HTTP POST request and return the response data to us.
     apiEndpoint = getApiEndpoint('postToTokenEndpointAuthorizationCode', None)
     parameterArray = {'resourceOwner' : resourceOwner,
-                      'codeParameterForPostRequest' : codeParameterForPostRequest,
+                      'codeParameterForPostRequest' : authorizationCode,
                       'oAuthRedirectUri' : redirect_uri}
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
     responseDataInJson = httpFunctions.getRequest(apiURL)
