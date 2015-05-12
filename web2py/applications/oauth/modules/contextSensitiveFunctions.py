@@ -11,6 +11,8 @@ def getApiEndpoint(endpoint, resourceOwner = None) :
 def getRedirectUri() :
     return 'http://127.0.0.1:8000/oauth'
 
+###############################################################################################################################
+###############################################################################################################################
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization(resourceOwner) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
@@ -24,7 +26,28 @@ def buildUrlToInitiateAuthorization(resourceOwner) :
     full_url = httpFunctions.getRequest(apiURL)
     return full_url
 
+#Helper function to send an HTTP POST request to the /token endpoint using an OAuth Authorization Code
+def postToTokenEndpointAuthorizationCode(resourceOwner, codeParameterForPostRequest, session) :
+    #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
+    redirect_uri = getRedirectUri()
+    
+    #Call the API endpoint to send an HTTP POST request and return the response data to us.
+    apiEndpoint = getApiEndpoint('postToTokenEndpointAuthorizationCode', None)
+    parameterArray = {'resourceOwner' : resourceOwner,
+                      'codeParameterForPostRequest' : codeParameterForPostRequest,
+                      'oAuthRedirectUri' : redirect_uri}
+    apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
+    responseDataInJson = httpFunctions.getRequest(apiURL)
+    #Convert JSON string to an array
+    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
+    #Store data to session
+    addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], resourceOwner)
+    addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], resourceOwner)
+    addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], resourceOwner)
+    addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], resourceOwner)
 
+###############################################################################################################################
+###############################################################################################################################
 #Function to add the designated session variable to session.
 #Session: the session to add a variable to.
 #oAuthVariableType: designates what type of variable we are adding.
