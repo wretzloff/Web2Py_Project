@@ -2,6 +2,10 @@ import customFunctions
 import httpFunctions
 import socket
 
+###############################################################################################################################
+###############################################################################################################################
+####Configuration
+
 #Configuration point. Function to fetch the specified API endpoint.
 def getApiEndpoint(endpoint, resourceOwner = None) :
     apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + '/oauth/api/' + endpoint
@@ -13,6 +17,8 @@ def getRedirectUri() :
 
 ###############################################################################################################################
 ###############################################################################################################################
+####Reusable helper functions.
+
 #Helper function to build and return the URL that will be used to initiate the authorization process
 def buildUrlToInitiateAuthorization(resourceOwner) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
@@ -48,6 +54,8 @@ def postToTokenEndpointAuthorizationCode(resourceOwner, codeParameterForPostRequ
 
 ###############################################################################################################################
 ###############################################################################################################################
+####Functions for manipulating session variables.
+
 #Function to add the designated session variable to session.
 #Session: the session to add a variable to.
 #oAuthVariableType: designates what type of variable we are adding.

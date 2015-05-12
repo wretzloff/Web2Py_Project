@@ -1,5 +1,4 @@
 #Todo: comprehensive error handling
-#Todo: put a generic version of buildUrlToInitiateAuthorizationSpotify() and postToTokenEndpointAuthorizationCodeSpotify() in the contextSensitiveFunctions module that will take in a Ressource Owner name, fetch necessary configuration data from database, perform business logic, and store appropriate data to session. They will go in contextSensitiveFunctions module because they are not standalone functions - they are convenience functions.
 #Todo: update Spotify page controller to call API to get data, instead of calling Spotify directly.
 import customFunctions
 import contextSensitiveFunctions
