@@ -1,3 +1,4 @@
+#Todo: split postToTokenEndpointAuthorizationCode(): store session variables separately.
 #Todo: comprehensive error handling
 #Todo: update Spotify page controller to call API to get data, instead of calling Spotify directly.
 import customFunctions
