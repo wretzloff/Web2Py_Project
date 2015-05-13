@@ -51,6 +51,7 @@ def postToTokenEndpointAuthorizationCode(resourceOwner, authorizationCode, sessi
     addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], resourceOwner)
     addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], resourceOwner)
     addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], resourceOwner)
+    return responseDataInArray
 
 ###############################################################################################################################
 ###############################################################################################################################
