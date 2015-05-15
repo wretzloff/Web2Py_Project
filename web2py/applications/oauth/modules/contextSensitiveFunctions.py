@@ -46,11 +46,6 @@ def postToTokenEndpointAuthorizationCode(resourceOwner, authorizationCode, sessi
     responseDataInJson = httpFunctions.getRequest(apiURL)
     #Convert JSON string to an array
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
-    #Store data to session
-    addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], resourceOwner)
-    addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], resourceOwner)
-    addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], resourceOwner)
-    addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], resourceOwner)
     return responseDataInArray
 
 ###############################################################################################################################
