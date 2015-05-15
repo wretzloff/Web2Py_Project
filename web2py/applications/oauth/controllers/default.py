@@ -14,7 +14,7 @@ def index():
     elif parameterCode is not None:
         #Generate an HTTP POST to the "token" endpoint and save the results to the session.
         customFunctions.printToLog('URL parameter \'code\': ' + parameterCode, 1)
-        responseDataInArray = contextSensitiveFunctions.postToTokenEndpointAuthorizationCode('Spotify', parameterCode)
+        responseDataInArray = contextSensitiveFunctions.callPostToTokenEndpointAuthorizationCode('Spotify', parameterCode)
         #Store data to session
         contextSensitiveFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'Spotify')
         contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'Spotify')
@@ -24,7 +24,7 @@ def index():
         redirect(URL('spotify', 'index'))
     ##############################
     #Build "authorize" URL that, when the user is redirected there, will begin the OAuth handshake
-    full_url_spotify = contextSensitiveFunctions.buildUrlToInitiateAuthorization('Spotify')
+    full_url_spotify = contextSensitiveFunctions.callBuildUrlToInitiateAuthorization('Spotify')
     ##############################
     #response.flash = T("Welcome to the Spotify app!")
     return dict(message=T('Hello World'), authenticate_url_spotify=full_url_spotify)
