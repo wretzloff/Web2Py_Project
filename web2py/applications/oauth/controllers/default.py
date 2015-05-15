@@ -15,7 +15,12 @@ def index():
     elif parameterCode is not None:
         #Generate an HTTP POST to the "token" endpoint and save the results to the session.
         customFunctions.printToLog('URL parameter \'code\': ' + parameterCode, 1)
-        contextSensitiveFunctions.postToTokenEndpointAuthorizationCode('Spotify', parameterCode, session)
+        responseDataInArray = contextSensitiveFunctions.postToTokenEndpointAuthorizationCode('Spotify', parameterCode, session)
+        #Store data to session
+        contextSensitiveFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'Spotify')
+        contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'Spotify')
+        contextSensitiveFunctions.addOauthSessionVariable(session, 'expires_in', responseDataInArray['expires_in'], 'Spotify')
+        contextSensitiveFunctions.addOauthSessionVariable(session, 'refresh_token', responseDataInArray['refresh_token'], 'Spotify')
         #Now that the Access Token has been saved to session, redirect the the landing page for this resource.
         redirect(URL('spotify', 'index'))
     ##############################
