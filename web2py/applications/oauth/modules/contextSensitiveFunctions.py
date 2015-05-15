@@ -32,8 +32,8 @@ def buildUrlToInitiateAuthorization(resourceOwner) :
     full_url = httpFunctions.getRequest(apiURL)
     return full_url
 
-#Helper function to take a Resource Owner, an oAuth authorization code, and a reference to the session, and then communicate with the API to have an HTTP POST request sent to designated endpoint to receive an Access Token. Access Token will be stored to session.
-def postToTokenEndpointAuthorizationCode(resourceOwner, authorizationCode, session) :
+#Helper function to take a Resource Owner and an oAuth authorization code, and then communicate with the API to have an HTTP POST request sent to that Resource Owner's designated endpoint to receive an Access Token. The Access Token, along with some other data, will be returned to the caller.
+def postToTokenEndpointAuthorizationCode(resourceOwner, authorizationCode) :
     #Define the redirect_uri that we want the Resource Owner to redirect to once the user has logged in.
     redirect_uri = getRedirectUri()
     

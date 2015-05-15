@@ -1,4 +1,3 @@
-#Todo: split postToTokenEndpointAuthorizationCode(): store session variables separately.
 #Todo: comprehensive error handling
 #Todo: update Spotify page controller to call API to get data, instead of calling Spotify directly.
 import customFunctions
@@ -15,7 +14,7 @@ def index():
     elif parameterCode is not None:
         #Generate an HTTP POST to the "token" endpoint and save the results to the session.
         customFunctions.printToLog('URL parameter \'code\': ' + parameterCode, 1)
-        responseDataInArray = contextSensitiveFunctions.postToTokenEndpointAuthorizationCode('Spotify', parameterCode, session)
+        responseDataInArray = contextSensitiveFunctions.postToTokenEndpointAuthorizationCode('Spotify', parameterCode)
         #Store data to session
         contextSensitiveFunctions.addOauthSessionVariable(session, 'access_token', responseDataInArray['access_token'], 'Spotify')
         contextSensitiveFunctions.addOauthSessionVariable(session, 'token_type', responseDataInArray['token_type'], 'Spotify')
