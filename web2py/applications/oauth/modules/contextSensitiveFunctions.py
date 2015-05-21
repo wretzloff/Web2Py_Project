@@ -8,7 +8,10 @@ import socket
 
 #Configuration point. Function to fetch the specified API endpoint.
 def getApiEndpoint(endpoint, resourceOwner = None) :
-    apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + '/oauth/api/' + endpoint
+    application = 'oauth'
+    controller = 'api' + (resourceOwner or '')
+    
+    apiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000/' + application + '/' + controller + '/' + endpoint
     return apiEndpoint
 
 #Configuration point. Function to fetch the standard redirect URI.
