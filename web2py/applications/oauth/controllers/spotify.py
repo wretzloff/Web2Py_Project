@@ -10,8 +10,8 @@ def index():
     callMeEndpoint()
     #########################
     
-    #Define the path to the API endpoint to fetch a configuration value
-    configValueApiEndpoint = 'http://' + socket.gethostbyname(socket.gethostname()) + ':8000' + URL(None,'api','getConfigValue')
+    #Define the URL of the API endpoint that we can call to fetch a configuration value
+    configValueApiEndpoint = contextSensitiveFunctions.getApiEndpoint('getConfigValue', None)
     
     #Get me_endpoint config value
     parameterArray = {'resourceOwner' : 'Spotify',
