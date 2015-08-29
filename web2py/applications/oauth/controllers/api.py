@@ -9,7 +9,6 @@ def getConfigValue():
         customFunctions.printToLog('getConfigValue GET: resourceOwner: ' + resourceOwner, 0)
         customFunctions.printToLog('getConfigValue GET: configSetting: ' + configSetting, 0)
         #Get the config value
-        #configVal = getConfigValueHelper(resourceOwner, configSetting)
         configVal = apiFunctions.getConfigValueHelper(db, resourceOwner, configSetting)
         #Log the result and return it to the caller
         customFunctions.printToLog('getConfigValue GET: configVal: ' + configVal, 1)
@@ -27,11 +26,11 @@ def getConfigValue():
 def buildUrlToInitiateAuthorization():
     def GET(resourceOwner, oAuthRedirectUri):
         #Fetch this Resource Owner's configuration values
-        authorization_endpoint = getConfigValueHelper(resourceOwner, 'authorization_endpoint')
-        client_id = getConfigValueHelper(resourceOwner, 'client_id')
-        response_type = getConfigValueHelper(resourceOwner, 'response_type')
-        scopes = getConfigValueHelper(resourceOwner, 'scopes')
-        show_dialog = getConfigValueHelper(resourceOwner, 'show_dialog')
+        authorization_endpoint = apiFunctions.getConfigValueHelper(db, resourceOwner, 'authorization_endpoint')
+        client_id = apiFunctions.getConfigValueHelper(db, resourceOwner, 'client_id')
+        response_type = apiFunctions.getConfigValueHelper(db, resourceOwner, 'response_type')
+        scopes = apiFunctions.getConfigValueHelper(db, resourceOwner, 'scopes')
+        show_dialog = apiFunctions.getConfigValueHelper(db, resourceOwner, 'show_dialog')
         #Log inputs
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: authorization_endpoint: ' + authorization_endpoint, 0)
         customFunctions.printToLog('buildUrlToInitiateAuthorization GET: client_id: ' + client_id, 0)
@@ -62,9 +61,9 @@ def buildUrlToInitiateAuthorization():
 def postToTokenEndpointAuthorizationCode():
     def GET(resourceOwner, codeParameterForPostRequest, oAuthRedirectUri):
         #Fetch this Resource Owner's configuration values
-        postUrl = getConfigValueHelper(resourceOwner, 'token_endpoint')
-        client_id = getConfigValueHelper(resourceOwner, 'client_id')
-        client_secret = getConfigValueHelper(resourceOwner, 'client_secret')
+        postUrl = apiFunctions.getConfigValueHelper(db, resourceOwner, 'token_endpoint')
+        client_id = apiFunctions.getConfigValueHelper(db, resourceOwner, 'client_id')
+        client_secret = apiFunctions.getConfigValueHelper(db, resourceOwner, 'client_secret')
         
         #Log inputs
         customFunctions.printToLog('postToTokenEndpointAuthorizationCode GET: postUrl: ' + postUrl, 0)
@@ -99,18 +98,6 @@ def testEndpoint():
     def DELETE():
         return ''
     return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
-
-#Helper function to fetch a config value
-def getConfigValueHelper(resourceOwner, configSetting):
-    if resourceOwner != 'None' :
-        resourceOwnerConfigQueryResults = db(db.ResourceOwnerSettings.resourceOwnerName == resourceOwner).select()
-        resourceOwnerConfigFirstResult = resourceOwnerConfigQueryResults[0]
-        configVal = resourceOwnerConfigFirstResult[configSetting]
-    else:
-        configValueQueryResults = db(db.config.config_setting == configSetting).select()
-        configValueFirstResult = configValueQueryResults[0]
-        configVal = configValueFirstResult.config_value
-    return configVal
 
 #Helper function to send an HTTP POST request to the /token endpoint
 def postToTokenEndpointHelper(postUrl, grantType, codeParameterForPostRequest, oAuthRedirectUri, client_id, client_secret) :
