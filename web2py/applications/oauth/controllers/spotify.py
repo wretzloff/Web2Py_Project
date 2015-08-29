@@ -31,4 +31,3 @@ def index():
 def callMeEndpoint() :
     apiEndpoint = contextSensitiveFunctions.getApiEndpoint('callMeEndpoint', 'Spotify')
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, None)
-    httpFunctions.getRequest(apiURL)

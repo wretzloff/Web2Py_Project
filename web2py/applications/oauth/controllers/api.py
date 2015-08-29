@@ -1,5 +1,6 @@
 import customFunctions
 import httpFunctions
+import apiFunctions
 
 @request.restful()
 def getConfigValue():
@@ -8,7 +9,8 @@ def getConfigValue():
         customFunctions.printToLog('getConfigValue GET: resourceOwner: ' + resourceOwner, 0)
         customFunctions.printToLog('getConfigValue GET: configSetting: ' + configSetting, 0)
         #Get the config value
-        configVal = getConfigValueHelper(resourceOwner, configSetting)
+        #configVal = getConfigValueHelper(resourceOwner, configSetting)
+        configVal = apiFunctions.getConfigValueHelper(db, resourceOwner, configSetting)
         #Log the result and return it to the caller
         customFunctions.printToLog('getConfigValue GET: configVal: ' + configVal, 1)
         return configVal
