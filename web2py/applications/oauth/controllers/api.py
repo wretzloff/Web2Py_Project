@@ -23,7 +23,7 @@ def getConfigValue():
 
 @request.restful()
 def adapter_Spotify_me():
-    def GET(): 
+    def GET(access_token):
         return 'abc!'
     def POST(*args,**vars):
         return ''
