@@ -27,8 +27,8 @@ def index():
     return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
 
 
-#Helper function to communicate with the callMeEndpoint of the Spotify-specific API.
+#Helper function to communicate with the adapter_Spotify_me of the API.
 def callMeEndpoint() :
-    apiEndpoint = contextSensitiveFunctions.getApiEndpoint('callMeEndpoint', 'Spotify')
+    apiEndpoint = contextSensitiveFunctions.getApiEndpoint('adapter_Spotify_me', None)
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, None)
     httpFunctions.getRequest(apiURL)
