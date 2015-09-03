@@ -28,9 +28,7 @@ def adapter_Spotify_me():
         authorizationHeader = 'Bearer ' + access_token
         headers = {'Authorization' : authorizationHeader}
         responseDataInJson = httpFunctions.getRequest(spotify_me_url, None, headers)
-        responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
-        authorizedUserEmailAddress = responseDataInArray['email']
-        return authorizedUserEmailAddress
+        return responseDataInJson
     def POST(*args,**vars):
         return ''
     def PUT(*args,**vars):
