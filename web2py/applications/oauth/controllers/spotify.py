@@ -38,4 +38,5 @@ def callMeEndpoint() :
     #Build the URL and send the request to that URL
     apiEndpoint = contextSensitiveFunctions.getApiEndpoint('adapter_Spotify_me')
     apiURL = httpFunctions.buildFullUrl(apiEndpoint, parameterArray)
-    httpFunctions.getRequest(apiURL)
+    response = httpFunctions.getRequest(apiURL)
+    print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' + response

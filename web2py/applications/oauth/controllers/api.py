@@ -24,7 +24,13 @@ def getConfigValue():
 @request.restful()
 def adapter_Spotify_me():
     def GET(access_token):
-        return 'abc!'
+        spotify_me_url = apiFunctions.getConfigValueHelper(db, 'Spotify', 'me_endpoint')
+        authorizationHeader = 'Bearer ' + access_token
+        headers = {'Authorization' : authorizationHeader}
+        responseDataInJson = httpFunctions.getRequest(spotify_me_url, None, headers)
+        responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
+        authorizedUserEmailAddress = responseDataInArray['email']
+        return authorizedUserEmailAddress
     def POST(*args,**vars):
         return ''
     def PUT(*args,**vars):
