@@ -31,8 +31,11 @@ def index():
 
 #Temporary function to experiment with sending HTTP POST.
 def tempExperimentalFunction() :
+    #Populate the parameters for the request to the endpoint
     parameterArray = {'post1' : 'postValue1',
                       'post2' : 'postValue2'}
+    jsonString = httpFunctions.convertArrayToJson(parameterArray)
+    parameterArray = {'jsonString' : jsonString}
     
     #Build the URL and send the request to that URL
     apiEndpoint = contextSensitiveFunctions.getApiEndpoint('generateAuthenticatedRequestToUrl')

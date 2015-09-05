@@ -26,6 +26,7 @@ def generateAuthenticatedRequestToUrl():
     def GET():
         return 'abc!'
     def POST(*args,**vars):
+        #print request.post_vars['jsonString']
         return 'abcPOST!'
     def PUT(*args,**vars):
         return ''
