@@ -6,6 +6,11 @@ def index():
     customFunctions.printToLog('------------------------------------------------', 0)
     customFunctions.printToLog('landingPageSpotify()', 1)
     
+    #########################
+    #Experimental section. Moving logic out of controller and into the Spotify-specific API.
+    tempExperimentalFunction()
+    #########################
+    
     #Get the the Spotify access token from session.
     spotifyAccessToken = contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'Spotify')
     
@@ -22,3 +27,14 @@ def index():
     authorizedUserEmailAddress = responseDataInArray['email']
     
     return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
+
+
+#Temporary function to experiment with sending HTTP POST.
+def tempExperimentalFunction() :
+    parameterArray = {'post1' : 'postValue1',
+                      'post2' : 'postValue2'}
+    
+    #Build the URL and send the request to that URL
+    apiEndpoint = contextSensitiveFunctions.getApiEndpoint('generateAuthenticatedRequestToUrl')
+    response = httpFunctions.postRequest(apiEndpoint, parameterArray, None)
+    print response.read()

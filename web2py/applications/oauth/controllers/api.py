@@ -22,6 +22,18 @@ def getConfigValue():
     return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
 
 @request.restful()
+def generateAuthenticatedRequestToUrl():
+    def GET():
+        return 'abc!'
+    def POST(*args,**vars):
+        return 'abcPOST!'
+    def PUT(*args,**vars):
+        return ''
+    def DELETE():
+        return ''
+    return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
+
+@request.restful()
 def adapter_Spotify_me():
     def GET(access_token):
         spotify_me_url = apiFunctions.getConfigValueHelper(db, 'Spotify', 'me_endpoint')
