@@ -1,5 +1,5 @@
 #Todo: comprehensive error handling
-#Todo: update Spotify page controller to call API to get data, instead of calling Spotify directly.
+#Todo: convert the API endpoint "adapter_Spotify_me" into a generic HTTP POST endpoint that takes in the URL, authentication information, and parameters, and uses these to generate a request the final endpoint, receive a result, and return the result to the caller (also handling any re-authentication).
 import customFunctions
 import contextSensitiveFunctions
 def index():
