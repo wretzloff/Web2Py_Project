@@ -31,9 +31,19 @@ def index():
 
 #Temporary function to experiment with sending HTTP POST.
 def tempExperimentalFunction() :
+    #Call to the API to get the URL for Sotify's "me" endpoint (https://api.spotify.com/v1/me). 
+    configValueApiEndpoint = contextSensitiveFunctions.getApiEndpoint('getConfigValue', None)
+    parameterArray = {'resourceOwner' : 'Spotify',
+                      'configSetting' : 'me_endpoint'}
+    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)
+    urlOfSpotifyMeEndpoint = httpFunctions.getRequest(apiURL)
+    
+    #Get the the Spotify access token from session.
+    spotifyAccessToken = contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'Spotify')
+    
     #Populate the parameters for the request to the endpoint
-    parameterArray = {'post1' : 'postValue1',
-                      'post2' : 'postValue2'}
+    parameterArray = {'access_token' : spotifyAccessToken,
+                      'resourceOwnerUrl' : urlOfSpotifyMeEndpoint}
     jsonString = httpFunctions.convertArrayToJson(parameterArray)
     parameterArray = {'jsonString' : jsonString}
     
