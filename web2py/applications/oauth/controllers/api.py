@@ -26,7 +26,15 @@ def generateAuthenticatedRequestToUrl():
     def GET():
         return 'abc!'
     def POST(*args,**vars):
-        #print request.post_vars['jsonString']
+        #There should be a single HTTP POST parameter called 'jsonString', which is a JSON String of arbitrary key-value pairs.
+        #Among the key-value pairs, there should be:
+            #1. 'resourceOwnerUrl', which is the destination that the HTTP message should be forwarded to.
+            #2. 'accesss_token', 
+        jsonString = request.post_vars['jsonString']
+        parametersArray = httpFunctions.convertJsonToArray(jsonString)
+        #for key, value in parametersArray.iteritems():
+        #    print key
+        #    print value
         return 'abcPOST!'
     def PUT(*args,**vars):
         return ''
