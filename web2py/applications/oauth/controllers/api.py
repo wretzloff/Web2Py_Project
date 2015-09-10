@@ -45,7 +45,13 @@ def generateAuthenticatedRequestToUrl():
             for key, value in parametersArray.iteritems():
                 customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: key: ' + key, 0)
                 customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: value: ' + value, 0)
-        return 'abcPOST!'
+        
+        #Build and send the request to the specified endpoint.
+        authorizationHeader = 'Bearer ' + access_token
+        headers = {'Authorization' : authorizationHeader}
+        response = httpFunctions.getRequest(resourceOwnerUrl, None, headers)
+        
+        return response
     def PUT(*args,**vars):
         return ''
     def DELETE():
