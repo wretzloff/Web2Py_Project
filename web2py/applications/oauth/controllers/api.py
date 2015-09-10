@@ -40,15 +40,18 @@ def generateAuthenticatedRequestToUrl():
         #There may be an HTTP POST parameter called 'jsonString' which is a JSON string of arbitrary key-value pairs. These will be loaded 
         #into the request that we forward to the resource owner.
         jsonString = request.post_vars['jsonString']
+        parametersArray = None
         if jsonString is not None:
             parametersArray = httpFunctions.convertJsonToArray(jsonString)
             for key, value in parametersArray.iteritems():
                 customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: key: ' + key, 0)
                 customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: value: ' + value, 0)
         
-        #Build and send the request to the specified endpoint.
+        #Build the request to the specified endpoint.
         authorizationHeader = 'Bearer ' + access_token
         headers = {'Authorization' : authorizationHeader}
+            
+        #Send the request and receive the response
         response = httpFunctions.getRequest(resourceOwnerUrl, None, headers)
         
         return response
