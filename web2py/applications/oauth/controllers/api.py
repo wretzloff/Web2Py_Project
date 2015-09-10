@@ -26,15 +26,25 @@ def generateAuthenticatedRequestToUrl():
     def GET():
         return 'abc!'
     def POST(*args,**vars):
-        #There should be a single HTTP POST parameter called 'jsonString', which is a JSON String of arbitrary key-value pairs.
-        #Among the key-value pairs, there should be:
-            #1. 'resourceOwnerUrl', which is the destination that the HTTP message should be forwarded to.
-            #2. 'accesss_token', 
+        #Required parameter: 'resourceOwnerUrl'
+        #Contains the url of the endpoint that this request should be forwarded to.
+        resourceOwnerUrl = request.post_vars['resourceOwnerUrl']
+        customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: resourceOwnerUrl: ' + resourceOwnerUrl, 0)
+        
+        #Optional parameter: 'accesss_token'
+        #Contains the oAuth Access Token that should be put in the header of the request that we forward to the resource owner. Not all requests
+        #require an Access Token. 
+        access_token = request.post_vars['access_token']
+        customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: access_token: ' + access_token, 0)
+        
+        #There may be an HTTP POST parameter called 'jsonString' which is a JSON string of arbitrary key-value pairs. These will be loaded 
+        #into the request that we forward to the resource owner.
         jsonString = request.post_vars['jsonString']
-        parametersArray = httpFunctions.convertJsonToArray(jsonString)
-        #for key, value in parametersArray.iteritems():
-        #    print key
-        #    print value
+        if jsonString is not None:
+            parametersArray = httpFunctions.convertJsonToArray(jsonString)
+            for key, value in parametersArray.iteritems():
+                customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: key: ' + key, 0)
+                customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: value: ' + value, 0)
         return 'abcPOST!'
     def PUT(*args,**vars):
         return ''

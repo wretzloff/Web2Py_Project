@@ -42,10 +42,12 @@ def tempExperimentalFunction() :
     spotifyAccessToken = contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'Spotify')
     
     #Populate the parameters for the request to the endpoint
+    jsonStringParameters = {'dummyHTTPPOSTParameter1' : 'dummyHTTPPOSTValue1',
+                      'dummyHTTPPOSTParameter2' : 'dummyHTTPPOSTValue2'}
+    jsonString = httpFunctions.convertArrayToJson(jsonStringParameters)
     parameterArray = {'access_token' : spotifyAccessToken,
-                      'resourceOwnerUrl' : urlOfSpotifyMeEndpoint}
-    jsonString = httpFunctions.convertArrayToJson(parameterArray)
-    parameterArray = {'jsonString' : jsonString}
+                      'resourceOwnerUrl' : urlOfSpotifyMeEndpoint,
+                      'jsonString' : jsonString}
     
     #Build the URL and send the request to that URL
     apiEndpoint = contextSensitiveFunctions.getApiEndpoint('generateAuthenticatedRequestToUrl')
