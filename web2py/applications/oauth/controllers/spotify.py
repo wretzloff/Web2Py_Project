@@ -9,6 +9,9 @@ def index():
     #Get the user's email address
     authorizedUserEmailAddress = helperGetUserEmailAddress()
     
+    #Get the user's saved tracks
+    savedTracks = helperGetSavedTracks()
+    
     return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
 
 
@@ -40,3 +43,35 @@ def helperGetUserEmailAddress() :
     #Parse the response and harvest the data we want.
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
     return responseDataInArray['email']
+
+#Helper function to get the user's logged-in email address.
+def helperGetSavedTracks() :
+    #Get Spotify's "me/tracks" endpoint (https://api.spotify.com/v1/me/tracks).
+    urlOfSpotifyMeEndpoint = 'https://api.spotify.com/v1/me/tracks'
+    
+    #Get the the Spotify access token from session.
+    spotifyAccessToken = contextSensitiveFunctions.getOauthSessionVariable(session, 'access_token', 'Spotify')
+    
+    #Populate the parameters for the request to the endpoint
+    parameterArray = {'access_token' : spotifyAccessToken,
+                      'resourceOwnerUrl' : urlOfSpotifyMeEndpoint}
+    
+    #Build the URL and send the request to that URL
+    apiEndpoint = contextSensitiveFunctions.getApiEndpoint('sendGetToUrl')
+    response = httpFunctions.postRequest(apiEndpoint, parameterArray, None)
+    responseDataInJson = response.read()
+    
+    #Parse the response and harvest the data we want.
+    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
+    songsArray = responseDataInArray['items']
+    #Loop through the saved tracks and save off the data that we want.
+    for s in songsArray:
+        #print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+        name = s['track']['name']
+        date_added = s['added_at']
+        artist = s['track']['artists'][0]['name']
+        #print name
+        #print date_added
+        #print artist
+        
+    return 'blaahh'
