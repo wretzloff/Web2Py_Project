@@ -65,15 +65,13 @@ def helperGetSavedTracks() :
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
     songsArray = responseDataInArray['items']
     #Loop through the saved tracks and save off the data that we want.
+    tracksArray = []
     for s in songsArray:
-        #print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-        name = s['track']['name']
-        date_added = s['added_at']
-        artist = s['track']['artists'][0]['name']
-        album = s['track']['album']['name']
-        #print name
-        #print date_added
-        #print artist
-        #print album
-        
-    return 'blaahh'
+        row = {}
+        row['name'] = s['track']['name']
+        row['added_at'] = s['added_at']
+        row['artist'] = s['track']['artists'][0]['name']
+        row['album'] = s['track']['album']['name']
+        tracksArray.insert(0,row)
+    
+    return tracksArray
