@@ -6,6 +6,14 @@ def index():
     customFunctions.printToLog('------------------------------------------------', 0)
     customFunctions.printToLog('landingPageSpotify()', 1)
     
+    #Get the user's email address
+    authorizedUserEmailAddress = helperGetUserEmailAddress()
+    
+    return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
+
+
+#Helper function to get the user's logged-in email address.
+def helperGetUserEmailAddress() :
     #Call to the API to get the URL for Sotify's "me" endpoint (https://api.spotify.com/v1/me). 
     configValueApiEndpoint = contextSensitiveFunctions.getApiEndpoint('getConfigValue', None)
     parameterArray = {'resourceOwner' : 'Spotify',
@@ -31,6 +39,4 @@ def index():
     
     #Parse the response and harvest the data we want.
     responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)
-    authorizedUserEmailAddress = responseDataInArray['email']
-    
-    return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
+    return responseDataInArray['email']
