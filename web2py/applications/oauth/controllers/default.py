@@ -1,5 +1,5 @@
 #Todo: comprehensive error handling
-#Todo: convert the API endpoint "adapter_Spotify_me" into a generic HTTP POST endpoint that takes in the URL, authentication information, and parameters, and uses these to generate a request the final endpoint, receive a result, and return the result to the caller (also handling any re-authentication).
+#Todo: upgrade the 'sendGetToUrl' API endpoint. For instance, needs to handle re-authentication with a refresh token. Also, needs to use the parameters it receives in the HTTP POST and put them in the query string of the HTTP GET that it generates.
 import customFunctions
 import contextSensitiveFunctions
 def index():

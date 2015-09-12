@@ -24,7 +24,7 @@ def getConfigValue():
 @request.restful()
 def sendGetToUrl():
     def GET():
-        return 'abc!'
+        return ''
     def POST(*args,**vars):
         #Required parameter: 'resourceOwnerUrl'
         #Contains the url of the endpoint that this request should be forwarded to.
@@ -60,24 +60,6 @@ def sendGetToUrl():
     def DELETE():
         return ''
     return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
-
-@request.restful()
-def adapter_Spotify_me():
-    def GET(access_token):
-        spotify_me_url = apiFunctions.getConfigValueHelper(db, 'Spotify', 'me_endpoint')
-        authorizationHeader = 'Bearer ' + access_token
-        headers = {'Authorization' : authorizationHeader}
-        responseDataInJson = httpFunctions.getRequest(spotify_me_url, None, headers)
-        return responseDataInJson
-    def POST(*args,**vars):
-        return ''
-    def PUT(*args,**vars):
-        return ''
-    def DELETE():
-        return ''
-    return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
-
-
 
 @request.restful()
 def buildUrlToInitiateAuthorization():
