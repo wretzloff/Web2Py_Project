@@ -12,7 +12,7 @@ def index():
     #Get the user's saved tracks
     savedTracks = helperGetSavedTracks()
     
-    return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress)
+    return dict(message='Authenticated with Spotify as: ' + authorizedUserEmailAddress, savedTracks = savedTracks)
 
 
 #Helper function to get the user's logged-in email address.
