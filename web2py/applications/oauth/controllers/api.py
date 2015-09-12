@@ -22,7 +22,7 @@ def getConfigValue():
     return dict(GET=GET, POST=POST, PUT=PUT, DELETE=DELETE)
 
 @request.restful()
-def generateAuthenticatedRequestToUrl():
+def sendGetToUrl():
     def GET():
         return 'abc!'
     def POST(*args,**vars):
