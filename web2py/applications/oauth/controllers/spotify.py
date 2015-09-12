@@ -70,8 +70,10 @@ def helperGetSavedTracks() :
         name = s['track']['name']
         date_added = s['added_at']
         artist = s['track']['artists'][0]['name']
+        album = s['track']['album']['name']
         #print name
         #print date_added
         #print artist
+        #print album
         
     return 'blaahh'
