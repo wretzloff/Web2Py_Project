@@ -1,4 +1,5 @@
 #Todo: comprehensive error handling
+#Todo: logging to file: https://docs.python.org/2/howto/logging.html#logging-basic-tutorial
 #Todo: upgrade the 'sendGetToUrl' API endpoint. For instance, needs to handle re-authentication with a refresh token. Also, needs to use the parameters it receives in the HTTP POST and put them in the query string of the HTTP GET that it generates.
 #Various query string formats that 'sendGetToUrl' needs to handle:
     #1. https://api.spotify.com/v1/me
