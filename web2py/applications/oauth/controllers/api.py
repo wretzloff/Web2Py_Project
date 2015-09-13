@@ -47,9 +47,12 @@ def sendGetToUrl():
                 customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: key: ' + key, 0)
                 customFunctions.printToLog('generateAuthenticatedRequestToUrl POST: value: ' + value, 0)
         
-        #Build the request to the specified endpoint.
-        authorizationHeader = 'Bearer ' + access_token
-        headers = {'Authorization' : authorizationHeader}
+        #Build the headers for this request
+        headers = {}
+        #If an access token was supplied, add it to the token
+        if access_token is not None:
+            authorizationHeader = 'Bearer ' + access_token
+            headers['Authorization'] = authorizationHeader
             
         #Send the request and receive the response
         response = httpFunctions.getRequest(resourceOwnerUrl, None, headers)
