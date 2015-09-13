@@ -1,5 +1,9 @@
 #Todo: comprehensive error handling
 #Todo: upgrade the 'sendGetToUrl' API endpoint. For instance, needs to handle re-authentication with a refresh token. Also, needs to use the parameters it receives in the HTTP POST and put them in the query string of the HTTP GET that it generates.
+#Various query string formats that 'sendGetToUrl' needs to handle:
+    #1. https://api.spotify.com/v1/me
+    #2. https://api.spotify.com/v1/artists/{id} . Example: https://api.spotify.com/v1/artists/0OdUWJ0sBjDrqHygGUXeCF
+    #3. https://api.spotify.com/v1/albums/{id}/tracks . Example: https://api.spotify.com/v1/albums/6akEvsycLGftJxYudPjmqK/tracks
 import customFunctions
 import contextSensitiveFunctions
 def index():
