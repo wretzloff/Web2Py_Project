@@ -1,0 +1,616 @@
+(dp1
+S'output'
+p2
+S"<class 'urllib2.HTTPError'> HTTP Error 500: INTERNAL SERVER ERROR"
+p3
+sS'layer'
+p4
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\controllers/spotify.py'
+p5
+sS'code'
+p6
+S'import customFunctions\nimport contextSensitiveFunctions\nimport httpFunctions\nimport socket\ndef index():\n    customFunctions.printToLog(\'------------------------------------------------\', 0)\n    customFunctions.printToLog(\'landingPageSpotify()\', 1)\n    \n    #Get the user\'s email address\n    authorizedUserEmailAddress = helperGetUserEmailAddress()\n    \n    #Get the user\'s saved tracks\n    savedTracks = helperGetSavedTracks()\n    \n    return dict(message=\'Authenticated with Spotify as: \' + authorizedUserEmailAddress, savedTracks = savedTracks)\n\n\n#Helper function to get the user\'s logged-in email address.\ndef helperGetUserEmailAddress() :\n    #Call to the API to get the URL for Sotify\'s "me" endpoint (https://api.spotify.com/v1/me). \n    configValueApiEndpoint = contextSensitiveFunctions.getApiEndpoint(\'getConfigValue\', None)\n    parameterArray = {\'resourceOwner\' : \'Spotify\',\n                      \'configSetting\' : \'me_endpoint\'}\n    apiURL = httpFunctions.buildFullUrl(configValueApiEndpoint, parameterArray)\n    urlOfSpotifyMeEndpoint = httpFunctions.getRequest(apiURL)\n    \n    #Get the the Spotify access token from session.\n    spotifyAccessToken = contextSensitiveFunctions.getOauthSessionVariable(session, \'access_token\', \'Spotify\')\n    \n    #Populate the parameters for the request to the endpoint\n    jsonStringParameters = {\'dummyHTTPPOSTParameter1\' : \'dummyHTTPPOSTValue1\',\n                      \'dummyHTTPPOSTParameter2\' : \'dummyHTTPPOSTValue2\'}\n    jsonString = httpFunctions.convertArrayToJson(jsonStringParameters)\n    parameterArray = {\'access_token\' : spotifyAccessToken,\n                      \'resourceOwnerUrl\' : urlOfSpotifyMeEndpoint,\n                      \'jsonString\' : jsonString}\n    \n    #Build the URL and send the request to that URL\n    apiEndpoint = contextSensitiveFunctions.getApiEndpoint(\'sendGetToUrl\')\n    response = httpFunctions.postRequest(apiEndpoint, parameterArray, None)\n    responseDataInJson = response.read()\n    \n    #Parse the response and harvest the data we want.\n    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)\n    return responseDataInArray[\'email\']\n\n#Helper function to get the user\'s logged-in email address.\ndef helperGetSavedTracks() :\n    #Get Spotify\'s "me/tracks" endpoint (https://api.spotify.com/v1/me/tracks).\n    urlOfSpotifyMeEndpoint = \'https://api.spotify.com/v1/me/tracks\'\n    \n    #Get the the Spotify access token from session.\n    spotifyAccessToken = contextSensitiveFunctions.getOauthSessionVariable(session, \'access_token\', \'Spotify\')\n    \n    #Populate the parameters for the request to the endpoint\n    parameterArray = {\'access_token\' : spotifyAccessToken,\n                      \'resourceOwnerUrl\' : urlOfSpotifyMeEndpoint}\n    \n    #Build the URL and send the request to that URL\n    apiEndpoint = contextSensitiveFunctions.getApiEndpoint(\'sendGetToUrl\')\n    response = httpFunctions.postRequest(apiEndpoint, parameterArray, None)\n    responseDataInJson = response.read()\n    \n    #Parse the response and harvest the data we want.\n    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)\n    songsArray = responseDataInArray[\'items\']\n    #Loop through the saved tracks and save off the data that we want.\n    tracksArray = []\n    for s in songsArray:\n        row = {}\n        row[\'name\'] = s[\'track\'][\'name\']\n        row[\'added_at\'] = s[\'added_at\']\n        row[\'artist\'] = s[\'track\'][\'artists\'][0][\'name\']\n        row[\'album\'] = s[\'track\'][\'album\'][\'name\']\n        tracksArray.insert(0,row)\n    \n    return tracksArray\n\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__module__'
+p12
+S"'urllib2'"
+p13
+sg6
+S'500'
+p14
+sS'__getslice__'
+p15
+S"<method-wrapper '__getslice__' of HTTPError object>"
+p16
+sS'__str__'
+p17
+S'<bound method HTTPError.__str__ of HTTPError()>'
+p18
+sS'__reduce__'
+p19
+S'<built-in method __reduce__ of HTTPError object>'
+p20
+sS'strerror'
+p21
+S'None'
+p22
+sS'__dict__'
+p23
+S"{'__iter__': <bound method _fileobject.__iter__ of <socket._fileobject object>>, 'code': 500, 'fileno': <bound method _fileobject.fileno of <socket._fileobject object>>, 'fp': <addinfourl at 114737800 whose fp = <socket._fileobject object>>, 'hdrs': <httplib.HTTPMessage instance>, 'headers': <httplib.HTTPMessage instance>, 'msg': 'INTERNAL SERVER ERROR', 'next': <bound method _fileobject.next of <socket._fileobject object>>, 'read': <bound method _fileobject.read of <socket._fileobject object>>, 'readline': <bound method _fileobject.readline of <socket._fileobject object>>, ...}"
+p24
+sS'close'
+p25
+S'<bound method HTTPError.close of HTTPError()>'
+p26
+sS'__sizeof__'
+p27
+S'<built-in method __sizeof__ of HTTPError object>'
+p28
+sS'next'
+p29
+S'<bound method _fileobject.next of <socket._fileobject object>>'
+p30
+sS'__weakref__'
+p31
+S'None'
+p32
+sS'__init__'
+p33
+S'<bound method HTTPError.__init__ of HTTPError()>'
+p34
+sS'__setattr__'
+p35
+S"<method-wrapper '__setattr__' of HTTPError object>"
+p36
+sS'__reduce_ex__'
+p37
+S'<built-in method __reduce_ex__ of HTTPError object>'
+p38
+sS'__new__'
+p39
+S'<built-in method __new__ of type object>'
+p40
+sS'headers'
+p41
+S'<httplib.HTTPMessage instance>'
+p42
+sS'errno'
+p43
+S'None'
+p44
+sS'readlines'
+p45
+S'<bound method _fileobject.readlines of <socket._fileobject object>>'
+p46
+sS'__format__'
+p47
+S'<built-in method __format__ of HTTPError object>'
+p48
+sS'__class__'
+p49
+S"<class 'urllib2.HTTPError'>"
+p50
+sS'filename'
+p51
+S"'http://192.168.0.4:8000/oauth/api/sendGetToUrl'"
+p52
+sS'_HTTPError__super_init'
+p53
+S'<bound method HTTPError.__init__ of HTTPError()>'
+p54
+sS'msg'
+p55
+S"'INTERNAL SERVER ERROR'"
+p56
+sS'__doc__'
+p57
+S"'Raised when HTTP error occurs, but also acts like non-error return'"
+p58
+sS'fp'
+p59
+S'<addinfourl at 114737800 whose fp = <socket._fileobject object>>'
+p60
+sS'hdrs'
+p61
+S'<httplib.HTTPMessage instance>'
+p62
+sS'__getitem__'
+p63
+S"<method-wrapper '__getitem__' of HTTPError object>"
+p64
+sS'__setstate__'
+p65
+S'<built-in method __setstate__ of HTTPError object>'
+p66
+sS'read'
+p67
+S'<bound method _fileobject.read of <socket._fileobject object>>'
+p68
+sS'__getattribute__'
+p69
+S"<method-wrapper '__getattribute__' of HTTPError object>"
+p70
+sS'args'
+p71
+S'()'
+p72
+sS'__iter__'
+p73
+S'<bound method _fileobject.__iter__ of <socket._fileobject object>>'
+p74
+sS'__subclasshook__'
+p75
+S'<built-in method __subclasshook__ of type object>'
+p76
+sS'readline'
+p77
+S'<bound method _fileobject.readline of <socket._fileobject object>>'
+p78
+sS'__unicode__'
+p79
+S'<built-in method __unicode__ of HTTPError object>'
+p80
+sS'info'
+p81
+S'<bound method HTTPError.info of HTTPError()>'
+p82
+sS'fileno'
+p83
+S'<bound method _fileobject.fileno of <socket._fileobject object>>'
+p84
+sS'getcode'
+p85
+S'<bound method HTTPError.getcode of HTTPError()>'
+p86
+sS'url'
+p87
+S"'http://192.168.0.4:8000/oauth/api/sendGetToUrl'"
+p88
+sS'reason'
+p89
+S"'INTERNAL SERVER ERROR'"
+p90
+sS'geturl'
+p91
+S'<bound method HTTPError.geturl of HTTPError()>'
+p92
+sS'__delattr__'
+p93
+S"<method-wrapper '__delattr__' of HTTPError object>"
+p94
+sS'__repr__'
+p95
+S"<method-wrapper '__repr__' of HTTPError object>"
+p96
+sS'__hash__'
+p97
+S"<method-wrapper '__hash__' of HTTPError object>"
+p98
+ssS'evalue'
+p99
+S'HTTP Error 500: INTERNAL SERVER ERROR'
+p100
+sS'request'
+p101
+cgluon.html
+XML_unpickle
+p102
+(S's"`\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>oauth</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>spotify</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-debe1780-caf1-415d-a6d0-4a3fc8158fdf<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_oauth</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-b52636b9-0db2-4512-a018-65e3cd125f80<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_welcome</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-8ae809b9-4f89-4613-8da4-172639ec550a<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CACHE_CONTROL</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-debe1780-caf1-415d-a6d0-4a3fc8158fdf; session_id_oauth=127.0.0.1-b52636b9-0db2-4512-a018-65e3cd125f80; session_id_welcome=127.0.0.1-8ae809b9-4f89-4613-8da4-172639ec550a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_UPGRADE_INSECURE_REQUESTS</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/oauth/spotify/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>50066</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>DESKTOP-JNBB8GK</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;C:\\\\Users\\\\wretz\\\\Desktop\\\\Repositories\\\\Web2Py_Project\\\\trunk\\\\web2py\\\\applications\\\\oauth\\\\&#x27;, &#x27;C:\\\\Users\\\\wretz\\\\Desktop\\\\Repositories\\\\Web2Py_Project\\\\trunk\\\\web2py\\\\applications\\\\welcome\\\\&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x2e89cb0: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [&#x27;fe80::4814:f4b2:6851:8f63%5&#x27;, &#x27;2001:0:9d38:6abd:4f3:308d:b741:ca4c&#x27;, &#x27;fe80::4f3:308d:b741:ca4c%4&#x27;, &#x27;192.168.0.4&#x27;], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;scheduler_groups&#x27;: None, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;DESKTOP-JNBB8GK&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;C:\\\\Users\\\\wretz\\\\Desktop\\\\Repositories\\\\Web2Py_Project\\\\trunk\\\\web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;&lt;ask&gt;&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cache_control</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-debe1780-caf1-415d-a6d0-4a3fc8158fdf; session_id_oauth=127.0.0.1-b52636b9-0db2-4512-a018-65e3cd125f80; session_id_welcome=127.0.0.1-8ae809b9-4f89-4613-8da4-172639ec550a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_upgrade_insecure_requests</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>192.168.0.4</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>2001:0:9d38:6abd:4f3:308d:b741:ca4c</div></td></tr><tr><td><div>DESKTOP-JNBB8GK</div></td></tr><tr><td><div>fe80::4814:f4b2:6851:8f63%5</div></td></tr><tr><td><div>fe80::4f3:308d:b741:ca4c%4</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/oauth/spotify/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>50066</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/oauth/spotify/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>DESKTOP-JNBB8GK</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.9.11-stable+timestamp.2014.09.15.23.35.11</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x020760D0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x0238F2D0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x0310DAB0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x020760D0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x0238F2D0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x0310DAB0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;C:\\\\Users\\\\wretz\\\\Desktop\\\\Repositories\\\\Web2Py_Project\\\\trunk\\\\web2py\\\\applications\\\\oauth\\\\&#x27;, &#x27;C:\\\\Users\\\\wretz\\\\Desktop\\\\Repositories\\\\Web2Py_Project\\\\trunk\\\\web2py\\\\applications\\\\welcome\\\\&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x2e89cb0: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [&#x27;fe80::4814:f4b2:6851:8f63%5&#x27;, &#x27;2001:0:9d38:6abd:4f3:308d:b741:ca4c&#x27;, &#x27;fe80::4f3:308d:b741:ca4c%4&#x27;, &#x27;192.168.0.4&#x27;], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;scheduler_groups&#x27;: None, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;DESKTOP-JNBB8GK&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;C:\\\\Users\\\\wretz\\\\Desktop\\\\Repositories\\\\Web2Py_Project\\\\trunk\\\\web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;&lt;ask&gt;&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>192.168.0.4</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>2001:0:9d38:6abd:4f3:308d:b741:ca4c</div></td></tr><tr><td><div>DESKTOP-JNBB8GK</div></td></tr><tr><td><div>fe80::4814:f4b2:6851:8f63%5</div></td></tr><tr><td><div>fe80::4f3:308d:b741:ca4c%4</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.9.11-stable+timestamp.2014.09.15.23.35.11</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_sheduler</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2015, 9, 19, 20, 15, 42, 934000)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/oauth/spotify/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2015, 9, 20, 1, 15, 42, 934000)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uuid</td><td style="vertical-align:top;">:</td><td><div>oauth/127.0.0.1.2015-09-19.20-15-42.a0089ab1-64a7-4533-b7d2-356a5f3e5c0e</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x032F0AF0&gt;</div></td></tr></table></div>'
+tRp103
+sS'frames'
+p104
+(lp105
+(dp106
+S'file'
+p107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\gluon\\restricted.py'
+p108
+sS'dump'
+p109
+(dp110
+sS'lnum'
+p111
+I224
+sS'lines'
+p112
+(dp113
+sS'call'
+p114
+S"(code='import customFunctions\\nimport contextSensitiveFu...cksArray\\n\\nresponse._vars=response._caller(index)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}, layer=r'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Proje...\\web2py\\applications\\oauth\\controllers/spotify.py')"
+p115
+sS'func'
+p116
+S'restricted'
+p117
+sa(dp118
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\controllers\\spotify.py'
+p119
+sg109
+(dp120
+sg111
+I79
+sg112
+(dp121
+I68
+S'    tracksArray = []'
+p122
+sI69
+S'    for s in songsArray:'
+p123
+sI70
+S'        row = {}'
+p124
+sI71
+S"        row['name'] = s['track']['name']"
+p125
+sI72
+S"        row['added_at'] = s['added_at']"
+p126
+sI73
+S"        row['artist'] = s['track']['artists'][0]['name']"
+p127
+sI74
+S"        row['album'] = s['track']['album']['name']"
+p128
+sI75
+S'        tracksArray.insert(0,row)'
+p129
+sI76
+S''
+sI77
+S'    return tracksArray'
+p130
+ssg114
+S'()'
+p131
+sg116
+S'<module>'
+p132
+sa(dp133
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\gluon\\globals.py'
+p134
+sg109
+(dp135
+sg111
+I392
+sg112
+(dp136
+sg114
+S'(f=<function index>)'
+p137
+sg116
+S'<lambda>'
+p138
+sa(dp139
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\controllers\\spotify.py'
+p140
+sg109
+(dp141
+S'authorizedUserEmailAddress'
+p142
+S'undefined'
+p143
+sS'global helperGetUserEmailAddress'
+p144
+S'<function helperGetUserEmailAddress>'
+p145
+ssg111
+I10
+sg112
+(dp146
+I5
+S'def index():'
+p147
+sI6
+S"    customFunctions.printToLog('------------------------------------------------', 0)"
+p148
+sI7
+S"    customFunctions.printToLog('landingPageSpotify()', 1)"
+p149
+sI8
+S''
+sI9
+S"    #Get the user's email address"
+p150
+sI10
+S'    authorizedUserEmailAddress = helperGetUserEmailAddress()'
+p151
+sI11
+S''
+sI12
+S"    #Get the user's saved tracks"
+p152
+sI13
+S'    savedTracks = helperGetSavedTracks()'
+p153
+sI14
+S''
+ssg114
+S'()'
+p154
+sg116
+S'index'
+p155
+sa(dp156
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\controllers\\spotify.py'
+p157
+sg109
+(dp158
+S'builtinNone'
+p159
+S'None'
+p160
+sS'parameterArray'
+p161
+S'{\'access_token\': u\'BQC4rGlwBtw0fiYPOZucXH8oBqnzkf2E9q5lHT31GcXu2j...aKldfu_CTpbfuKzmBURQW_rwBn1FdwjtFln14r1RfeN2Ilec\', \'jsonString\': \'{"dummyHTTPPOSTParameter2": "dummyHTTPPOSTValue2", "dummyHTTPPOSTParameter1": "dummyHTTPPOSTValue1"}\', \'resourceOwnerUrl\': \'https://api.spotify.com/v1/me\'}'
+p162
+sS'global httpFunctions'
+p163
+S"<module 'applications.oauth.modules.httpFunction...om 'applications\\oauth\\modules\\httpFunctions.py'>"
+p164
+sS'apiEndpoint'
+p165
+S"'http://192.168.0.4:8000/oauth/api/sendGetToUrl'"
+p166
+sS'global response'
+p167
+S"<Storage {'body': <cStringIO.StringO object at 0...a> at 0x032E33B0>, 'view': 'spotify/index.html'}>"
+p168
+sS'httpFunctions.postRequest'
+p169
+S'<function postRequest>'
+p170
+ssg111
+I40
+sg112
+(dp171
+I35
+S"                      'resourceOwnerUrl' : urlOfSpotifyMeEndpoint,"
+p172
+sI36
+S"                      'jsonString' : jsonString}"
+p173
+sI37
+S''
+sI38
+S'    #Build the URL and send the request to that URL'
+p174
+sI39
+S"    apiEndpoint = contextSensitiveFunctions.getApiEndpoint('sendGetToUrl')"
+p175
+sI40
+S'    response = httpFunctions.postRequest(apiEndpoint, parameterArray, None)'
+p176
+sI41
+S'    responseDataInJson = response.read()'
+p177
+sI42
+S''
+sI43
+S'    #Parse the response and harvest the data we want.'
+p178
+sI44
+S'    responseDataInArray = httpFunctions.convertJsonToArray(responseDataInJson)'
+p179
+ssg114
+S'()'
+p180
+sg116
+S'helperGetUserEmailAddress'
+p181
+sa(dp182
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\modules\\httpFunctions.py'
+p183
+sg109
+(dp184
+S'urllib2.urlopen'
+p185
+S'<function urlopen>'
+p186
+sS'global urllib2'
+p187
+S"<module 'urllib2' from 'C:\\Users\\wretz\\Desktop\\R...Py_Project\\trunk\\web2py\\library.zip\\urllib2.pyc'>"
+p188
+sS'req'
+p189
+S'<urllib2.Request instance>'
+p190
+sS'response'
+p191
+g143
+ssg111
+I38
+sg112
+(dp192
+I33
+S"            customFunctions.printToLog('postRequest: headersArray: ' + key + ': ' + value, 0)"
+p193
+sI34
+S"    customFunctions.printToLog('postRequest: url: ' + url, 1)"
+p194
+sI35
+S'    #Send the request and return the response to caller.'
+p195
+sI36
+S'    data = urllib.urlencode(parametersArray)'
+p196
+sI37
+S'    req = urllib2.Request(url, data)'
+p197
+sI38
+S'    response = urllib2.urlopen(req)'
+p198
+sI39
+S'    return response'
+p199
+sI40
+S''
+sI41
+S'def getRequest(url, parametersArray = None, headersArray = None) :'
+p200
+sI42
+S'    #Logging'
+p201
+ssg114
+S'(url=\'http://192.168.0.4:8000/oauth/api/sendGetToUrl\', parametersArray={\'access_token\': u\'BQC4rGlwBtw0fiYPOZucXH8oBqnzkf2E9q5lHT31GcXu2j...aKldfu_CTpbfuKzmBURQW_rwBn1FdwjtFln14r1RfeN2Ilec\', \'jsonString\': \'{"dummyHTTPPOSTParameter2": "dummyHTTPPOSTValue2", "dummyHTTPPOSTParameter1": "dummyHTTPPOSTValue1"}\', \'resourceOwnerUrl\': \'https://api.spotify.com/v1/me\'}, headersArray=None)'
+p202
+sg116
+S'postRequest'
+p203
+sa(dp204
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\urllib2.py'
+p205
+sg109
+(dp206
+sg111
+I127
+sg112
+(dp207
+sg114
+S'(url=<urllib2.Request instance>, data=None, timeout=<object object>)'
+p208
+sg116
+S'urlopen'
+p209
+sa(dp210
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\urllib2.py'
+p211
+sg109
+(dp212
+sg111
+I410
+sg112
+(dp213
+sg114
+S'(self=<urllib2.OpenerDirector instance>, fullurl=<urllib2.Request instance>, data=None, timeout=<object object>)'
+p214
+sg116
+S'open'
+p215
+sa(dp216
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\urllib2.py'
+p217
+sg109
+(dp218
+sg111
+I523
+sg112
+(dp219
+sg114
+S'(self=<urllib2.HTTPErrorProcessor instance>, request=<urllib2.Request instance>, response=<addinfourl at 114737800 whose fp = <socket._fileobject object>>)'
+p220
+sg116
+S'http_response'
+p221
+sa(dp222
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\urllib2.py'
+p223
+sg109
+(dp224
+sg111
+I448
+sg112
+(dp225
+sg114
+S"(self=<urllib2.OpenerDirector instance>, proto=500, *args=({301: [<urllib2.HTTPRedirectHandler instance>], 302: [<urllib2.HTTPRedirectHandler instance>], 303: [<urllib2.HTTPRedirectHandler instance>], 307: [<urllib2.HTTPRedirectHandler instance>], 'default': [<urllib2.HTTPDefaultErrorHandler instance>]}, 'default', 'http_error_default', <urllib2.Request instance>, <addinfourl at 114737800 whose fp = <socket._fileobject object>>, 500, 'INTERNAL SERVER ERROR', <httplib.HTTPMessage instance>))"
+p226
+sg116
+S'error'
+p227
+sa(dp228
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\urllib2.py'
+p229
+sg109
+(dp230
+sg111
+I382
+sg112
+(dp231
+sg114
+S"(self=<urllib2.OpenerDirector instance>, chain={301: [<urllib2.HTTPRedirectHandler instance>], 302: [<urllib2.HTTPRedirectHandler instance>], 303: [<urllib2.HTTPRedirectHandler instance>], 307: [<urllib2.HTTPRedirectHandler instance>], 'default': [<urllib2.HTTPDefaultErrorHandler instance>]}, kind='default', meth_name='http_error_default', *args=(<urllib2.Request instance>, <addinfourl at 114737800 whose fp = <socket._fileobject object>>, 500, 'INTERNAL SERVER ERROR', <httplib.HTTPMessage instance>))"
+p232
+sg116
+S'_call_chain'
+p233
+sa(dp234
+g107
+S'C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\urllib2.py'
+p235
+sg109
+(dp236
+sg111
+I531
+sg112
+(dp237
+sg114
+S"(self=<urllib2.HTTPDefaultErrorHandler instance>, req=<urllib2.Request instance>, fp=<addinfourl at 114737800 whose fp = <socket._fileobject object>>, code=500, msg='INTERNAL SERVER ERROR', hdrs=<httplib.HTTPMessage instance>)"
+p238
+sg116
+S'http_error_default'
+p239
+sasS'pyver'
+p240
+S'Python 2.7.6: C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\web2py.exe (prefix: )'
+p241
+sS'session'
+p242
+g102
+(S's\x1b\x06\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">access_token</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">Spotify</td><td style="vertical-align:top;">:</td><td><div>BQC4rGlwBtw0fiYPOZucXH8oBqnzkf2E9q5lHT31GcXu2j9LKcUOkZ8_J6v2l-pCOCRXYIxXU45GqkQ5wr7vgGgrZIiSXFML8cbnc5sPdwxvWmw3-cU48zbQONSbSklqW54x3AbsEXOZecj9ALGsIKOb1D4mu8m0Nalbdk-mwD7LTEiP-mzkY01J1KrLeJmpSG5Xy50TuphIL1MNsjZR9Pg7zmUjT_Z65QDEhv_wGUBw7oX6V1a8JxeaKldfu_CTpbfuKzmBURQW_rwBn1FdwjtFln14r1RfeN2Ilec</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires_in</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">Spotify</td><td style="vertical-align:top;">:</td><td><div>3600</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">refresh_token</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">Spotify</td><td style="vertical-align:top;">:</td><td><div>AQAfGsmpLyC9SHYcXiue9gcR1kQaG4C8u4ZfBHeHoXJm5Iay9JgiHhgv1ZJsG2d4no5-t0lRxYe2ZCNQ20lXM1Xsi57m3NZWq1GBc_RBNBpYYgrNK5Zs4oRg1G_3I3VPDtA</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">token_type</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">Spotify</td><td style="vertical-align:top;">:</td><td><div>Bearer</div></td></tr></table></div></td></tr></table></div>'
+tRp243
+sS'etype'
+p244
+S"<class 'urllib2.HTTPError'>"
+p245
+sS'date'
+p246
+S'Sat Sep 19 20:15:45 2015'
+p247
+sS'response'
+p248
+g102
+(S's\xc82\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x032F0C40&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_oauth</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-b52636b9-0db2-4512-a018-65e3cd125f80<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div>: </div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>table3cols</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="brand" href="http://www.web2py.com/"><b>web<span>2</span>py</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/oauth/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div><span class="highlighted">web2py</span></div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>My Sites</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/site</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>This App</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/design/oauth</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Controller&#x27;&gt;, False, &#x27;/admin/default/edit/oauth/controllers/spotify.py&#x27;), (&lt;lazyT &#x27;View&#x27;&gt;, False, &#x27;/admin/default/edit/oauth/views/spotify/index.html&#x27;), (&lt;lazyT &#x27;Layout&#x27;&gt;, False, &#x27;/admin/default/edit/oauth/views/layout.html&#x27;), (&lt;lazyT &#x27;Stylesheet&#x27;&gt;, False, &#x27;/admin/default/edit/oauth/static/css/web2py.css&#x27;), (&lt;lazyT &#x27;DB Model&#x27;&gt;, False, &#x27;/admin/default/edit/oauth/models/db.py&#x27;), (&lt;lazyT &#x27;Menu Model&#x27;&gt;, False, &#x27;/admin/default/edit/oauth/models/menu.py&#x27;), (&lt;lazyT &#x27;Database&#x27;&gt;, False, &#x27;/oauth/appadmin/index&#x27;), (&lt;lazyT &#x27;Errors&#x27;&gt;, False, &#x27;/admin/default/errors/oauth&#x27;), (&lt;lazyT &#x27;About&#x27;&gt;, False, &#x27;/admin/default/about/oauth&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>web2py.com</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Download&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/download&#x27;), (&lt;lazyT &#x27;Support&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/support&#x27;), (&lt;lazyT &#x27;Demo&#x27;&gt;, False, &#x27;http://web2py.com/demo_admin&#x27;), (&lt;lazyT &#x27;Quick Examples&#x27;&gt;, False, &#x27;http://web2py.com/examples/default/examples&#x27;), (&lt;lazyT &#x27;FAQ&#x27;&gt;, False, &#x27;http://web2py.com/AlterEgo&#x27;), (&lt;lazyT &#x27;Videos&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/videos/&#x27;), (&lt;lazyT &#x27;Free Applications&#x27;&gt;, False, &#x27;http://web2py.com/appliances&#x27;), (&lt;lazyT &#x27;Plugins&#x27;&gt;, False, &#x27;http://web2py.com/plugins&#x27;), (&lt;lazyT &#x27;Layouts&#x27;&gt;, False, &#x27;http://web2py.com/layouts&#x27;), (&lt;lazyT &#x27;Recipes&#x27;&gt;, False, &#x27;http://web2pyslices.com/&#x27;), (&lt;lazyT &#x27;Semantic&#x27;&gt;, False, &#x27;http://web2py.com/semantic&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Documentation</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Preface&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/00&#x27;), (&lt;lazyT &#x27;Introduction&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/01&#x27;), (&lt;lazyT &#x27;Python&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/02&#x27;), (&lt;lazyT &#x27;Overview&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/03&#x27;), (&lt;lazyT &#x27;The Core&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/04&#x27;), (&lt;lazyT &#x27;The Views&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/05&#x27;), (&lt;lazyT &#x27;Database&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/06&#x27;), (&lt;lazyT &#x27;Forms and Validators&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/07&#x27;), (&lt;lazyT &#x27;Email and SMS&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/08&#x27;), (&lt;lazyT &#x27;Access Control&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/09&#x27;), (&lt;lazyT &#x27;Services&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/10&#x27;), (&lt;lazyT &#x27;Ajax Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/11&#x27;), (&lt;lazyT &#x27;Components and Plugins&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/12&#x27;), (&lt;lazyT &#x27;Deployment Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/13&#x27;), (&lt;lazyT &#x27;Other Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/14&#x27;), (&lt;lazyT &#x27;Buy this book&#x27;&gt;, False, &#x27;http://stores.lulu.com/web2py&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Community</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Groups&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/usergroups&#x27;), (&lt;lazyT &#x27;Twitter&#x27;&gt;, False, &#x27;http://twitter.com/web2py&#x27;), (&lt;lazyT &#x27;Live Chat&#x27;&gt;, False, &#x27;http://webchat.freenode.net/?channels=web2py&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div>[(&#x27;plugin_wiki&#x27;, False, &#x27;http://web2py.com/examples/default/download&#x27;), (&lt;lazyT &#x27;Other Plugins&#x27;&gt;, False, &#x27;http://web2py.com/plugins&#x27;), (&lt;lazyT &#x27;Layout Plugins&#x27;&gt;, False, &#x27;http://web2py.com/layouts&#x27;)]</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div>web2py, python, framework</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^spotify/\\w+\\.py$</div></td></tr><tr><td><div>^spotify/index/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_oauth</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;C:\\\\Users\\\\wretz\\\\Desktop\\\\Repositories\\\\Web2Py_Project\\\\trunk\\\\web2py\\\\applications\\\\oauth\\\\sessions\\\\05c\\\\0f1\\\\127.0.0.1-b52636b9-0db2-4512-a018-65e3cd125f80&#x27;, mode &#x27;rb+&#x27; at 0x03231EE8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\sessions\\127.0.0.1-b52636b9-0db2-4512-a018-65e3cd125f80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>e9a8cb991f4c7c96b10cd01ba59b3f79</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-b52636b9-0db2-4512-a018-65e3cd125f80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_oauth</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>oauth</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Oauth</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>spotify/index.html</div></td></tr></table></div>'
+tRp249
+sS'locals'
+p250
+(dp251
+g59
+S'<addinfourl at 114737800 whose fp = <socket._fileobject object>>'
+p252
+sg6
+S'500'
+p253
+sg61
+S'<httplib.HTTPMessage instance>'
+p254
+sS'self'
+p255
+S'<urllib2.HTTPDefaultErrorHandler instance>'
+p256
+sS'req'
+p257
+S'<urllib2.Request instance>'
+p258
+sg55
+S"'INTERNAL SERVER ERROR'"
+p259
+sssS'traceback'
+p260
+S'Traceback (most recent call last):\n  File "gluon/restricted.py", line 224, in restricted\n  File "C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\controllers/spotify.py", line 79, in <module>\n  File "gluon/globals.py", line 392, in <lambda>\n  File "C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\controllers/spotify.py", line 10, in index\n    authorizedUserEmailAddress = helperGetUserEmailAddress()\n  File "C:\\Users\\wretz\\Desktop\\Repositories\\Web2Py_Project\\trunk\\web2py\\applications\\oauth\\controllers/spotify.py", line 40, in helperGetUserEmailAddress\n    response = httpFunctions.postRequest(apiEndpoint, parameterArray, None)\n  File "applications\\oauth\\modules\\httpFunctions.py", line 38, in postRequest\n    response = urllib2.urlopen(req)\n  File "urllib2.py", line 127, in urlopen\n  File "urllib2.py", line 410, in open\n  File "urllib2.py", line 523, in http_response\n  File "urllib2.py", line 448, in error\n  File "urllib2.py", line 382, in _call_chain\n  File "urllib2.py", line 531, in http_error_default\nHTTPError: HTTP Error 500: INTERNAL SERVER ERROR\n'
+p261
+s.
